@@ -1,0 +1,11 @@
+{
+  "name": "一発",
+  "short_name": "一発",
+  "description": "싱글플레이 리치 마작 캠페인",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#212b36",
+  "theme_color": "#0e1116",
+  "orientation": "landscape-primary",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
