@@ -2,7 +2,7 @@
 
 // CACHE_NAME 끝의 빌드 해시와 BUILD_ASSETS는 빌드 시 vite-plugin-sw-precache가 주입한다.
 // 개발 중(주입 전)에는 앱 셸만 캐시한다.
-const CACHE_NAME = "ippatsu-shell-mqqgxlja";
+const CACHE_NAME = "ippatsu-shell-mqqh9cia";
 const APP_SHELL = ["/", "/index.html", "/manifest.webmanifest", "/icon.svg"];
 const BUILD_ASSETS = ["/assets/BitmapFont-BRSCz-jS.js","/assets/CanvasRenderer-DfurD1Ay.js","/assets/Filter-IhbbsoNq.js","/assets/GpuStencilModesToPixi-BuoussNs.js","/assets/RenderTargetSystem-B5MpxiwG.js","/assets/WebGLRenderer-Dz0uh5D1.js","/assets/WebGPURenderer-B-SqVQrh.js","/assets/browserAll-DyjQTv-j.js","/assets/index-CmU3M0E6.css","/assets/index-DCh-_Bmb.js","/assets/webworkerAll-fL4jgKoK.js"];
 
