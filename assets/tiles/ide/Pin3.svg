@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">
+  <!-- IDE skin: Pin3 -->
+  <!-- Editor background -->
+  <rect x="0" y="0" width="300" height="400" rx="8" fill="#1E1E1E"/>
+  <!-- Activity bar (left) -->
+  <rect x="0" y="0" width="10" height="400" rx="8" fill="#333333"/>
+  <rect x="6" y="0" width="4" height="400" fill="#333333"/>
+  <!-- Sidebar / gutter -->
+  <rect x="10" y="0" width="26" height="400" fill="#252526"/>
+  <!-- Editor panel -->
+  <rect x="36" y="0" width="264" height="400" fill="#2D2D30"/>
+  <!-- Tab bar -->
+  <rect x="36" y="0" width="264" height="28" fill="#333333"/>
+  <rect x="38" y="4" width="110" height="22" rx="4" fill="#2D2D30"/>
+  <text x="93" y="18" font-family="Consolas,'Courier New',monospace" font-size="11"
+    fill="#D4D4D4" text-anchor="middle" dominant-baseline="auto"
+    >Pin3.ts</text>
+  <!-- Tab dot (modified indicator) -->
+  <circle cx="142" cy="15" r="3" fill="#569CD6"/>
+  <!-- Separator line -->
+  <line x1="36" y1="28" x2="300" y2="28" stroke="#3E3E42" stroke-width="1"/>
+  <!-- Line numbers + code lines (decorative) -->
+  
+    <text x="22" y="90" font-family="Consolas,'Courier New',monospace" font-size="14"
+      fill="#858585" text-anchor="end"
+      dominant-baseline="auto">1</text>
+    <text x="22" y="128" font-family="Consolas,'Courier New',monospace" font-size="14"
+      fill="#858585" text-anchor="end"
+      dominant-baseline="auto">2</text><rect x="0" y="142" width="300" height="38" fill="#2A2D2E"/>
+    <text x="22" y="166" font-family="Consolas,'Courier New',monospace" font-size="14"
+      fill="#D4D4D4" text-anchor="end"
+      dominant-baseline="auto">3</text>
+    <text x="22" y="204" font-family="Consolas,'Courier New',monospace" font-size="14"
+      fill="#858585" text-anchor="end"
+      dominant-baseline="auto">4</text>
+    <text x="22" y="242" font-family="Consolas,'Courier New',monospace" font-size="14"
+      fill="#858585" text-anchor="end"
+      dominant-baseline="auto">5</text>
+    <text x="22" y="280" font-family="Consolas,'Courier New',monospace" font-size="14"
+      fill="#858585" text-anchor="end"
+      dominant-baseline="auto">6</text>
+    <text x="22" y="318" font-family="Consolas,'Courier New',monospace" font-size="14"
+      fill="#858585" text-anchor="end"
+      dominant-baseline="auto">7</text>
+  <!-- Active line highlight + selection -->
+  
+    <rect x="35" y="66" width="265" height="38" fill="#264F78" opacity="0.35"/>
+  <!-- Gutter marker for active token -->
+  <rect x="32" y="66" width="3" height="38" fill="#569CD6" opacity="0.8"/>
+  <!-- Bracket highlight -->
+  
+    <rect x="138" y="70" width="43" height="26"
+      rx="2" fill="none" stroke="#3E3E42" stroke-width="1" opacity="0.7"/>
+  <!-- Main token — syntax colored, three parts -->
+  <text x="101" y="92" font-family="Consolas,'Courier New',monospace"
+    font-size="22" dominant-baseline="auto">
+    <tspan fill="#569CD6">pin</tspan><tspan fill="#9CDCFE">[3]</tspan><tspan fill="#569CD6"></tspan>
+  </text>
+  <!-- Aka underline squiggle -->
+  
+  <!-- Comment line (below token, line 4) -->
+  <text x="101" y="204" font-family="Consolas,'Courier New',monospace"
+    font-size="13" fill="#6A9955" dominant-baseline="auto">// rank 3</text>
+  <!-- Status bar at bottom -->
+  <rect x="0" y="382" width="300" height="18" rx="8" fill="#252526"/>
+  <rect x="0" y="382" width="300" height="10" fill="#252526"/>
+  <text x="44" y="394" font-family="Arial,Helvetica,sans-serif" font-size="9"
+    fill="#858585" dominant-baseline="auto">TypeScript · UTF-8</text>
+  <!-- Outer border -->
+  <rect x="0" y="0" width="300" height="400" rx="8" fill="none" stroke="#3E3E42" stroke-width="1.5"/>
+</svg>
