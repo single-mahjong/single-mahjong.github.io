@@ -19,7 +19,7 @@
   <!-- HERO: large rank/honor glyph, syntax-colored -->
   <text x="155" y="206" font-family="Consolas,'Courier New',monospace" font-size="200" font-weight="bold"
     fill="#DCDCAA" text-anchor="middle" dominant-baseline="middle"
-    letter-spacing="-8">□</text>
+    letter-spacing="-8">W</text>
   
   <!-- Type label below digit (small syntax token) -->
   <text x="155" y="370" font-family="Consolas,'Courier New',monospace" font-size="22"
