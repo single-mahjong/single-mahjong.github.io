@@ -1,50 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">
   <!-- News skin: Sou9 -->
-  <!-- Card background: newsprint -->
+  <!-- Newsprint background -->
   <rect x="0" y="0" width="300" height="400" rx="10" fill="#FAF9F6"/>
-  <!-- Masthead bar -->
-  <rect x="0" y="0" width="300" height="56" rx="10" fill="#1A1A1A"/>
-  <rect x="0" y="44" width="300" height="12" fill="#1A1A1A"/>
-  <!-- Masthead text: newspaper name / category -->
-  <text x="150" y="25" font-family="Georgia,'Times New Roman',serif" font-size="18" font-weight="bold"
-    fill="#CC0000" text-anchor="middle" dominant-baseline="auto">THE RECORD</text>
-  <!-- Category tag in masthead -->
-  <rect x="8" y="36" width="54" height="16" rx="2" fill="#CC0000"/>
-  <text x="35" y="47" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="bold"
-    fill="#FFFFFF" text-anchor="middle" dominant-baseline="auto">BAMB</text>
+  <!-- Dark masthead (chrome signal) -->
+  <rect x="0" y="0" width="300" height="52" rx="10" fill="#1A1A1A"/>
+  <rect x="0" y="42" width="300" height="10" fill="#1A1A1A"/>
+  <!-- Masthead: paper name -->
+  <text x="150" y="26" font-family="Georgia,'Times New Roman',serif" font-size="17" font-weight="bold"
+    fill="#CC0000" text-anchor="middle" dominant-baseline="middle">THE RECORD</text>
+  <!-- Category pill in masthead -->
+  <rect x="8" y="34" width="50" height="15" rx="3" fill="#CC0000"/>
+  <text x="33" y="41.5" font-family="Arial,Helvetica,sans-serif" font-size="9" font-weight="bold"
+    fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">BAMB</text>
   
-  <!-- Thumbnail image block -->
-  <rect x="10" y="58" width="280" height="120" rx="4" fill="#1E8449" opacity="0.85"/>
-  <!-- Tile identity label inside thumbnail -->
-  <text x="150" y="124" font-family="Georgia,serif" font-size="42" font-weight="bold"
-    fill="#FFFFFF" text-anchor="middle" dominant-baseline="auto"
-    opacity="0.92">S9</text>
-  <!-- Divider line -->
-  <line x1="10" y1="182" x2="290" y2="182"
-    stroke="#CC0000" stroke-width="2"/>
-  <!-- Headline text -->
-  <text x="10" y="204" font-family="Georgia,'Times New Roman',serif"
-    font-size="20" font-weight="bold" fill="#1A1A1A">Ba-9 Report</text>
-  <!-- Sub-headline -->
-  <text x="10" y="226" font-family="Georgia,serif" font-size="13"
-    fill="#6B6B6B">Bamboo · 9</text>
-  <!-- Column rule -->
-  <line x1="10" y1="238" x2="290" y2="238"
-    stroke="#E0DDD8" stroke-width="1"/>
-  <!-- Byline row -->
-  <text x="10" y="256" font-family="Arial,Helvetica,sans-serif" font-size="11"
-    fill="#1E8449" font-weight="bold">Data Desk</text>
-  <text x="290" y="256" font-family="Arial,Helvetica,sans-serif" font-size="11"
-    fill="#6B6B6B" text-anchor="end">p.9</text>
-  <!-- Article lead text block (decorative lines) -->
-  <rect x="10" y="266" width="185" height="8" rx="2" fill="#EFEFEF"/>
-  <rect x="10" y="280" width="220" height="8" rx="2" fill="#EFEFEF"/>
-  <rect x="10" y="294" width="160" height="8" rx="2" fill="#EFEFEF"/>
-  <!-- Sidebar small-card area -->
-  <rect x="205" y="266" width="82" height="42" rx="3"
-    fill="#FFFFFF" stroke="#E0DDD8" stroke-width="1"/>
-  <text x="246" y="292" font-family="Arial,Helvetica,sans-serif" font-size="11"
-    fill="#6B6B6B" text-anchor="middle" dominant-baseline="auto">Related</text>
+  <!-- HERO: large rank/honor glyph -->
+  <text x="150" y="226" font-family="Georgia,'Times New Roman',serif" font-size="200" font-weight="bold"
+    fill="#1E8449" text-anchor="middle" dominant-baseline="middle"
+    letter-spacing="-4">9</text>
+  
+  <!-- Suit badge pill at bottom -->
+  <rect x="118" y="356" width="64" height="22" rx="5" fill="#1E8449" opacity="0.15"/>
+  <text x="150" y="370" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold"
+    fill="#1E8449" text-anchor="middle" dominant-baseline="middle">S</text>
   <!-- Outer border -->
-  <rect x="0" y="0" width="300" height="400" rx="10" fill="none" stroke="#E0DDD8" stroke-width="2"/>
+  <rect x="1" y="1" width="298" height="398" rx="9" fill="none" stroke="#E0DDD8" stroke-width="1.5"/>
 </svg>

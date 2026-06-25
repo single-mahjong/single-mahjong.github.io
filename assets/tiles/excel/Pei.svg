@@ -1,51 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">
   <!-- Excel skin: Pei -->
-  <!-- Background: spreadsheet chrome -->
-  <rect x="0" y="0" width="300" height="400" rx="12" fill="#F2F2F2"/>
-  <!-- Header bar (Excel green) -->
-  <rect x="0" y="0" width="300" height="52" rx="12" fill="#217346"/>
-  <rect x="0" y="40" width="300" height="12" fill="#217346"/>
-  <!-- Header text: suit category -->
-  <text x="150" y="32" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold"
-    fill="#FFFFFF" text-anchor="middle" dominant-baseline="auto">Wind</text>
-  <!-- Column label band -->
-  <rect x="0" y="52" width="300" height="28" fill="#F2F2F2"/>
-  <rect x="36" y="52" width="256" height="28" fill="#E8F5E9"/>
-  <!-- Column header letter (A=first col) -->
-  <text x="110" y="70" font-family="Arial,Helvetica,sans-serif" font-size="14"
-    fill="#212121" text-anchor="middle" dominant-baseline="auto">A</text>
-  <text x="220" y="70" font-family="Arial,Helvetica,sans-serif" font-size="14"
-    fill="#212121" text-anchor="middle" dominant-baseline="auto">B</text>
-  <!-- Row number margin -->
-  <rect x="0" y="80" width="36" height="316" fill="#F2F2F2"/>
-  <!-- Spreadsheet grid area -->
-  <rect x="36" y="80" width="256" height="316" fill="#FFFFFF"/>
-  <line x1="36" y1="104" x2="290" y2="104" stroke="#D0D7E0" stroke-width="1"/><line x1="36" y1="160" x2="290" y2="160" stroke="#D0D7E0" stroke-width="1"/><line x1="36" y1="216" x2="290" y2="216" stroke="#D0D7E0" stroke-width="1"/><line x1="36" y1="272" x2="290" y2="272" stroke="#D0D7E0" stroke-width="1"/><line x1="36" y1="328" x2="290" y2="328" stroke="#D0D7E0" stroke-width="1"/>
-  <line x1="150" y1="104" x2="150" y2="380" stroke="#D0D7E0" stroke-width="1"/>
-  <!-- Row numbers -->
-  <rect x="0" y="80" width="36" height="316" fill="#F2F2F2"/>
-  <text x="22" y="105" font-family="Arial,Helvetica,sans-serif" font-size="14"
-      fill="#595959" text-anchor="middle" dominant-baseline="auto">1</text><text x="22" y="161" font-family="Arial,Helvetica,sans-serif" font-size="14"
-      fill="#595959" text-anchor="middle" dominant-baseline="auto">2</text><text x="22" y="217" font-family="Arial,Helvetica,sans-serif" font-size="14"
-      fill="#595959" text-anchor="middle" dominant-baseline="auto">3</text><text x="22" y="273" font-family="Arial,Helvetica,sans-serif" font-size="14"
-      fill="#595959" text-anchor="middle" dominant-baseline="auto">4</text><text x="22" y="329" font-family="Arial,Helvetica,sans-serif" font-size="14"
-      fill="#595959" text-anchor="middle" dominant-baseline="auto">5</text>
-  <!-- Active / selected cell (row 2, col A) — tile data cell -->
-  <rect x="38" y="106" width="110" height="52" rx="0" fill="#FFFFFF"
-    stroke="#D0D7E0" stroke-width="1.5"/>
-  <!-- Cell value — tile identity -->
-  <text x="93" y="137" font-family="Consolas,monospace,Arial,sans-serif" font-size="30" font-weight="bold"
-    fill="#4472C4" text-anchor="middle" dominant-baseline="auto">N</text>
+  <!-- Cell background -->
+  <rect x="0" y="0" width="300" height="400" rx="10" fill="#FFFFFF"/>
+  <!-- Excel-green header strip (chrome signal) -->
+  <rect x="0" y="0" width="300" height="52" rx="10" fill="#217346"/>
+  <rect x="0" y="42" width="300" height="10" fill="#217346"/>
+  <text x="150" y="32" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="bold"
+    fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">Wind</text>
+  <!-- Hero zone background (rest of tile) -->
+  <rect x="0" y="52" width="300" height="348" fill="#FFFFFF"/>
+  <!-- HERO: large rank/honor glyph -->
+  <text x="150" y="260" font-family="Arial Black,Arial,Helvetica,sans-serif" font-size="200" font-weight="900"
+    fill="#4472C4" text-anchor="middle" dominant-baseline="middle"
+    letter-spacing="-4">N</text>
   
-  <!-- Cell address indicator (name box) -->
-  <rect x="0" y="80" width="300" height="24" fill="#F2F2F2"/>
-  <rect x="2" y="82" width="56" height="20" rx="2" fill="#FFFFFF" stroke="#D0D7E0" stroke-width="1"/>
-  <text x="30" y="96" font-family="Arial,Helvetica,sans-serif" font-size="11"
-    fill="#212121" text-anchor="middle" dominant-baseline="auto">A2</text>
-  <!-- Formula bar -->
-  <rect x="60" y="82" width="234" height="20" rx="2" fill="#FFFFFF" stroke="#D0D7E0" stroke-width="1"/>
-  <text x="68" y="96" font-family="Consolas,monospace,Arial,sans-serif" font-size="11"
-    fill="#212121" dominant-baseline="auto">="N"</text>
-  <!-- Outer border -->
-  <rect x="0" y="0" width="300" height="400" rx="12" fill="none" stroke="#D0D7E0" stroke-width="2"/>
+  <!-- Suit marker: small label at bottom -->
+  <text x="150" y="378" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="bold"
+    fill="#4472C4" opacity="0.55" text-anchor="middle" dominant-baseline="middle">wind</text>
+  <!-- Cell border (minimal chrome) -->
+  <rect x="0.75" y="0.75" width="298.5" height="398.5"
+    rx="9.25" fill="none" stroke="#D0D7E0" stroke-width="1.5"/>
 </svg>
