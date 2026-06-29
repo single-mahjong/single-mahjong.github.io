@@ -35,6 +35,22 @@
     <link rel="preload" href="/assets/fonts/Pretendard.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/SpaceGrotesk-500.woff2" as="font" type="font/woff2" crossorigin />
     <title>一発(일발) — 싱글 리치 마작 / 一人麻雀</title>
+    <style>
+      /* 정적 SEO 본문은 크롤러용 — 인라인으로 즉시 화면 밖에 숨겨 부팅 전 깜빡임(FOUC) 방지.
+         display:none 대신 visually-hidden이라 크롤러/스크린리더는 읽음. */
+      .seo-intro {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+    </style>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
