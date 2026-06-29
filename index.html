@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; base-uri 'none'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' ws:; manifest-src 'self'; worker-src 'self' blob:; form-action 'none'"
+      content="default-src 'self'; base-uri 'none'; object-src 'none'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; img-src 'self' data: blob: https://carrier.goatcounter.com; font-src 'self'; connect-src 'self' ws: https://carrier.goatcounter.com; manifest-src 'self'; worker-src 'self' blob:; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()" />
@@ -38,5 +38,8 @@
   </head>
   <body>
     <div id="app"></div>
+    <!-- GoatCounter 방문자 집계(쿠키 없음·프라이버시 친화). 단일 페이지라 로드당 1뷰. -->
+    <script data-goatcounter="https://carrier.goatcounter.com/count"
+            async src="https://gc.zgo.at/count.js"></script>
   </body>
 </html>
