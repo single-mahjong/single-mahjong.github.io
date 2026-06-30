@@ -2,9 +2,9 @@
 
 // CACHE_NAME 끝의 빌드 해시와 BUILD_ASSETS는 빌드 시 vite-plugin-sw-precache가 주입한다.
 // 개발 중(주입 전)에는 앱 셸만 캐시한다.
-const CACHE_NAME = "ippatsu-shell-mr0a6o7z";
+const CACHE_NAME = "ippatsu-shell-mr0adzz9";
 const APP_SHELL = ["/", "/index.html", "/manifest.webmanifest", "/icon.svg"];
-const BUILD_ASSETS = ["/assets/SharedSystems-D7vfQ7c8.js","/assets/WebGLRenderer-hbzDx0cs.js","/assets/WebGPURenderer-DWo4Cbil.js","/assets/browserAll-CerS5AuI.js","/assets/colorToUniform-D0fC4ZFo.js","/assets/index-Dq96cea4.css","/assets/index-TA8Z_YeE.js","/assets/webworkerAll-13YmCXKH.js"];
+const BUILD_ASSETS = ["/assets/SharedSystems-B2F4eb5C.js","/assets/WebGLRenderer-CeGM_4m_.js","/assets/WebGPURenderer-De2Oi-bd.js","/assets/browserAll-4PZym6FZ.js","/assets/colorToUniform-VB3gkBX0.js","/assets/index-Bu_t5383.js","/assets/index-uxaZCKAu.css","/assets/webworkerAll-CMhFn9uj.js"];
 
 self.addEventListener("install", (event) => {
   // 해시된 JS/CSS 번들까지 프리캐시 → 온라인 방문 없이도 오프라인 콜드스타트가 동작한다.
