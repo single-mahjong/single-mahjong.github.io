@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一発 Ippatsu — 룰북 · ルールブック · Rulebook</title>
+<meta name="description" content="리치 마작 게임 一発(Ippatsu)의 규칙과 역 일람 — 작혼 표준 룰 기준. Riichi mahjong rules and yaku list.">
+<link rel="icon" href="/icon.svg">
+<style>
+  :root {
+    --surface-app: #2a3744; --surface-raised: #3f4e5d;
+    --accent: #A9C56A; --accent-soft: rgb(169 197 106 / 14%); --accent-line: rgb(169 197 106 / 36%);
+    --text-strong: #D9DDE3; --text-body: #aeb6c0; --text-muted: #6b7682;
+    --border-strong: rgb(238 241 244 / 16%);
+    --font-sans: "Pretendard", system-ui, -apple-system, "Hiragino Sans", "Noto Sans KR", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { margin: 0; background: var(--surface-app); color: var(--text-body); font-family: var(--font-sans); line-height: 1.65; font-size: 15px; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 24px 16px 80px; }
+  header.top { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 6px 0 18px; border-bottom: 1px solid var(--border-strong); }
+  .logo { font-size: 26px; font-weight: 800; color: var(--text-strong); letter-spacing: .02em; }
+  .logo em { color: var(--accent); font-style: normal; }
+  .langs { margin-left: auto; display: flex; gap: 6px; }
+  .langbtn { background: var(--surface-raised); color: var(--text-body); border: 1px solid var(--border-strong); border-radius: 999px; padding: 6px 14px; font-size: 13px; cursor: pointer; }
+  .langbtn.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .back { font-size: 13px; color: var(--accent); text-decoration: none; border: 1px solid var(--accent-line); border-radius: 999px; padding: 6px 14px; }
+  .back:hover { background: var(--accent-soft); }
+  nav.toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 6px; }
+  nav.toc a { font-size: 12.5px; color: var(--text-body); text-decoration: none; background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 999px; padding: 5px 12px; }
+  nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
+  h2 { color: var(--accent); font-size: 21px; margin: 44px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border-strong); scroll-margin-top: 16px; }
+  h3 { color: var(--text-strong); font-size: 16px; margin: 24px 0 6px; }
+  p, li { color: var(--text-body); }
+  strong { color: var(--text-strong); }
+  .note { font-size: 13px; color: var(--text-muted); }
+  .card { background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 12px; padding: 14px 16px; margin: 12px 0; }
+  .callout { border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 12px 0; }
+  /* ── 패 그림: 게임과 동일한 Front 몸체 + 글리프 2겹 합성 ── */
+  .hand { display: inline-flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin: 6px 0; }
+  .grp { display: inline-flex; gap: 2px; }
+  .tile { position: relative; display: inline-block; width: var(--tw, 34px); aspect-ratio: 3 / 4; filter: drop-shadow(0 2px 2px rgb(0 0 0 / 35%)); }
+  .tile .tf { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+  .tile .tg { position: absolute; left: 11%; top: 11%; width: 78%; height: 78%; object-fit: contain; }
+  .tile.win::after { content: "▲"; position: absolute; left: 50%; transform: translateX(-50%); bottom: -16px; color: var(--accent); font-size: 11px; }
+  .hand.big { --tw: 40px; }
+  .hand.sm { --tw: 27px; }
+  .arrow { color: var(--accent); font-weight: 700; margin: 0 6px; align-self: center; }
+  .tilerow { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 8px 0 14px; }
+  .lbl { min-width: 88px; font-size: 13px; color: var(--text-strong); font-weight: 700; }
+  /* ── 표 ── */
+  .tblwrap { overflow-x: auto; margin: 10px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th, td { border: 1px solid var(--border-strong); padding: 7px 10px; text-align: left; vertical-align: middle; }
+  th { background: var(--surface-raised); color: var(--text-strong); white-space: nowrap; }
+  td.num { text-align: center; white-space: nowrap; color: var(--text-strong); font-weight: 700; }
+  tr.sec td { background: var(--accent-soft); color: var(--accent); font-weight: 800; font-size: 14px; }
+  td .hand { margin: 0; }
+  .yname { color: var(--text-strong); font-weight: 700; white-space: nowrap; }
+  .ysub { display: block; font-size: 11.5px; color: var(--text-muted); font-weight: 400; }
+  /* ── 언어 전환 ── */
+  [data-lang="ko"] .ja, [data-lang="ko"] .en,
+  [data-lang="ja"] .ko, [data-lang="ja"] .en,
+  [data-lang="en"] .ko, [data-lang="en"] .ja { display: none; }
+  footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--border-strong); font-size: 12.5px; color: var(--text-muted); }
+  @media (max-width: 560px) { .hand { --tw: 26px; } .hand.big { --tw: 32px; } body { font-size: 14px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="logo">一発 <em>Ippatsu</em> <span class="ko">룰북</span><span class="ja">ルールブック</span><span class="en">Rulebook</span></div>
+  <div class="langs">
+    <button class="langbtn" data-l="ko">한국어</button>
+    <button class="langbtn" data-l="ja">日本語</button>
+    <button class="langbtn" data-l="en">English</button>
+  </div>
+  <a class="back" href="/">← <span class="ko">게임으로</span><span class="ja">ゲームへ</span><span class="en">Back to game</span></a>
+</header>
+
+<nav class="toc">
+  <a href="#tiles"><span class="ko">패의 종류</span><span class="ja">牌の種類</span><span class="en">Tiles</span></a>
+  <a href="#goal"><span class="ko">승리 조건</span><span class="ja">和了の条件</span><span class="en">Winning</span></a>
+  <a href="#flow"><span class="ko">진행</span><span class="ja">進行</span><span class="en">Game flow</span></a>
+  <a href="#calls"><span class="ko">부르기</span><span class="ja">鳴き</span><span class="en">Calls</span></a>
+  <a href="#riichi"><span class="ko">리치</span><span class="ja">立直</span><span class="en">Riichi</span></a>
+  <a href="#waits"><span class="ko">대기·후리텐</span><span class="ja">待ち・フリテン</span><span class="en">Waits &amp; furiten</span></a>
+  <a href="#dora"><span class="ko">도라</span><span class="ja">ドラ</span><span class="en">Dora</span></a>
+  <a href="#score"><span class="ko">점수</span><span class="ja">点数</span><span class="en">Scoring</span></a>
+  <a href="#yaku"><span class="ko">역 일람</span><span class="ja">役一覧</span><span class="en">Yaku list</span></a>
+  <a href="#details"><span class="ko">세부 룰</span><span class="ja">細則</span><span class="en">Rule details</span></a>
+</nav>
+
+<p>
+  <span class="ko"><strong>一発(Ippatsu)</strong>는 4인 리치 마작 게임입니다. 룰은 온라인 마작 <strong>작혼(Mahjong Soul) 랭크전 표준</strong>에 맞춰져 있습니다 — 시작 25,000점, 동풍전/반장전(스테이지가 지정), 적도라 3매 포함 136매.</span>
+  <span class="ja"><strong>一発(Ippatsu)</strong>は4人打ちリーチ麻雀です。ルールはオンライン麻雀<strong>雀魂(Mahjong Soul)の段位戦標準</strong>に準拠 — 配給原点25,000点、東風戦/半荘戦(ステージが指定)、赤ドラ3枚を含む136枚。</span>
+  <span class="en"><strong>Ippatsu (一発)</strong> is a four-player riichi mahjong game. The rules follow the <strong>Mahjong Soul ranked standard</strong> — 25,000 starting points, East-only or half-game (set per stage), 136 tiles including 3 red fives.</span>
+</p>
+
+<!-- ══════════════ 패의 종류 ══════════════ -->
+<h2 id="tiles"><span class="ko">패의 종류 — 136매</span><span class="ja">牌の種類 — 136枚</span><span class="en">The tiles — 136 total</span></h2>
+<p>
+  <span class="ko">수패 3종(만수·통수·삭수) 각 1~9 × 4매 = 108매, 자패 7종(바람 4 + 삼원패 3) × 4매 = 28매.</span>
+  <span class="ja">数牌3種(萬子・筒子・索子)各1〜9×4枚=108枚、字牌7種(風牌4+三元牌3)×4枚=28枚。</span>
+  <span class="en">Three numbered suits (man/pin/sou), 1–9 × 4 copies = 108 tiles, plus 7 honors (4 winds + 3 dragons) × 4 = 28 tiles.</span>
+</p>
+<div class="card">
+  <div class="tilerow"><span class="lbl"><span class="ko">만수(만)</span><span class="ja">萬子</span><span class="en">Man</span></span><span class="hand sm" data-t="123456789m"></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">통수(통)</span><span class="ja">筒子</span><span class="en">Pin</span></span><span class="hand sm" data-t="123456789p"></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">삭수(삭)</span><span class="ja">索子</span><span class="en">Sou</span></span><span class="hand sm" data-t="123456789s"></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">바람패</span><span class="ja">風牌</span><span class="en">Winds</span></span><span class="hand sm" data-t="1234z"></span><span class="note"><span class="ko">동·남·서·북</span><span class="ja">東・南・西・北</span><span class="en">East · South · West · North</span></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">삼원패</span><span class="ja">三元牌</span><span class="en">Dragons</span></span><span class="hand sm" data-t="567z"></span><span class="note"><span class="ko">백·발·중</span><span class="ja">白・發・中</span><span class="en">White · Green · Red</span></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">적5 (적도라)</span><span class="ja">赤5(赤ドラ)</span><span class="en">Red fives</span></span><span class="hand sm" data-t="0m 0p 0s"></span><span class="note"><span class="ko">5만/5통/5삭 각 1매가 적5 — 항상 도라 1</span><span class="ja">5萬/5筒/5索の各1枚が赤5 — 常にドラ1</span><span class="en">One 5 of each suit is red — always worth 1 dora</span></span></div>
+</div>
+
+<!-- ══════════════ 승리 조건 ══════════════ -->
+<h2 id="goal"><span class="ko">승리 조건 — 4멘쯔 1작두 + 역</span><span class="ja">和了の条件 — 4面子1雀頭+役</span><span class="en">Winning — 4 sets + 1 pair + a yaku</span></h2>
+<p>
+  <span class="ko">손패 13장에 1장을 더해 <strong>멘쯔(3장 조합) 4개 + 작두(같은 패 2장) 1개</strong>를 완성하면 화료(승리)합니다. 남이 버린 패로 완성하면 <strong>론</strong>, 자기가 뽑아 완성하면 <strong>쯔모</strong>.</span>
+  <span class="ja">手牌13枚に1枚を加えて<strong>面子4組+雀頭1組</strong>を完成させると和了。他家の捨て牌なら<strong>ロン</strong>、自摸なら<strong>ツモ</strong>。</span>
+  <span class="en">Complete <strong>four sets of three plus one pair</strong> from 13 tiles + 1. Winning on a discard is <strong>ron</strong>; on your own draw, <strong>tsumo</strong>.</span>
+</p>
+<div class="card">
+  <div class="tilerow"><span class="lbl"><span class="ko">슌쯔(연속)</span><span class="ja">順子</span><span class="en">Run</span></span><span class="hand" data-t="456p"></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">커쯔(같은 패 3)</span><span class="ja">刻子</span><span class="en">Triplet</span></span><span class="hand" data-t="777s"></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">깡쯔(같은 패 4)</span><span class="ja">槓子</span><span class="en">Kan</span></span><span class="hand" data-t="1111z"></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">작두(머리)</span><span class="ja">雀頭</span><span class="en">Pair</span></span><span class="hand" data-t="99s"></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">완성 예</span><span class="ja">和了例</span><span class="en">Example</span></span><span class="hand" data-t="234m 678m 345p 678s 99s"></span></div>
+</div>
+<div class="callout">
+  <span class="ko"><strong>역(약)이 최소 1개 필요합니다.</strong> 형태만 완성해도 역이 하나도 없으면 화료할 수 없습니다(형식 텐파이). 아래 <a href="#yaku">역 일람</a> 참고. 도라는 역이 아니므로 도라만으로는 화료 불가.</span>
+  <span class="ja"><strong>最低1つの役が必要です。</strong>形だけ完成しても役が無ければ和了できません(形式テンパイ)。<a href="#yaku">役一覧</a>参照。ドラは役ではありません。</span>
+  <span class="en"><strong>You need at least one yaku to win.</strong> A complete shape with no yaku cannot be declared (formal tenpai only). See the <a href="#yaku">yaku list</a>. Dora are not yaku.</span>
+</div>
+<p>
+  <span class="ko">특수형 2가지: <strong>치또이쯔</strong>(서로 다른 2장짝 7개)와 <strong>국사무쌍</strong>(1·9·자패 13종 + 아무 1종 중복).</span>
+  <span class="ja">特殊形は2つ: <strong>七対子</strong>(異なる対子7組)と<strong>国士無双</strong>(幺九牌13種+いずれか1枚重複)。</span>
+  <span class="en">Two special shapes: <strong>chiitoitsu</strong> (seven distinct pairs) and <strong>kokushi musou</strong> (all 13 terminals/honors + one duplicate).</span>
+</p>
+<div class="card">
+  <div class="tilerow"><span class="lbl">치또이쯔<span class="ysub">七対子</span></span><span class="hand sm" data-t="11m 33m 55p 77s 99s 22z 66z"></span></div>
+  <div class="tilerow"><span class="lbl">국사무쌍<span class="ysub">国士無双</span></span><span class="hand sm" data-t="119m 19p 19s 1234567z"></span></div>
+</div>
+
+<!-- ══════════════ 진행 ══════════════ -->
+<h2 id="flow"><span class="ko">진행</span><span class="ja">進行</span><span class="en">Game flow</span></h2>
+<ul>
+  <li><span class="ko">각자 13장으로 시작해, 자기 차례에 1장 뽑고(쯔모) 1장 버립니다(타패). 친(오야)부터 반시계 방향.</span><span class="ja">各自13枚から始め、自分の番にツモ→打牌。親から反時計回り。</span><span class="en">Everyone starts with 13 tiles; on your turn draw one, discard one. Play proceeds counterclockwise from the dealer.</span></li>
+  <li><span class="ko"><strong>동풍전</strong>은 동1~동4국, <strong>반장전</strong>은 동1~남4국. 친이 화료하거나 유국 시 텐파이면 연장(본장 +1).</span><span class="ja"><strong>東風戦</strong>は東1〜東4局、<strong>半荘戦</strong>は東1〜南4局。親の和了・流局時テンパイで連荘(本場+1)。</span><span class="en"><strong>East-only</strong> runs E1–E4; <strong>half games</strong> E1–S4. The dealer repeats (honba +1) after winning or being tenpai at a draw.</span></li>
+  <li><span class="ko">패산이 다 떨어지면 <strong>유국(황패평국)</strong> — 노텐 벌부 3,000점을 노텐인 사람이 텐파이인 사람에게 지급(전원 텐파이/노텐이면 이동 없음).</span><span class="ja">山が尽きると<strong>流局</strong> — ノーテン罰符3,000点をテンパイ者へ(全員テンパイ/ノーテンなら移動なし)。</span><span class="en">If the wall runs out it's an <strong>exhaustive draw</strong> — 3,000 points move from noten players to tenpai players (none if all or none are tenpai).</span></li>
+  <li><span class="ko"><strong>도중 유국 4종</strong>: 9종9패, 4풍연타, 4깡산료, 4가리치.</span><span class="ja"><strong>途中流局4種</strong>: 九種九牌・四風連打・四槓散了・四家立直。</span><span class="en"><strong>Four abortive draws</strong>: nine terminals, four identical wind discards, four kans, four riichi.</span></li>
+</ul>
+
+<!-- ══════════════ 부르기 ══════════════ -->
+<h2 id="calls"><span class="ko">부르기(후로) — 치·펑·깡</span><span class="ja">鳴き — チー・ポン・カン</span><span class="en">Calls — chi, pon, kan</span></h2>
+<div class="card">
+  <div class="tilerow"><span class="lbl"><span class="ko">치</span><span class="ja">チー</span><span class="en">Chi</span></span>
+    <span class="hand" data-t="56m"></span><span class="arrow">+</span><span class="hand" data-t="7m"></span><span class="arrow">→</span><span class="hand" data-t="567m"></span>
+    <span class="note"><span class="ko">상가(왼쪽)의 버림패로만 슌쯔 완성</span><span class="ja">上家の捨て牌のみで順子完成</span><span class="en">Complete a run — only from the player to your left</span></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">펑</span><span class="ja">ポン</span><span class="en">Pon</span></span>
+    <span class="hand" data-t="88p"></span><span class="arrow">+</span><span class="hand" data-t="8p"></span><span class="arrow">→</span><span class="hand" data-t="888p"></span>
+    <span class="note"><span class="ko">누구의 버림패든 커쯔 완성</span><span class="ja">誰の捨て牌でも刻子完成</span><span class="en">Complete a triplet — from anyone</span></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">깡</span><span class="ja">カン</span><span class="en">Kan</span></span>
+    <span class="hand" data-t="5555s"></span>
+    <span class="note"><span class="ko">안깡(손 4장) / 명깡(3장+버림패) / 가깡(펑에 1장 추가). 영상패 1장 쯔모 + 깡도라 추가</span><span class="ja">暗槓/明槓/加槓。嶺上牌ツモ+カンドラ追加</span><span class="en">Closed / open / added kan. Draw a replacement tile and reveal a kan dora</span></span></div>
+</div>
+<ul>
+  <li><span class="ko">치·펑·명깡·가깡을 하면 <strong>멘젠이 깨져</strong> 리치·멘젠쯔모 등 멘젠 전용 역을 잃습니다. <strong>안깡은 멘젠 유지.</strong></span><span class="ja">チー・ポン・明槓・加槓で<strong>門前が崩れ</strong>、立直などの門前役を失う。<strong>暗槓は門前維持。</strong></span><span class="en">Chi, pon, open/added kan <strong>break your concealed status</strong> and its yaku (riichi, menzen tsumo…). <strong>A closed kan keeps it.</strong></span></li>
+  <li><span class="ko"><strong>쿠이카에 금지</strong>: 부른 직후, 방금 부른 것과 같은 패(또는 같은 대기의 반대쪽 패)를 바로 버릴 수 없습니다.</span><span class="ja"><strong>食い替え禁止</strong>。</span><span class="en"><strong>Swap-calling (kuikae) is forbidden</strong> — you can't immediately discard the tile you called for (or its equivalent).</span></li>
+  <li><span class="ko">깡은 <strong>국당 총 4회</strong>까지. 마지막 버림패(하저)에는 론만 가능하고 펑/치/깡은 불가.</span><span class="ja">カンは<strong>1局に計4回</strong>まで。河底牌にはロンのみ可能。</span><span class="en">At most <strong>four kans per hand</strong> (all players combined). The very last discard can only be ronned — no calls.</span></li>
+</ul>
+
+<!-- ══════════════ 리치 ══════════════ -->
+<h2 id="riichi"><span class="ko">리치</span><span class="ja">立直</span><span class="en">Riichi</span></h2>
+<ul>
+  <li><span class="ko"><strong>멘젠 텐파이</strong>일 때 1,000점을 걸고 선언하는 1판 역. 선언 후 손패는 잠기고(쯔모기리) 화료까지 바꿀 수 없습니다.</span><span class="ja"><strong>門前テンパイ</strong>で1,000点を供託して宣言する1翻役。宣言後は手牌固定。</span><span class="en">A 1-han yaku declared from a <strong>concealed tenpai</strong> with a 1,000-point deposit. Your hand locks afterward.</span></li>
+  <li><span class="ko">선언 후 1순 안에(다른 콜 없이) 화료하면 <strong>일발</strong> +1판. 화료 시 <strong>뒷도라</strong>를 추가로 뒤집습니다.</span><span class="ja">1巡以内の和了で<strong>一発</strong>+1翻。和了時に<strong>裏ドラ</strong>を確認。</span><span class="en">Winning within one uninterrupted turn adds <strong>ippatsu</strong> (+1 han). Riichi winners also reveal <strong>ura dora</strong>.</span></li>
+  <li><span class="ko">첫 순에(콜 없이) 선언하면 <strong>더블리치</strong>(2판). 리치 공탁금은 그 뒤 화료한 사람이 가져갑니다.</span><span class="ja">第一巡なら<strong>ダブル立直</strong>(2翻)。供託は次の和了者へ。</span><span class="en">Declared on your very first discard it's <strong>double riichi</strong> (2 han). Deposits go to the next winner.</span></li>
+</ul>
+
+<!-- ══════════════ 대기·후리텐 ══════════════ -->
+<h2 id="waits"><span class="ko">대기 형태와 후리텐</span><span class="ja">待ちの形とフリテン</span><span class="en">Waits and furiten</span></h2>
+<div class="card">
+  <div class="tilerow"><span class="lbl"><span class="ko">양면</span><span class="ja">両面</span><span class="en">Open wait</span></span><span class="hand" data-t="45m"></span><span class="arrow">→</span><span class="hand sm" data-t="3m 6m"></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">간짱</span><span class="ja">嵌張</span><span class="en">Closed wait</span></span><span class="hand" data-t="46m"></span><span class="arrow">→</span><span class="hand sm" data-t="5m"></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">변짱</span><span class="ja">辺張</span><span class="en">Edge wait</span></span><span class="hand" data-t="12m"></span><span class="arrow">→</span><span class="hand sm" data-t="3m"></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">샤보</span><span class="ja">シャンポン</span><span class="en">Dual pair</span></span><span class="hand" data-t="55m 99p"></span><span class="arrow">→</span><span class="hand sm" data-t="5m 9p"></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">단기</span><span class="ja">単騎</span><span class="en">Pair wait</span></span><span class="hand" data-t="7s"></span><span class="arrow">→</span><span class="hand sm" data-t="7s"></span></div>
+</div>
+<div class="callout">
+  <span class="ko"><strong>후리텐</strong>: 자기 대기패 중 하나라도 <strong>자기 버림패</strong>에 있으면 론 불가(쯔모는 가능). 남의 화료패를 론하지 않고 넘겨도 그 순 동안 후리텐(동순 후리텐 — 자기 쯔모나 자기 콜로 해제), 리치 중 넘기면 그 국 내내 후리텐입니다. 창깡(깡 가로채기) 기회를 넘겨도 같은 후리텐이 걸립니다.</span>
+  <span class="ja"><strong>フリテン</strong>: 待ち牌が自分の河にあるとロン不可(ツモは可)。見逃しは同巡フリテン(自分のツモ・鳴きで解消)、立直中の見逃しは永続。槍槓の見逃しも同様。</span>
+  <span class="en"><strong>Furiten</strong>: if any of your winning tiles is in your own discards you cannot ron (tsumo is fine). Passing on a winnable discard makes you temporarily furiten (cleared by your next draw or call); during riichi it lasts the whole hand. Passing a chankan chance counts too.</span>
+</div>
+
+<!-- ══════════════ 도라 ══════════════ -->
+<h2 id="dora"><span class="ko">도라</span><span class="ja">ドラ</span><span class="en">Dora</span></h2>
+<p>
+  <span class="ko">도라는 <strong>판수를 +1씩</strong> 올려주는 보너스 패(역 아님). 도라 <strong>표시패의 다음 패</strong>가 도라입니다.</span>
+  <span class="ja">ドラは<strong>1枚+1翻</strong>のボーナス(役ではない)。<strong>表示牌の次の牌</strong>がドラ。</span>
+  <span class="en">Each dora adds +1 han (not a yaku). The dora is the tile <strong>after</strong> the indicator.</span>
+</p>
+<div class="card">
+  <div class="tilerow"><span class="lbl"><span class="ko">수패</span><span class="ja">数牌</span><span class="en">Suits</span></span><span class="hand" data-t="3m"></span><span class="arrow">→</span><span class="hand" data-t="4m"></span><span class="note">9 → 1</span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">바람패</span><span class="ja">風牌</span><span class="en">Winds</span></span><span class="hand" data-t="1z"></span><span class="arrow">→</span><span class="hand" data-t="2z"></span><span class="note"><span class="ko">동→남→서→북→동</span><span class="ja">東→南→西→北→東</span><span class="en">E→S→W→N→E</span></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">삼원패</span><span class="ja">三元牌</span><span class="en">Dragons</span></span><span class="hand" data-t="5z"></span><span class="arrow">→</span><span class="hand" data-t="6z"></span><span class="note"><span class="ko">백→발→중→백</span><span class="ja">白→發→中→白</span><span class="en">White→Green→Red→White</span></span></div>
+</div>
+<ul>
+  <li><span class="ko"><strong>깡도라</strong>: 깡마다 표시패 1장 추가. 안깡은 즉시, 명깡·가깡은 깡 후 버린 패가 론 없이 통과한 뒤 공개(그 패로 론당하면 새 깡도라는 계산되지 않음).</span><span class="ja"><strong>カンドラ</strong>: 暗槓は即時、明槓・加槓は打牌通過後にめくる。</span><span class="en"><strong>Kan dora</strong>: one more indicator per kan — immediately for closed kans; for open/added kans only after the following discard passes without a ron.</span></li>
+  <li><span class="ko"><strong>뒷도라</strong>: 리치 화료 시 표시패 아래 패를 추가 확인. <strong>적도라</strong>: 적5는 1장당 +1판.</span><span class="ja"><strong>裏ドラ</strong>は立直和了時。<strong>赤ドラ</strong>は1枚+1翻。</span><span class="en"><strong>Ura dora</strong> apply to riichi winners; each <strong>red five</strong> is +1 han.</span></li>
+</ul>
+
+<!-- ══════════════ 점수 ══════════════ -->
+<h2 id="score"><span class="ko">점수</span><span class="ja">点数</span><span class="en">Scoring</span></h2>
+<p>
+  <span class="ko">점수는 <strong>부(符) × 2<sup>판+2</sup></strong>의 기본점에서 출발합니다(부저 20 + 멘젠론 10 + 쯔모 2 + 대기·멘쯔·작두 가산, 치또이는 25부 고정). 기본점이 2,000을 넘으면 아래 한도로 캡. <strong>절상만관(切り上げ満貫)은 OFF</strong> — 4판30부는 7,700점, 3판60부는 11,600점 그대로입니다.</span>
+  <span class="ja">点数は<strong>符×2<sup>翻+2</sup></strong>の基本点から。基本点2,000超で下記の満貫以上にキャップ。<strong>切り上げ満貫はOFF</strong> — 4翻30符=7,700点、3翻60符=11,600点。</span>
+  <span class="en">Points start from <strong>fu × 2^(han+2)</strong> base points, capped at mangan and above. <strong>Kiriage mangan is OFF</strong> — 4 han 30 fu pays 7,700 and 3 han 60 fu pays 11,600, as in Mahjong Soul.</span>
+</p>
+<div class="tblwrap"><table>
+  <tr><th><span class="ko">한도</span><span class="ja">満貫区分</span><span class="en">Limit</span></th><th><span class="ko">판수</span><span class="ja">翻数</span><span class="en">Han</span></th><th><span class="ko">자(子) 화료</span><span class="ja">子の和了</span><span class="en">Non-dealer</span></th><th><span class="ko">친(親) 화료</span><span class="ja">親の和了</span><span class="en">Dealer</span></th></tr>
+  <tr><td><span class="ko">만관</span><span class="ja">満貫</span><span class="en">Mangan</span></td><td class="num">5</td><td class="num">8,000</td><td class="num">12,000</td></tr>
+  <tr><td><span class="ko">하네만</span><span class="ja">跳満</span><span class="en">Haneman</span></td><td class="num">6–7</td><td class="num">12,000</td><td class="num">18,000</td></tr>
+  <tr><td><span class="ko">배만</span><span class="ja">倍満</span><span class="en">Baiman</span></td><td class="num">8–10</td><td class="num">16,000</td><td class="num">24,000</td></tr>
+  <tr><td><span class="ko">삼배만</span><span class="ja">三倍満</span><span class="en">Sanbaiman</span></td><td class="num">11–12</td><td class="num">24,000</td><td class="num">36,000</td></tr>
+  <tr><td><span class="ko">역만 / 누적 역만</span><span class="ja">役満 / 数え役満</span><span class="en">Yakuman / counted</span></td><td class="num">13+</td><td class="num">32,000</td><td class="num">48,000</td></tr>
+</table></div>
+<ul>
+  <li><span class="ko">론은 방총자가 전액 지불, 쯔모는 셋이 나눠 지불(친은 2배 부담). 본장 1개당 +300점(쯔모는 각 +100).</span><span class="ja">ロンは放銃者払い、ツモは3人払い(親は2倍)。本場は+300(ツモは各+100)。</span><span class="en">Ron is paid by the discarder; tsumo is split (dealer pays double share). Each honba adds 300 (100 from each on tsumo).</span></li>
+  <li><span class="ko">복합 역만은 <strong>상한 없이 합산</strong>(더블 역만: 사암각 단기·국사 13면·순정구련·대사희).</span><span class="ja">複合役満は<strong>無制限に加算</strong>(ダブル役満: 四暗刻単騎・国士十三面・純正九蓮・大四喜)。</span><span class="en">Multiple yakuman stack without limit (double yakuman: suuankou tanki, 13-wait kokushi, pure chuuren, daisuushi).</span></li>
+  <li><span class="ko"><strong>선하네(頭跳ね)</strong>: 같은 버림패에 여러 명이 론 가능해도 방총자에게 가장 가까운(하가→대가→상가) 한 명만 화료.</span><span class="ja"><strong>頭跳ね</strong>: 複数ロンは放銃者に近い1人のみ。</span><span class="en"><strong>Atamahane</strong>: if several players could ron the same tile, only the one closest in turn order wins.</span></li>
+  <li><span class="ko"><strong>파오(책임지불)</strong>: 대삼원·대사희를 확정시키는 울기를 받아준 사람, 대명깡 후 영상개화 쯔모의 깡 제공자는 책임 지불.</span><span class="ja"><strong>包(責任払い)</strong>: 大三元・大四喜の確定鳴き、大明槓の嶺上ツモ。</span><span class="en"><strong>Pao (liability)</strong>: feeding the final set of daisangen/daisuushi, or a rinshan tsumo after your discard was open-kanned, makes you liable.</span></li>
+</ul>
+
+<!-- ══════════════ 역 일람 ══════════════ -->
+<h2 id="yaku"><span class="ko">역 일람</span><span class="ja">役一覧</span><span class="en">Yaku list</span></h2>
+<p class="note">
+  <span class="ko">판수의 「2/1」 표기는 멘젠 2판 / 울면(후로) 1판. 「멘젠」 표기는 멘젠 전용 역.</span>
+  <span class="ja">「2/1」は門前2翻/副露1翻。「門前」は門前限定役。</span>
+  <span class="en">"2/1" means 2 han concealed / 1 han open. "Concealed" marks closed-hand-only yaku.</span>
+</p>
+<div class="tblwrap"><table>
+  <tr><th><span class="ko">역</span><span class="ja">役</span><span class="en">Yaku</span></th><th><span class="ko">판</span><span class="ja">翻</span><span class="en">Han</span></th><th><span class="ko">설명 · 예시</span><span class="ja">説明・例</span><span class="en">Description · example</span></th></tr>
+
+  <tr class="sec"><td colspan="3"><span class="ko">1판</span><span class="ja">1翻</span><span class="en">1 han</span></td></tr>
+  <tr><td><span class="yname">리치<span class="ysub">立直 · Riichi</span></span></td><td class="num">1<br><span class="note">멘젠</span></td><td><span class="ko">멘젠 텐파이에서 1,000점을 걸고 선언.</span><span class="ja">門前テンパイで1,000点供託して宣言。</span><span class="en">Declare from a concealed tenpai with a 1,000-point bet.</span></td></tr>
+  <tr><td><span class="yname">일발<span class="ysub">一発 · Ippatsu</span></span></td><td class="num">1<br><span class="note">멘젠</span></td><td><span class="ko">리치 후 1순 안에(콜 없이) 화료.</span><span class="ja">立直後1巡以内(鳴きなし)の和了。</span><span class="en">Win within one uninterrupted turn of riichi.</span></td></tr>
+  <tr><td><span class="yname">멘젠쯔모<span class="ysub">門前清自摸和 · Menzen Tsumo</span></span></td><td class="num">1<br><span class="note">멘젠</span></td><td><span class="ko">멘젠 상태로 쯔모 화료. 안깡이 있어도 멘젠입니다.</span><span class="ja">門前でのツモ和了。暗槓があっても門前。</span><span class="en">Tsumo with a concealed hand (closed kans still count as concealed).</span></td></tr>
+  <tr><td><span class="yname">핑후<span class="ysub">平和 · Pinfu</span></span></td><td class="num">1<br><span class="note">멘젠</span></td><td><span class="ko">슌쯔 4개 + 역패 아닌 작두 + 양면 대기.</span><span class="ja">順子4+役牌でない雀頭+両面待ち。</span><span class="en">All runs, a non-yakuhai pair, and an open wait.</span><br><span class="hand sm" data-t="234m 678m 345p 678s 99s"></span></td></tr>
+  <tr><td><span class="yname">탕야오<span class="ysub">断幺九 · Tanyao</span></span></td><td class="num">1</td><td><span class="ko">1·9·자패 없이 2~8만으로 구성(울어도 성립 — 쿠이탕 있음).</span><span class="ja">2〜8のみ(喰い断あり)。</span><span class="en">Only simples 2–8 (open tanyao allowed).</span><br><span class="hand sm" data-t="234m 567m 345p 678s 55s"></span></td></tr>
+  <tr><td><span class="yname">이페코<span class="ysub">一盃口 · Iipeikou</span></span></td><td class="num">1<br><span class="note">멘젠</span></td><td><span class="ko">같은 슌쯔 2개.</span><span class="ja">同一順子2組。</span><span class="en">Two identical runs.</span><br><span class="hand sm" data-t="223344m 567p 789s 99p"></span></td></tr>
+  <tr><td><span class="yname">역패<span class="ysub">役牌 · Yakuhai</span></span></td><td class="num">1</td><td><span class="ko">삼원패(백·발·중), 장풍, 자풍의 커쯔/깡쯔. 자풍=장풍이면 2판(더블동 등).</span><span class="ja">三元牌・場風・自風の刻子。連風牌は2翻。</span><span class="en">A triplet of dragons, the round wind, or your seat wind (both winds at once = 2 han).</span><br><span class="hand sm" data-t="234m 567p 678s 777z 88s"></span></td></tr>
+  <tr><td><span class="yname">해저로월<span class="ysub">海底摸月 · Haitei</span></span></td><td class="num">1</td><td><span class="ko">마지막 쯔모패로 쯔모 화료.</span><span class="ja">最後のツモ牌で和了。</span><span class="en">Tsumo on the very last draw.</span></td></tr>
+  <tr><td><span class="yname">하저로어<span class="ysub">河底撈魚 · Houtei</span></span></td><td class="num">1</td><td><span class="ko">마지막 버림패로 론 화료.</span><span class="ja">最後の捨て牌でロン。</span><span class="en">Ron on the very last discard.</span></td></tr>
+  <tr><td><span class="yname">영상개화<span class="ysub">嶺上開花 · Rinshan</span></span></td><td class="num">1</td><td><span class="ko">깡 후 뽑은 영상패로 쯔모 화료.</span><span class="ja">カン後の嶺上牌でツモ。</span><span class="en">Tsumo on the replacement tile after a kan.</span></td></tr>
+  <tr><td><span class="yname">창깡<span class="ysub">槍槓 · Chankan</span></span></td><td class="num">1</td><td><span class="ko">남의 가깡 패를 가로채 론(국사무쌍은 안깡도 가로챌 수 있음).</span><span class="ja">加槓牌へのロン(国士は暗槓も)。</span><span class="en">Ron on a tile added to a pon (kokushi can even rob a closed kan).</span></td></tr>
+
+  <tr class="sec"><td colspan="3"><span class="ko">2판</span><span class="ja">2翻</span><span class="en">2 han</span></td></tr>
+  <tr><td><span class="yname">더블리치<span class="ysub">ダブル立直 · Double Riichi</span></span></td><td class="num">2<br><span class="note">멘젠</span></td><td><span class="ko">첫 버림(콜 없이)에서 리치 선언.</span><span class="ja">第一打での立直。</span><span class="en">Riichi on your very first discard.</span></td></tr>
+  <tr><td><span class="yname">치또이쯔<span class="ysub">七対子 · Chiitoitsu</span></span></td><td class="num">2<br><span class="note">멘젠 · 25부</span></td><td><span class="ko">서로 다른 2장짝 7개.</span><span class="ja">異なる対子7組(25符)。</span><span class="en">Seven distinct pairs (fixed 25 fu).</span><br><span class="hand sm" data-t="11m 33m 55p 77s 99s 22z 66z"></span></td></tr>
+  <tr><td><span class="yname">삼색동순<span class="ysub">三色同順 · Sanshoku Doujun</span></span></td><td class="num">2/1</td><td><span class="ko">세 가지 수패로 같은 숫자의 슌쯔.</span><span class="ja">三色で同じ数の順子。</span><span class="en">The same run in all three suits.</span><br><span class="hand sm" data-t="234m 678m 234p 234s 99s"></span></td></tr>
+  <tr><td><span class="yname">삼색동각<span class="ysub">三色同刻 · Sanshoku Doukou</span></span></td><td class="num">2</td><td><span class="ko">세 가지 수패로 같은 숫자의 커쯔.</span><span class="ja">三色で同じ数の刻子。</span><span class="en">The same triplet in all three suits.</span><br><span class="hand sm" data-t="333m 333p 333s 567m 88s"></span></td></tr>
+  <tr><td><span class="yname">일기통관<span class="ysub">一気通貫 · Ittsu</span></span></td><td class="num">2/1</td><td><span class="ko">한 가지 수패로 123·456·789.</span><span class="ja">一色で123・456・789。</span><span class="en">1-2-3, 4-5-6, 7-8-9 of one suit.</span><br><span class="hand sm" data-t="123m 456m 789m 234p 88s"></span></td></tr>
+  <tr><td><span class="yname">찬타<span class="ysub">混全帯幺九 · Chanta</span></span></td><td class="num">2/1</td><td><span class="ko">모든 멘쯔·작두에 1·9·자패 포함.</span><span class="ja">全組に幺九牌。</span><span class="en">Every set and the pair contain a terminal or honor.</span><br><span class="hand sm" data-t="123m 789m 123p 789s 11z"></span></td></tr>
+  <tr><td><span class="yname">또이또이<span class="ysub">対々和 · Toitoi</span></span></td><td class="num">2</td><td><span class="ko">커쯔(깡쯔) 4개 + 작두.</span><span class="ja">刻子4組+雀頭。</span><span class="en">Four triplets plus a pair.</span><br><span class="hand sm" data-t="333m 555p 777s 111z 99m"></span></td></tr>
+  <tr><td><span class="yname">삼암각<span class="ysub">三暗刻 · Sanankou</span></span></td><td class="num">2</td><td><span class="ko">울지 않은 커쯔 3개(나머지는 자유).</span><span class="ja">暗刻3組。</span><span class="en">Three concealed triplets (rest of hand free).</span><br><span class="hand sm" data-t="222m 444p 666s 789m 55z"></span></td></tr>
+  <tr><td><span class="yname">삼깡즈<span class="ysub">三槓子 · Sankantsu</span></span></td><td class="num">2</td><td><span class="ko">깡 3개.</span><span class="ja">槓子3組。</span><span class="en">Three kans.</span><br><span class="hand sm" data-t="2222m 5555p 7777s 345m 66s"></span></td></tr>
+  <tr><td><span class="yname">혼노두<span class="ysub">混老頭 · Honroutou</span></span></td><td class="num">2</td><td><span class="ko">1·9·자패만으로 구성(또이또이/치또이와 복합).</span><span class="ja">幺九牌のみ。</span><span class="en">Only terminals and honors (stacks with toitoi/chiitoi).</span><br><span class="hand sm" data-t="111m 999p 111z 666z 99s"></span></td></tr>
+  <tr><td><span class="yname">소삼원<span class="ysub">小三元 · Shousangen</span></span></td><td class="num">2</td><td><span class="ko">삼원패 커쯔 2개 + 삼원패 작두(역패 2판이 따라와 실질 4판).</span><span class="ja">三元牌の刻子2+雀頭(実質4翻)。</span><span class="en">Two dragon triplets + dragon pair (effectively 4 han with the yakuhai).</span><br><span class="hand sm" data-t="555z 666z 77z 123m 456s"></span></td></tr>
+
+  <tr class="sec"><td colspan="3"><span class="ko">3판</span><span class="ja">3翻</span><span class="en">3 han</span></td></tr>
+  <tr><td><span class="yname">량페코<span class="ysub">二盃口 · Ryanpeikou</span></span></td><td class="num">3<br><span class="note">멘젠</span></td><td><span class="ko">같은 슌쯔 2개 × 2쌍.</span><span class="ja">一盃口2組。</span><span class="en">Two pairs of identical runs.</span><br><span class="hand sm" data-t="223344m 556677s 11p"></span></td></tr>
+  <tr><td><span class="yname">준찬타<span class="ysub">純全帯幺九 · Junchan</span></span></td><td class="num">3/2</td><td><span class="ko">모든 멘쯔·작두에 1·9 포함(자패 없음).</span><span class="ja">全組に1・9(字牌なし)。</span><span class="en">Every group contains a 1 or 9; no honors.</span><br><span class="hand sm" data-t="123m 789m 123p 789s 99s"></span></td></tr>
+  <tr><td><span class="yname">혼일색<span class="ysub">混一色 · Honitsu</span></span></td><td class="num">3/2</td><td><span class="ko">한 가지 수패 + 자패만.</span><span class="ja">一色+字牌。</span><span class="en">One suit plus honors.</span><br><span class="hand sm" data-t="123m 456m 789m 111z 22z"></span></td></tr>
+
+  <tr class="sec"><td colspan="3"><span class="ko">6판</span><span class="ja">6翻</span><span class="en">6 han</span></td></tr>
+  <tr><td><span class="yname">청일색<span class="ysub">清一色 · Chinitsu</span></span></td><td class="num">6/5</td><td><span class="ko">한 가지 수패만으로 구성.</span><span class="ja">一色のみ。</span><span class="en">One suit only.</span><br><span class="hand sm" data-t="123m 234m 567m 789m 99m"></span></td></tr>
+
+  <tr class="sec"><td colspan="3"><span class="ko">특수</span><span class="ja">特殊</span><span class="en">Special</span></td></tr>
+  <tr><td><span class="yname">나가시만관<span class="ysub">流し満貫 · Nagashi Mangan</span></span></td><td class="num"><span class="ko">만관</span><span class="ja">満貫</span><span class="en">Mangan</span></td><td><span class="ko">유국 시 자기 버림패가 전부 1·9·자패이고 한 번도 불리지 않았으며 본인도 울지 않았으면 만관으로 화료 취급. 복수 성립 시 전원 지급.</span><span class="ja">流局時、捨て牌が全て幺九牌で鳴かれておらず自分も鳴いていない。複数成立は全員払い。</span><span class="en">At a draw: all your discards are terminals/honors, none were called, and you made no calls. Treated as a mangan win (paid to every qualifier).</span><br><span class="hand sm" data-t="1m 9m 1p 9p 1s 1z 2z 4z 7z"></span></td></tr>
+
+  <tr class="sec"><td colspan="3"><span class="ko">역만</span><span class="ja">役満</span><span class="en">Yakuman</span></td></tr>
+  <tr><td><span class="yname">천화 / 지화<span class="ysub">天和 / 地和 · Tenhou / Chiihou</span></span></td><td class="num"><span class="ko">역만</span><span class="ja">役満</span><span class="en">Yakuman</span></td><td><span class="ko">친이 배패 14장으로 즉시 화료(천화) / 자가 첫 쯔모로 화료(지화, 그 전에 콜 없음).</span><span class="ja">親の配牌和了/子の第一ツモ和了。</span><span class="en">Dealer wins with the starting hand / non-dealer wins on the first draw.</span></td></tr>
+  <tr><td><span class="yname">국사무쌍<span class="ysub">国士無双 · Kokushi</span></span></td><td class="num"><span class="ko">역만<br><span class="note">13면=더블</span></span><span class="ja">役満<br><span class="note">十三面=W</span></span><span class="en">Yakuman<br><span class="note">13-wait = ×2</span></span></td><td><span class="ko">1·9·자패 13종 + 1종 중복. 13면 대기는 더블 역만.</span><span class="ja">幺九牌13種+1枚。十三面待ちはダブル。</span><span class="en">All 13 terminals/honors plus one duplicate; the 13-way wait is a double yakuman.</span><br><span class="hand sm" data-t="119m 19p 19s 1234567z"></span></td></tr>
+  <tr><td><span class="yname">사암각<span class="ysub">四暗刻 · Suuankou</span></span></td><td class="num"><span class="ko">역만<br><span class="note">단기=더블</span></span><span class="ja">役満<br><span class="note">単騎=W</span></span><span class="en">Yakuman<br><span class="note">tanki = ×2</span></span></td><td><span class="ko">울지 않은 커쯔 4개. 단기 대기면 더블 역만.</span><span class="ja">暗刻4組。単騎待ちはダブル。</span><span class="en">Four concealed triplets; pair-wait version is double.</span><br><span class="hand sm" data-t="222m 555p 888s 111z 99m"></span></td></tr>
+  <tr><td><span class="yname">대삼원<span class="ysub">大三元 · Daisangen</span></span></td><td class="num"><span class="ko">역만</span><span class="ja">役満</span><span class="en">Yakuman</span></td><td><span class="ko">백·발·중 커쯔 3개(확정 울기를 받아준 사람은 파오).</span><span class="ja">三元牌の刻子3組(包あり)。</span><span class="en">Triplets of all three dragons (pao applies).</span><br><span class="hand sm" data-t="555z 666z 777z 123m 88s"></span></td></tr>
+  <tr><td><span class="yname">소사희 / 대사희<span class="ysub">小四喜 / 大四喜 · Shousuushi / Daisuushi</span></span></td><td class="num"><span class="ko">역만<br><span class="note">대사희=더블</span></span><span class="ja">役満<br><span class="note">大四喜=W</span></span><span class="en">Yakuman<br><span class="note">dai = ×2</span></span></td><td><span class="ko">바람 커쯔 3 + 바람 작두(소) / 바람 커쯔 4(대, 더블·파오).</span><span class="ja">風刻3+風雀頭/風刻4(W・包)。</span><span class="en">Three wind triplets + wind pair (shou) / all four wind triplets (dai, double, pao).</span><br><span class="hand sm" data-t="111z 222z 333z 444z 55m"></span></td></tr>
+  <tr><td><span class="yname">자일색<span class="ysub">字一色 · Tsuuiisou</span></span></td><td class="num"><span class="ko">역만</span><span class="ja">役満</span><span class="en">Yakuman</span></td><td><span class="ko">자패만으로 구성.</span><span class="ja">字牌のみ。</span><span class="en">Honors only.</span><br><span class="hand sm" data-t="111z 222z 555z 666z 77z"></span></td></tr>
+  <tr><td><span class="yname">청노두<span class="ysub">清老頭 · Chinroutou</span></span></td><td class="num"><span class="ko">역만</span><span class="ja">役満</span><span class="en">Yakuman</span></td><td><span class="ko">1·9패만으로 구성.</span><span class="ja">1・9牌のみ。</span><span class="en">Terminals only.</span><br><span class="hand sm" data-t="111m 999m 111p 999p 11s"></span></td></tr>
+  <tr><td><span class="yname">녹일색<span class="ysub">緑一色 · Ryuuiisou</span></span></td><td class="num"><span class="ko">역만</span><span class="ja">役満</span><span class="en">Yakuman</span></td><td><span class="ko">초록 패(2·3·4·6·8삭, 발)만으로 구성.</span><span class="ja">緑の牌のみ。</span><span class="en">Only green tiles (2,3,4,6,8 sou and green dragon).</span><br><span class="hand sm" data-t="234s 234s 888s 666z 66s"></span></td></tr>
+  <tr><td><span class="yname">구련보등<span class="ysub">九蓮宝燈 · Chuuren</span></span></td><td class="num"><span class="ko">역만<br><span class="note">순정=더블</span></span><span class="ja">役満<br><span class="note">純正=W</span></span><span class="en">Yakuman<br><span class="note">pure = ×2</span></span></td><td><span class="ko">한 수패로 1112345678999 + 1장. 9면 대기(순정)는 더블 역만.</span><span class="ja">1112345678999+1枚。純正はダブル。</span><span class="en">1112345678999 of one suit + any tile of it; the 9-way wait is double.</span><br><span class="hand sm" data-t="1112345678999m 5m"></span></td></tr>
+  <tr><td><span class="yname">사깡자<span class="ysub">四槓子 · Suukantsu</span></span></td><td class="num"><span class="ko">역만</span><span class="ja">役満</span><span class="en">Yakuman</span></td><td><span class="ko">깡 4개.</span><span class="ja">槓子4組。</span><span class="en">Four kans.</span><br><span class="hand sm" data-t="1111m 3333p 5555s 7777z 99m"></span></td></tr>
+</table></div>
+
+<!-- ══════════════ 세부 룰 ══════════════ -->
+<h2 id="details"><span class="ko">적용 세부 룰 (작혼 표준)</span><span class="ja">採用細則(雀魂標準)</span><span class="en">Rule details (Mahjong Soul standard)</span></h2>
+<ul>
+  <li><span class="ko">쿠이탕(오픈 탕야오) 있음 · 아토즈케 허용 · 형식 텐파이 인정.</span><span class="ja">喰い断あり・後付けあり・形式テンパイあり。</span><span class="en">Open tanyao allowed; atozuke allowed; formal tenpai counts at draws.</span></li>
+  <li><span class="ko">절상만관 OFF (4판30부 = 7,700 / 3판60부 = 11,600).</span><span class="ja">切り上げ満貫なし(4翻30符=7,700/3翻60符=11,600)。</span><span class="en">No kiriage mangan (4 han 30 fu = 7,700; 3 han 60 fu = 11,600).</span></li>
+  <li><span class="ko">깡은 국당 4회 상한. <strong>사깡유국</strong>은 4번째 깡(2인 이상 합산) 직후가 아니라, 그 깡 이후의 버림패가 론 없이 통과한 시점에 성립(영상개화·창깡이 우선).</span><span class="ja">カンは1局4回まで。<strong>四槓散了</strong>は4回目のカン後の打牌通過時(嶺上・槍槓優先)。</span><span class="en">Four kans max per hand. The <strong>four-kan draw</strong> triggers only after the post-kan discard passes (rinshan/chankan take priority).</span></li>
+  <li><span class="ko">명깡·가깡의 새 깡도라는 깡 후 버림패가 론 없이 통과해야 공개 — 그 패로 론당하면 계산되지 않음.</span><span class="ja">明槓・加槓の新ドラは打牌通過後にめくる — その牌でロンされたら乗らない。</span><span class="en">New kan dora from open/added kans flip only after the discard passes — a ron on that tile doesn't count them.</span></li>
+  <li><span class="ko">국사무쌍은 안깡도 창깡으로 가로챌 수 있음(작혼 채용). 창깡 기회를 넘기면 동순 후리텐(리치자는 영구).</span><span class="ja">国士は暗槓も槍槓可能(雀魂採用)。見逃しはフリテン。</span><span class="en">Kokushi can rob even a closed kan (Mahjong Soul rule). Passing the chance causes furiten.</span></li>
+  <li><span class="ko">나가시만관은 유국이 아니라 화료로 취급하며, 복수 성립 시 전원에게 지급(본장·공탁은 친에 가까운 1명만).</span><span class="ja">流し満貫は和了扱い。複数成立は全員払い(供託・本場は上位1名)。</span><span class="en">Nagashi mangan counts as a win; multiple qualifiers are all paid (honba/deposits go to the one closest to the dealer).</span></li>
+  <li><span class="ko">동순 후리텐은 자기 쯔모뿐 아니라 자기 콜(펑/치/대명깡)로도 해제.</span><span class="ja">同巡フリテンは自分のツモ・鳴きで解消。</span><span class="en">Temporary furiten clears on your next draw or your own call.</span></li>
+</ul>
+
+<footer>
+  <span class="ko">一発(Ippatsu) — 브라우저에서 즐기는 싱글 리치 마작. <a href="/" style="color:var(--accent)">게임 시작하기</a></span>
+  <span class="ja">一発(Ippatsu) — ブラウザで遊べる一人用リーチ麻雀。<a href="/" style="color:var(--accent)">ゲームを始める</a></span>
+  <span class="en">Ippatsu (一発) — single-player riichi mahjong in your browser. <a href="/" style="color:var(--accent)">Play now</a></span>
+</footer>
+
+</div>
+<script>
+(function () {
+  "use strict";
+  // ── 패 그림 렌더: data-t="123m 0p 55z" → 게임과 동일한 Front+글리프 2겹 합성 ──
+  var HONORS = ["Ton", "Nan", "Shaa", "Pei", "Haku", "Hatsu", "Chun"];
+  function assetName(d, suit) {
+    if (suit === "z") return HONORS[d - 1] || "Front";
+    var s = suit === "m" ? "Man" : suit === "p" ? "Pin" : "Sou";
+    return d === 0 ? s + "5-Dora" : s + d;
+  }
+  function tileEl(d, suit) {
+    var t = document.createElement("span");
+    t.className = "tile";
+    var f = new Image(); f.src = "assets/tiles/Front.svg"; f.alt = ""; f.className = "tf";
+    var g = new Image(); g.src = "assets/tiles/" + assetName(d, suit) + ".svg"; g.className = "tg";
+    g.alt = (d === 0 ? "red 5" : d) + suit;
+    t.append(f, g);
+    return t;
+  }
+  document.querySelectorAll("[data-t]").forEach(function (el) {
+    el.classList.add("hand");
+    el.dataset.t.trim().split(/\s+/).forEach(function (groupText) {
+      var grp = document.createElement("span");
+      grp.className = "grp";
+      (groupText.match(/\d+[mpsz]/g) || []).forEach(function (run) {
+        var suit = run[run.length - 1];
+        run.slice(0, -1).split("").forEach(function (ch) { grp.append(tileEl(+ch, suit)); });
+      });
+      el.append(grp);
+    });
+  });
+  // ── 언어 전환: ?lang= > localStorage > 브라우저 언어 > ko ──
+  var LANGS = ["ko", "ja", "en"];
+  function setLang(l) {
+    document.documentElement.dataset.lang = l;
+    document.documentElement.lang = l;
+    try { localStorage.setItem("ippatsu-rules-lang", l); } catch (e) { /* private mode */ }
+    document.querySelectorAll(".langbtn").forEach(function (b) { b.classList.toggle("on", b.dataset.l === l); });
+  }
+  document.querySelectorAll(".langbtn").forEach(function (b) {
+    b.addEventListener("click", function () { setLang(b.dataset.l); });
+  });
+  var q = new URLSearchParams(location.search).get("lang");
+  var saved = null;
+  try { saved = localStorage.getItem("ippatsu-rules-lang"); } catch (e) { /* private mode */ }
+  var nav = (navigator.language || "").slice(0, 2);
+  var initial = LANGS.indexOf(q) >= 0 ? q : LANGS.indexOf(saved) >= 0 ? saved : LANGS.indexOf(nav) >= 0 ? nav : "ko";
+  setLang(initial);
+})();
+</script>
+</body>
+</html>
