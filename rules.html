@@ -94,6 +94,17 @@
   .calc-result .yline { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; border-bottom: 1px dashed rgb(238 241 244 / 10%); }
   .calc-result .ytotal { margin-top: 10px; color: var(--text-strong); font-weight: 700; font-size: 15px; }
   .calc-result .ypay { margin-top: 2px; color: var(--text-muted); font-size: 13px; }
+  /* 조립 중 분석(샨텐·대기패·역 힌트·울면 비교) */
+  .calc-result .chead { margin-top: 12px; font-weight: 700; color: var(--text-strong); font-size: 13px; }
+  .calc-result .crow { display: flex; align-items: center; gap: 8px; padding: 4px 0; flex-wrap: wrap; }
+  .calc-result .crow .tile { width: 26px; }
+  .calc-result .cands { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .calc-result .cand { border: 1px solid var(--border-strong); border-radius: 999px; padding: 3px 10px; font-size: 12px; }
+  .calc-result .cand b { color: var(--accent); font-weight: 700; }
+  .calc-result .cnote { color: var(--text-muted); font-size: 12px; }
+  .calc-result .cinfo { font-size: 13px; }
+  .calc-result .ynote { color: var(--text-muted); font-size: 11.5px; margin-left: 6px; }
+  .calc-result .copen { margin-top: 8px; color: var(--text-muted); font-size: 13px; border-top: 1px dashed rgb(238 241 244 / 10%); padding-top: 8px; }
   /* ── 언어 전환 ── */
   [data-lang="ko"] .ja, [data-lang="ko"] .en,
   [data-lang="ja"] .ko, [data-lang="ja"] .en,
@@ -111,8 +122,8 @@
     h2, h3 { scroll-margin-top: 64px; }
   }
 </style>
-  <script type="module" crossorigin src="/assets/rules-BdBjlsdH.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/en-vWYgGHEp.js">
+  <script type="module" crossorigin src="/assets/rules-BAXGPXP4.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/en-BCFsKCQk.js">
 </head>
 <body>
 <div class="readbar" id="readbar" aria-hidden="true"></div>
@@ -441,9 +452,9 @@
 <!-- ══════════════ 역 만들기(계산기) ══════════════ -->
 <h2 id="try"><span class="ko">역 만들기</span><span class="ja">役を作ってみる</span><span class="en">Hand builder</span></h2>
 <p>
-  <span class="ko">패를 눌러 손패 14장을 만들면, 성립하는 역과 점수를 <strong>게임과 같은 엔진</strong>으로 계산합니다. <strong>마지막에 넣은 패가 화료패</strong>(▲)입니다. 손패의 패를 누르면 뺄 수 있습니다.</span>
-  <span class="ja">牌をタップして14枚の手を作ると、成立する役と点数を<strong>ゲームと同じエンジン</strong>で計算します。<strong>最後に入れた牌が和了牌</strong>(▲)。手牌の牌をタップで外せます。</span>
-  <span class="en">Tap tiles to build a 14-tile hand — it is scored by <strong>the same engine as the game</strong>. <strong>The last tile you add is the winning tile</strong> (▲). Tap a hand tile to remove it.</span>
+  <span class="ko">패를 눌러 손패를 만들어 보세요 — <strong>게임과 같은 엔진</strong>이 단계마다 알려줍니다. 조립 중엔 <strong>노려볼 만한 역</strong>, 13장이면 <strong>샨텐 수</strong>와 텐파이 시 <strong>대기패·화료 시 점수</strong>, 14장이 완성되면 <strong>성립 역·점수</strong>와 역마다 <strong>울어도(치·펑) 성립하는지</strong>까지. <strong>마지막에 넣은 패가 화료패</strong>(▲)이고, 손패의 패를 누르면 뺄 수 있습니다.</span>
+  <span class="ja">牌をタップして手を作りましょう — <strong>ゲームと同じエンジン</strong>が段階ごとに教えてくれます。組み立て中は<strong>狙えそうな役</strong>、13枚なら<strong>向聴数</strong>とテンパイ時の<strong>待ち牌・和了時の点数</strong>、14枚が完成すれば<strong>成立役・点数</strong>と役ごとに<strong>鳴いても(チー・ポン)成立するか</strong>まで。<strong>最後に入れた牌が和了牌</strong>(▲)、手牌の牌をタップで外せます。</span>
+  <span class="en">Tap tiles to build a hand — <strong>the same engine as the game</strong> guides every stage: likely <strong>yaku to aim for</strong> while building, <strong>shanten count</strong> at 13 tiles plus <strong>waits and their winning scores</strong> at tenpai, and for a complete 14-tile hand the <strong>yaku, score, and whether each yaku survives open calls</strong> (chi/pon). <strong>The last tile you add is the winning tile</strong> (▲); tap a hand tile to remove it.</span>
 </p>
 <div class="card">
   <div class="calc-palette" id="calc-palette"></div>
@@ -462,9 +473,9 @@
   <div class="calc-hand-area"><span class="hand" id="calc-hand"></span></div>
   <div class="calc-result" id="calc-result"></div>
   <p class="note" style="margin:10px 0 0">
-    <span class="ko">장풍은 동 고정, 도라 표시패·본장·공탁 없음 기준. 적5는 도라 1로 계산됩니다. 후로(치·펑·깡)는 지원하지 않는 멘젠 전용 계산기입니다.</span>
-    <span class="ja">場風は東固定、ドラ表示牌・本場・供託なし。赤5はドラ1として計算。鳴き(チー・ポン・カン)非対応の門前専用です。</span>
-    <span class="en">East round, no dora indicators, honba, or deposits. Red fives count as 1 dora each. Concealed hands only — calls (chi/pon/kan) are not supported.</span>
+    <span class="ko">장풍은 동 고정, 도라 표시패·본장·공탁 없음 기준. 적5는 도라 1로 계산됩니다. 입력은 멘젠 전용(치·펑·깡 입력 불가)이지만, 완성 시 「울면서 만들었다면」 비교를 같은 엔진 재계산으로 보여줍니다. 「노려볼 만한 역」은 모양 기준 힌트로, 확정이 아닙니다.</span>
+    <span class="ja">場風は東固定、ドラ表示牌・本場・供託なし。赤5はドラ1として計算。入力は門前専用(チー・ポン・カン入力不可)ですが、完成時に「鳴いて作った場合」の比較を同じエンジンの再計算で表示します。「狙えそうな役」は形のヒントで、確定ではありません。</span>
+    <span class="en">East round, no dora indicators, honba, or deposits. Red fives count as 1 dora each. Input is concealed-only (no chi/pon/kan), but complete hands also show an engine-recomputed "if built open" comparison. "Yaku to aim for" are shape hints, not guarantees.</span>
   </p>
 </div>
 
