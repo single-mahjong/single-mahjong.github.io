@@ -29,7 +29,10 @@
   .back:hover { background: var(--accent-soft); }
   /* ── 상단 고정 색인 + 읽기 진행 바 ── */
   .readbar { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 50; }
-  nav.toc { position: sticky; top: 0; z-index: 40; display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 6px; padding: 12px 0 10px; background: var(--surface-app); }
+  /* sticky와 가로 스크롤(overflow)을 같은 요소에 두면 iOS Safari에서 sticky가 풀린다
+     — 바깥(nav)이 sticky, 안쪽(.toc-scroll)이 스크롤 컨테이너 */
+  nav.toc { position: -webkit-sticky; position: sticky; top: 0; z-index: 40; margin: 18px 0 6px; padding: 12px 0 10px; background: var(--surface-app); }
+  .toc-scroll { display: flex; flex-wrap: wrap; gap: 8px; }
   nav.toc a { font-size: 12.5px; color: var(--text-body); text-decoration: none; background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 999px; padding: 5px 12px; }
   nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
   h2 { color: var(--accent); font-size: 21px; margin: 44px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border-strong); scroll-margin-top: 96px; }
@@ -101,9 +104,9 @@
   .wcap { font-size: 11px; color: var(--text-muted); line-height: 1.2; }
   @media (max-width: 560px) {
     .hand { --tw: 26px; } .hand.big { --tw: 32px; } body { font-size: 14px; }
-    /* 모바일: 색인은 한 줄 가로 스크롤(스티키가 화면을 덜 차지하도록) */
-    nav.toc { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-    nav.toc::-webkit-scrollbar { display: none; }
+    /* 모바일: 색인은 한 줄 가로 스크롤(스티키가 화면을 덜 차지하도록) — overflow는 내부 래퍼에만 */
+    .toc-scroll { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+    .toc-scroll::-webkit-scrollbar { display: none; }
     nav.toc a { flex: none; }
     h2, h3 { scroll-margin-top: 64px; }
   }
@@ -126,6 +129,7 @@
 </header>
 
 <nav class="toc">
+<div class="toc-scroll">
   <a href="#tiles"><span class="ko">패의 종류</span><span class="ja">牌の種類</span><span class="en">Tiles</span></a>
   <a href="#goal"><span class="ko">승리 조건</span><span class="ja">和了の条件</span><span class="en">Winning</span></a>
   <a href="#flow"><span class="ko">진행</span><span class="ja">進行</span><span class="en">Game flow</span></a>
@@ -137,6 +141,7 @@
   <a href="#yaku"><span class="ko">역 일람</span><span class="ja">役一覧</span><span class="en">Yaku list</span></a>
   <a href="#try"><span class="ko">역 만들기</span><span class="ja">役を作る</span><span class="en">Hand builder</span></a>
   <a href="#details"><span class="ko">세부 룰</span><span class="ja">細則</span><span class="en">Rule details</span></a>
+</div>
 </nav>
 
 <p>
