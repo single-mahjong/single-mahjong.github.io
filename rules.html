@@ -58,6 +58,17 @@
   tr.sec td { background: var(--accent-soft); color: var(--accent); font-weight: 800; font-size: 14px; }
   td .hand { margin: 0; }
   .yname { color: var(--text-strong); font-weight: 700; white-space: nowrap; }
+  /* ── 판·부 조견표(rules-calc.ts가 core 엔진 값으로 생성) ── */
+  .fu-table { min-width: 660px; }
+  .fu-table th, .fu-table td { text-align: center; padding: 5px 8px; white-space: nowrap; }
+  .fu-table .fu-col { background: var(--accent-soft); color: var(--accent); font-weight: 800; }
+  .fu-table .fu-note { font-size: 10.5px; font-weight: 400; color: var(--text-muted); line-height: 1.3; }
+  .fu-table tr.fu-side th { font-size: 12.5px; }
+  .fu-table .ron { color: var(--text-strong); font-weight: 700; }
+  .fu-table .tsm { font-size: 12px; color: var(--text-muted); }
+  .fu-table td.man { color: var(--accent); font-weight: 700; }
+  .fu-parts th:first-child, .fu-parts td:first-child { text-align: left; }
+  .fu-parts td.num { font-weight: 700; }
   /* ── 역 만들기(계산기) ── */
   .calc-palette { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; max-width: 460px; }
   .pal { background: none; border: 1px solid transparent; border-radius: 6px; padding: 2px; cursor: pointer; }
@@ -85,8 +96,8 @@
   footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--border-strong); font-size: 12.5px; color: var(--text-muted); }
   @media (max-width: 560px) { .hand { --tw: 26px; } .hand.big { --tw: 32px; } body { font-size: 14px; } }
 </style>
-  <script type="module" crossorigin src="/assets/rules-DJNxCC2l.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/en-oNF97wY5.js">
+  <script type="module" crossorigin src="/assets/rules-DiQtQx73.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/en-vWYgGHEp.js">
 </head>
 <body>
 <div class="wrap">
@@ -241,6 +252,16 @@
   <span class="ja">点数は<strong>符×2<sup>翻+2</sup></strong>の基本点から。基本点2,000超で下記の満貫以上にキャップ。<strong>切り上げ満貫はOFF</strong> — 4翻30符=7,700点、3翻60符=11,600点。</span>
   <span class="en">Points start from <strong>fu × 2^(han+2)</strong> base points, capped at mangan and above. <strong>Kiriage mangan is OFF</strong> — 4 han 30 fu pays 7,700 and 3 han 60 fu pays 11,600.</span>
 </p>
+
+<h3 id="score-table"><span class="ko">판·부 점수 조견표</span><span class="ja">翻・符 早見表</span><span class="en">Han × fu score table</span></h3>
+<p class="note">
+  <span class="ko">각 칸은 <strong>위 = 론</strong>(방총자 지불), <strong>아래 = 쯔모</strong>. 자의 쯔모는 「자 지불 / 친 지불」, 친의 쯔모는 전원이 같은 액수. 「–」는 실전에서 나올 수 없는 조합, <strong>만관</strong>부터는 아래 한도표를 따릅니다. 값은 게임과 같은 엔진으로 계산됩니다.</span>
+  <span class="ja">各マスは<strong>上=ロン</strong>(放銃者払い)、<strong>下=ツモ</strong>。子のツモは「子払い/親払い」、親のツモは全員同額。「–」は実戦で出ない組み合わせ、<strong>満貫</strong>以上は下の区分表に従います。値はゲームと同じエンジンで計算。</span>
+  <span class="en">In each cell: <strong>top = ron</strong> (paid by the discarder), <strong>bottom = tsumo</strong>. Non-dealer tsumo reads "non-dealer pays / dealer pays"; on a dealer tsumo everyone pays the same. "–" marks impossible combinations; from <strong>mangan</strong> up, see the limit table below. Values are computed by the same engine as the game.</span>
+</p>
+<div class="tblwrap" id="fu-han-table"></div>
+
+<h3><span class="ko">만관 이상</span><span class="ja">満貫以上</span><span class="en">Mangan and above</span></h3>
 <div class="tblwrap"><table>
   <tr><th><span class="ko">한도</span><span class="ja">満貫区分</span><span class="en">Limit</span></th><th><span class="ko">판수</span><span class="ja">翻数</span><span class="en">Han</span></th><th><span class="ko">자(子) 화료</span><span class="ja">子の和了</span><span class="en">Non-dealer</span></th><th><span class="ko">친(親) 화료</span><span class="ja">親の和了</span><span class="en">Dealer</span></th></tr>
   <tr><td><span class="ko">만관</span><span class="ja">満貫</span><span class="en">Mangan</span></td><td class="num">5</td><td class="num">8,000</td><td class="num">12,000</td></tr>
@@ -249,6 +270,39 @@
   <tr><td><span class="ko">삼배만</span><span class="ja">三倍満</span><span class="en">Sanbaiman</span></td><td class="num">11–12</td><td class="num">24,000</td><td class="num">36,000</td></tr>
   <tr><td><span class="ko">역만 / 누적 역만</span><span class="ja">役満 / 数え役満</span><span class="en">Yakuman / counted</span></td><td class="num">13+</td><td class="num">32,000</td><td class="num">48,000</td></tr>
 </table></div>
+
+<h3 id="fu"><span class="ko">부수 계산</span><span class="ja">符の計算</span><span class="en">Counting fu</span></h3>
+<p>
+  <span class="ko"><strong>기본 20부</strong>에서 시작해 아래를 더하고, 마지막에 <strong>10 단위로 올림</strong>합니다(예: 32부 → 40부).</span>
+  <span class="ja"><strong>基本20符</strong>に以下を加算し、最後に<strong>10符単位で切り上げ</strong>(例: 32符→40符)。</span>
+  <span class="en">Start from a <strong>base of 20 fu</strong>, add the items below, then <strong>round up to the next 10</strong> (e.g. 32 → 40 fu).</span>
+</p>
+<div class="tblwrap"><table class="fu-parts">
+  <tr><th><span class="ko">항목</span><span class="ja">項目</span><span class="en">Item</span></th><th><span class="ko">부</span><span class="ja">符</span><span class="en">Fu</span></th></tr>
+  <tr><td><span class="ko">기본(부저)</span><span class="ja">副底</span><span class="en">Base</span></td><td class="num">20</td></tr>
+  <tr><td><span class="ko">멘젠 론</span><span class="ja">門前ロン</span><span class="en">Concealed ron</span></td><td class="num">+10</td></tr>
+  <tr><td><span class="ko">쯔모</span><span class="ja">ツモ</span><span class="en">Tsumo</span></td><td class="num">+2</td></tr>
+  <tr><td><span class="ko">대기 — 간짱·변짱·단기</span><span class="ja">待ち — 嵌張・辺張・単騎</span><span class="en">Wait — closed, edge, or pair wait</span></td><td class="num">+2</td></tr>
+  <tr><td><span class="ko">대기 — 양면·샤보</span><span class="ja">待ち — 両面・シャンポン</span><span class="en">Wait — open or dual-pair wait</span></td><td class="num">0</td></tr>
+  <tr><td><span class="ko">머리 — 역패(삼원패·장풍·자풍)</span><span class="ja">雀頭 — 役牌(三元牌・場風・自風)</span><span class="en">Pair — yakuhai (dragon, round or seat wind)</span></td><td class="num">+2<br><span class="note"><span class="ko">연풍(장풍=자풍)은 +4</span><span class="ja">連風牌は+4</span><span class="en">double wind +4</span></span></td></tr>
+  <tr><td><span class="ko">머리 — 그 외</span><span class="ja">雀頭 — その他</span><span class="en">Pair — anything else</span></td><td class="num">0</td></tr>
+  <tr><td><span class="ko">몸통 — 슌쯔</span><span class="ja">面子 — 順子</span><span class="en">Set — run</span></td><td class="num">0</td></tr>
+</table></div>
+<div class="tblwrap"><table class="fu-parts">
+  <tr><th><span class="ko">몸통 — 커쯔·깡쯔</span><span class="ja">面子 — 刻子・槓子</span><span class="en">Set — triplets &amp; kans</span></th><th><span class="ko">중장패(2~8)</span><span class="ja">中張牌(2〜8)</span><span class="en">Simples (2–8)</span></th><th><span class="ko">요구패(1·9·자)</span><span class="ja">幺九牌(1・9・字)</span><span class="en">Terminals &amp; honors</span></th></tr>
+  <tr><td><span class="ko">명커(울음·론 완성)</span><span class="ja">明刻(鳴き・ロン完成)</span><span class="en">Open triplet (incl. completed by ron)</span></td><td class="num">+2</td><td class="num">+4</td></tr>
+  <tr><td><span class="ko">안커</span><span class="ja">暗刻</span><span class="en">Concealed triplet</span></td><td class="num">+4</td><td class="num">+8</td></tr>
+  <tr><td><span class="ko">명깡·가깡</span><span class="ja">明槓・加槓</span><span class="en">Open / added kan</span></td><td class="num">+8</td><td class="num">+16</td></tr>
+  <tr><td><span class="ko">안깡</span><span class="ja">暗槓</span><span class="en">Closed kan</span></td><td class="num">+16</td><td class="num">+32</td></tr>
+</table></div>
+<ul>
+  <li><span class="ko"><strong>핑후</strong>는 부수를 세지 않습니다 — 쯔모 20부 · 론 30부 고정(<a href="#pinfu">핑후 자세히</a>).</span><span class="ja"><strong>平和</strong>は符を数えない — ツモ20符・ロン30符固定(<a href="#pinfu">平和の詳細</a>)。</span><span class="en"><strong>Pinfu</strong> skips fu counting — fixed at 20 fu (tsumo) / 30 fu (ron). <a href="#pinfu">Details below.</a></span></li>
+  <li><span class="ko"><strong>치또이쯔</strong>는 25부 고정(올림 없음).</span><span class="ja"><strong>七対子</strong>は25符固定。</span><span class="en"><strong>Chiitoitsu</strong> is a fixed 25 fu (no rounding).</span></li>
+  <li><span class="ko">울었는데 가산이 하나도 없으면(울은 핑후형) <strong>30부</strong>로 계산합니다.</span><span class="ja">副露して加符が無い形(食い平和形)は<strong>30符</strong>。</span><span class="en">An open hand with no fu additions (open "pinfu shape") counts as <strong>30 fu</strong>.</span></li>
+  <li><span class="ko">예: 멘젠 론 + 안커(중장패) 1개 + 양면 = 20+10+4 = 34 → <strong>40부</strong>.</span><span class="ja">例: 門前ロン+中張牌の暗刻1+両面 = 20+10+4 = 34 → <strong>40符</strong>。</span><span class="en">Example: concealed ron + one concealed simple triplet + open wait = 20+10+4 = 34 → <strong>40 fu</strong>.</span></li>
+</ul>
+
+<h3><span class="ko">지불 방식</span><span class="ja">支払い</span><span class="en">Payment</span></h3>
 <ul>
   <li><span class="ko">론은 방총자가 전액 지불, 쯔모는 셋이 나눠 지불(친은 2배 부담). 본장 1개당 +300점(쯔모는 각 +100).</span><span class="ja">ロンは放銃者払い、ツモは3人払い(親は2倍)。本場は+300(ツモは各+100)。</span><span class="en">Ron is paid by the discarder; tsumo is split (dealer pays double share). Each honba adds 300 (100 from each on tsumo).</span></li>
   <li><span class="ko">복합 역만은 <strong>상한 없이 합산</strong>(더블 역만: 사암각 단기·국사 13면·순정구련·대사희).</span><span class="ja">複合役満は<strong>無制限に加算</strong>(ダブル役満: 四暗刻単騎・国士十三面・純正九蓮・大四喜)。</span><span class="en">Multiple yakuman stack without limit (double yakuman: suuankou tanki, 13-wait kokushi, pure chuuren, daisuushi).</span></li>
@@ -270,7 +324,7 @@
   <tr><td><span class="yname"><span class="ko">리치</span><span class="ja">立直</span><span class="en">Riichi</span></span></td><td class="num">1<br><span class="note"><span class="ko">멘젠</span><span class="ja">門前</span><span class="en">Concealed</span></span></td><td><span class="ko">멘젠 텐파이에서 1,000점을 걸고 선언.</span><span class="ja">門前テンパイで1,000点供託して宣言。</span><span class="en">Declare from a concealed tenpai with a 1,000-point bet.</span></td></tr>
   <tr><td><span class="yname"><span class="ko">일발</span><span class="ja">一発</span><span class="en">Ippatsu</span></span></td><td class="num">1<br><span class="note"><span class="ko">멘젠</span><span class="ja">門前</span><span class="en">Concealed</span></span></td><td><span class="ko">리치 후 1순 안에(콜 없이) 화료.</span><span class="ja">立直後1巡以内(鳴きなし)の和了。</span><span class="en">Win within one uninterrupted turn of riichi.</span></td></tr>
   <tr><td><span class="yname"><span class="ko">멘젠쯔모</span><span class="ja">門前清自摸和</span><span class="en">Menzen Tsumo</span></span></td><td class="num">1<br><span class="note"><span class="ko">멘젠</span><span class="ja">門前</span><span class="en">Concealed</span></span></td><td><span class="ko">멘젠 상태로 쯔모 화료. 안깡이 있어도 멘젠입니다.</span><span class="ja">門前でのツモ和了。暗槓があっても門前。</span><span class="en">Tsumo with a concealed hand (closed kans still count as concealed).</span></td></tr>
-  <tr><td><span class="yname"><span class="ko">핑후</span><span class="ja">平和</span><span class="en">Pinfu</span></span></td><td class="num">1<br><span class="note"><span class="ko">멘젠</span><span class="ja">門前</span><span class="en">Concealed</span></span></td><td><span class="ko">슌쯔 4개 + 역패 아닌 머리 + 양면 대기.</span><span class="ja">順子4+役牌でない雀頭+両面待ち。</span><span class="en">All runs, a non-yakuhai pair, and an open wait.</span><br><span class="hand sm" data-t="234m 678m 345p 678s 99s"></span></td></tr>
+  <tr><td><span class="yname"><span class="ko">핑후</span><span class="ja">平和</span><span class="en">Pinfu</span></span></td><td class="num">1<br><span class="note"><span class="ko">멘젠</span><span class="ja">門前</span><span class="en">Concealed</span></span></td><td><span class="ko">슌쯔 4개 + 역패 아닌 머리 + 양면 대기. <a href="#pinfu">자세히 ↓</a></span><span class="ja">順子4+役牌でない雀頭+両面待ち。<a href="#pinfu">詳細 ↓</a></span><span class="en">All runs, a non-yakuhai pair, and an open wait. <a href="#pinfu">Details ↓</a></span><br><span class="hand sm" data-t="234m 678m 345p 678s 99s"></span></td></tr>
   <tr><td><span class="yname"><span class="ko">탕야오</span><span class="ja">断幺九</span><span class="en">Tanyao</span></span></td><td class="num">1</td><td><span class="ko">1·9·자패 없이 2~8만으로 구성(울어도 성립 — 쿠이탕 있음).</span><span class="ja">2〜8のみ(喰い断あり)。</span><span class="en">Only simples 2–8 (open tanyao allowed).</span><br><span class="hand sm" data-t="234m 567m 345p 678s 55s"></span></td></tr>
   <tr><td><span class="yname"><span class="ko">이페코</span><span class="ja">一盃口</span><span class="en">Iipeikou</span></span></td><td class="num">1<br><span class="note"><span class="ko">멘젠</span><span class="ja">門前</span><span class="en">Concealed</span></span></td><td><span class="ko">같은 슌쯔 2개.</span><span class="ja">同一順子2組。</span><span class="en">Two identical runs.</span><br><span class="hand sm" data-t="223344m 567p 789s 99p"></span></td></tr>
   <tr><td><span class="yname"><span class="ko">역패</span><span class="ja">役牌</span><span class="en">Yakuhai</span></span></td><td class="num">1</td><td><span class="ko">삼원패(백·발·중), 장풍, 자풍의 커쯔/깡쯔. 자풍=장풍이면 2판(더블동 등).</span><span class="ja">三元牌・場風・自風の刻子。連風牌は2翻。</span><span class="en">A triplet of dragons, the round wind, or your seat wind (both winds at once = 2 han).</span><br><span class="hand sm" data-t="234m 567p 678s 777z 88s"></span></td></tr>
@@ -315,6 +369,30 @@
   <tr><td><span class="yname"><span class="ko">구련보등</span><span class="ja">九蓮宝燈</span><span class="en">Chuuren</span></span></td><td class="num"><span class="ko">역만<br><span class="note">순정=더블</span></span><span class="ja">役満<br><span class="note">純正=W</span></span><span class="en">Yakuman<br><span class="note">pure = ×2</span></span></td><td><span class="ko">한 수패로 1112345678999 + 1장. 9면 대기(순정)는 더블 역만.</span><span class="ja">1112345678999+1枚。純正はダブル。</span><span class="en">1112345678999 of one suit + any tile of it; the 9-way wait is double.</span><br><span class="hand sm" data-t="1112345678999m 5m"></span></td></tr>
   <tr><td><span class="yname"><span class="ko">사깡자</span><span class="ja">四槓子</span><span class="en">Suukantsu</span></span></td><td class="num"><span class="ko">역만</span><span class="ja">役満</span><span class="en">Yakuman</span></td><td><span class="ko">깡 4개.</span><span class="ja">槓子4組。</span><span class="en">Four kans.</span><br><span class="hand sm" data-t="1111m 3333p 5555s 7777z 99m"></span></td></tr>
 </table></div>
+
+<h3 id="pinfu"><span class="ko">핑후 자세히 — 조건 4개를 전부 만족해야 합니다</span><span class="ja">平和の詳細 — 4条件すべてが必要</span><span class="en">Pinfu in detail — all four conditions must hold</span></h3>
+<p>
+  <span class="ko">핑후(平和)는 이름 그대로 <strong>"부수가 붙지 않는(平) 화료(和)"</strong>입니다 — 아래 부수 가산 항목이 하나도 없는 손이라는 뜻이라, 조건 4개가 전부 부수 계산에서 나옵니다.</span>
+  <span class="ja">平和は文字どおり<strong>「符の付かない和了」</strong> — 加符が一切ない手という意味で、4つの条件はすべて符計算に由来します。</span>
+  <span class="en">Pinfu (平和) literally means a <strong>"flat win" with no extra fu</strong> — every one of its four conditions corresponds to a fu item that must be absent.</span>
+</p>
+<ol>
+  <li><span class="ko"><strong>멘젠</strong>일 것 — 치·펑을 하면 불성립. 깡은 안깡이라도 커쯔 부수가 붙으므로 불가.</span><span class="ja"><strong>門前</strong>であること — チー・ポンで不成立。カンは暗槓でも刻子符が付くため不可。</span><span class="en">The hand must be <strong>concealed</strong> — no chi or pon. Kans (even closed ones) add triplet fu, so they break it too.</span></li>
+  <li><span class="ko">몸통 4개가 <strong>전부 슌쯔</strong>일 것 — 커쯔가 하나라도 있으면 불성립.</span><span class="ja">4面子が<strong>すべて順子</strong> — 刻子が1つでもあれば不成立。</span><span class="en">All <strong>four sets are runs</strong> — a single triplet disqualifies the hand.</span></li>
+  <li><span class="ko">머리가 <strong>부수 없는 패</strong>일 것 — 삼원패(백·발·중)와 장풍·자풍은 +2부라 불가. 수패와 <strong>객풍</strong>(점수 안 붙는 바람)은 OK.</span><span class="ja">雀頭が<strong>符の付かない牌</strong> — 三元牌・場風・自風は+2符なので不可。数牌と<strong>客風</strong>はOK。</span><span class="en">The pair carries <strong>no fu</strong> — dragons and your round/seat wind (+2 fu) are out; number tiles and <strong>guest winds</strong> are fine.</span></li>
+  <li><span class="ko"><strong>양면 대기</strong>로 화료할 것 — 간짱·변짱·단기(+2부)와 샤보(커쯔가 됨)는 불가.</span><span class="ja"><strong>両面待ち</strong>での和了 — 嵌張・辺張・単騎(+2符)とシャンポン(刻子になる)は不可。</span><span class="en">Win on an <strong>open (two-sided) wait</strong> — closed/edge/pair waits (+2 fu) and dual-pair waits (which form a triplet) don't count.</span></li>
+</ol>
+<div class="card">
+  <div class="tilerow"><span class="lbl"><span class="ko">성립 ○</span><span class="ja">成立 ○</span><span class="en">OK ○</span></span><span class="hand sm" data-t="234m 678m 345p 67s 99p"></span><span class="arrow">→</span><span class="hand sm" data-t="5s 8s"></span><span class="note"><span class="ko">전부 슌쯔 · 수패 머리 · 양면 대기</span><span class="ja">すべて順子・数牌の雀頭・両面待ち</span><span class="en">All runs, number pair, two-sided wait</span></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">불성립 ✕</span><span class="ja">不成立 ✕</span><span class="en">No ✕</span></span><span class="hand sm" data-t="234m 678m 35p 678s 99p"></span><span class="arrow">→</span><span class="hand sm" data-t="4p"></span><span class="note"><span class="ko">간짱 대기(+2부)</span><span class="ja">嵌張待ち(+2符)</span><span class="en">Closed wait (+2 fu)</span></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">불성립 ✕</span><span class="ja">不成立 ✕</span><span class="en">No ✕</span></span><span class="hand sm" data-t="234m 678m 345p 67s 66z"></span><span class="arrow">→</span><span class="hand sm" data-t="5s 8s"></span><span class="note"><span class="ko">머리가 삼원패(발, +2부)</span><span class="ja">雀頭が三元牌(發)</span><span class="en">Dragon pair (+2 fu)</span></span></div>
+  <div class="tilerow"><span class="lbl"><span class="ko">불성립 ✕</span><span class="ja">不成立 ✕</span><span class="en">No ✕</span></span><span class="hand sm" data-t="222m 456m 345p 67s 99p"></span><span class="arrow">→</span><span class="hand sm" data-t="5s 8s"></span><span class="note"><span class="ko">커쯔 포함</span><span class="ja">刻子あり</span><span class="en">Contains a triplet</span></span></div>
+</div>
+<ul>
+  <li><span class="ko">머리 예(동장·남가 기준): 수패·서·북 = OK, 동(장풍)·남(자풍)·백·발·중 = 불가.</span><span class="ja">雀頭の例(東場・南家): 数牌・西・北=OK、東(場風)・南(自風)・三元牌=不可。</span><span class="en">Pair examples (East round, South seat): number tiles, West, North = OK; East (round), South (seat), dragons = no.</span></li>
+  <li><span class="ko">점수: <strong>핑후+쯔모 = 20부</strong>(쯔모 2부도 안 붙는 유일한 경우), <strong>핑후+론 = 30부</strong>(멘젠론 10부만). 조견표의 20부 줄이 바로 핑후 쯔모입니다.</span><span class="ja">点数: <strong>平和+ツモ=20符</strong>(ツモ2符も付かない唯一の形)、<strong>平和+ロン=30符</strong>。早見表の20符行が平和ツモです。</span><span class="en">Scoring: <strong>pinfu + tsumo = 20 fu</strong> (the only case where even the 2 tsumo fu don't apply); <strong>pinfu + ron = 30 fu</strong>. The 20-fu row of the score table is exactly pinfu tsumo.</span></li>
+  <li><span class="ko">리치·쯔모·탕야오·이페코·삼색동순 등과 잘 겹치는 기본 역입니다 — 예: 리치+핑후+쯔모 = 3판 20부.</span><span class="ja">立直・ツモ・断幺九・一盃口・三色などとよく複合します — 例: 立直+平和+ツモ=3翻20符。</span><span class="en">It stacks well with riichi, tsumo, tanyao, iipeikou, sanshoku and more — e.g. riichi + pinfu + tsumo = 3 han 20 fu.</span></li>
+</ul>
 
 <!-- ══════════════ 역 만들기(계산기) ══════════════ -->
 <h2 id="try"><span class="ko">역 만들기</span><span class="ja">役を作ってみる</span><span class="en">Hand builder</span></h2>
