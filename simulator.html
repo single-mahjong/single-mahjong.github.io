@@ -100,6 +100,15 @@
   #tile-text-input { flex: 1; min-width: 0; background: var(--surface-deep); color: var(--text-strong); border: 1px solid var(--border-strong); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 13px; }
   .hand-controls { align-items: center; }
   #hand-help { margin: 0; flex: 1; min-width: 120px; }
+  .help-btn { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border-strong); background: var(--surface-deep); color: var(--text-body); font-weight: 800; font-size: 13px; line-height: 1; padding: 0; cursor: pointer; }
+  .help-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .help-dialog { max-width: min(440px, 92vw); border: 1px solid var(--accent-line); border-radius: 12px; background: var(--surface-raised); color: var(--text-body); padding: 16px; box-shadow: 0 20px 60px rgb(0 0 0 / 45%); }
+  .help-dialog::backdrop { background: rgb(0 0 0 / 55%); }
+  .help-dialog h3 { margin: 0 0 10px; color: var(--accent); font-size: 15px; }
+  .help-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 9px 0; font-size: 13px; }
+  .help-row .tile { width: 26px; }
+  .help-code { background: var(--surface-deep); border: 1px solid var(--border-strong); border-radius: 5px; padding: 1px 6px; color: var(--accent); font-family: ui-monospace, monospace; font-size: 12.5px; }
+  .help-actions { display: flex; justify-content: flex-end; margin-top: 12px; }
   .result { display: grid; gap: 10px; }
   .panel { border: 1px solid var(--border-strong); background: rgb(0 0 0 / 11%); border-radius: 10px; padding: 12px; }
   .panel h3 { color: var(--accent); font-size: 15px; margin: 0 0 8px; }
@@ -137,7 +146,7 @@
   .table-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
   .table-head h2 { margin: 0; }
   .turn-hint { color: var(--text-muted); font-size: 12.5px; }
-  .mahjong-table { position: relative; min-height: 350px; border: 1px solid rgb(238 241 244 / 12%); border-radius: 10px; background:
+  .mahjong-table { position: relative; min-height: 420px; border: 1px solid rgb(238 241 244 / 12%); border-radius: 10px; background:
       radial-gradient(circle at center, rgb(169 197 106 / 13%) 0 21%, transparent 22%),
       linear-gradient(145deg, #1f2b35, #2b3a47 58%, #202b35);
     overflow: hidden; }
@@ -224,12 +233,13 @@
     .seat .pond { --tw: 26px; }
     .handline.big { --tw: 34px; }
   }
-  /* 데스크탑: 강이 길어져도 절대배치 좌석이 중앙 콘솔 쪽으로 무한히 자라지 않도록 캡(≤800px 그리드는 무제한). */
-  @media (min-width: 801px) {
-    .mahjong-table .seat .pond { max-height: 132px; overflow-y: auto; }
-  }
+  /* 버림패가 많아도 좌석 카드가 중앙 콘솔·타 좌석과 겹치지 않도록 강을 ~2행으로 캡(초과분 자체 스크롤). */
+  .mahjong-table .seat .pond { max-height: 52px; overflow-y: auto; }
+  /* 작탁의 플레이어 후로 표시(손패 옆) — 등록된 후로가 있을 때만. */
+  .board-melds { margin-top: 8px; }
+  .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-BeDc_WBe.js"></script>
+  <script type="module" crossorigin src="/assets/simulator-JcR9ayhc.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BHz2gPSC.js">
 </head>
 <body>
@@ -329,6 +339,7 @@
     <div class="section">
       <div class="section-title">
         <strong><span class="ko">빠른 입력</span><span class="ja">クイック入力</span><span class="en">Quick input</span></strong>
+        <button type="button" class="help-btn" id="btn-notation-help" aria-label="패 표기법 도움말 / Tile notation help">?</button>
       </div>
       <div class="row tight">
         <select id="preset-select" aria-label="예시 불러오기 / Load example"></select>
@@ -412,6 +423,7 @@
         <span class="subtle" id="hand-count"></span>
       </div>
       <div class="surface" id="sim-hand-surface"><div class="handline big" id="sim-hand"></div></div>
+      <div class="meld-list board-melds empty" id="sim-board-melds" data-empty=""></div>
       <div class="row tight hand-controls">
         <button type="button" class="action" id="btn-win-designate"><span class="ko">화료패 지정</span><span class="ja">和了牌指定</span><span class="en">Set winning tile</span></button>
         <p class="subtle" id="hand-help"></p>
@@ -428,6 +440,13 @@
   <span class="en">Scoring uses the game engine wherever possible. Sanma north dora and tsumo-loss display are handled by this simulator's sanma rules layer.</span>
 </footer>
 </div>
+
+<dialog id="notation-help" class="help-dialog">
+  <div id="notation-help-body"></div>
+  <div class="help-actions">
+    <button type="button" class="action primary" id="btn-notation-close"><span class="ko">닫기</span><span class="ja">閉じる</span><span class="en">Close</span></button>
+  </div>
+</dialog>
 
 <script data-goatcounter="https://carrier.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>
