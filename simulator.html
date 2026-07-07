@@ -32,7 +32,18 @@
   .seg-value { display: inline-grid; place-items: center; min-width: 30px; padding: 6px 10px; color: var(--text-strong); font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
   .back { color: var(--accent); text-decoration: none; border-color: var(--accent-line); }
   .back:hover, .action:hover, .seg button:hover, .langbtn:hover { border-color: var(--accent); }
-  .grid { display: grid; grid-template-columns: minmax(280px, 340px) minmax(0, 1fr); gap: 16px; margin-top: 18px; align-items: start; }
+  /* 데스크탑: 설정 | 보드 | 입력(팔레트·후로·빠른입력·액션) 3컬럼 — 팔레트를 위로 올려 상하 스크롤 최소화. */
+  .grid { display: grid; grid-template-columns: minmax(230px, 290px) minmax(0, 1fr) minmax(264px, 330px); grid-template-areas: "settings board input"; gap: 16px; margin-top: 18px; align-items: start; }
+  #panel-settings { grid-area: settings; }
+  .table-shell { grid-area: board; }
+  #panel-input { grid-area: input; }
+  /* 좌우 패널은 뷰포트에 스티키 — 보드/결과를 스크롤해도 설정·팔레트가 고정(내부만 스크롤). */
+  @media (min-width: 1080px) {
+    #panel-settings, #panel-input { position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow-y: auto; }
+  }
+  @media (max-width: 1079px) {
+    .grid { grid-template-columns: 1fr; grid-template-areas: "settings" "input" "board"; }
+  }
   .card { background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 10px; padding: 14px; }
   .card h2, .card h3 { margin: 0 0 10px; color: var(--text-strong); font-size: 16px; }
   .subtle { color: var(--text-muted); font-size: 12.5px; }
@@ -222,7 +233,7 @@
 </p>
 
 <div class="grid">
-  <aside class="card">
+  <aside class="card" id="panel-settings">
     <h2><span class="ko">설정</span><span class="ja">設定</span><span class="en">Settings</span></h2>
     <div class="row">
       <label><span class="ko">룰</span><span class="ja">ルール</span><span class="en">Rules</span></label>
@@ -266,12 +277,23 @@
       <div class="score-controls" id="score-controls"></div>
     </div>
 
+  </aside>
+
+  <aside class="card" id="panel-input">
+    <h2><span class="ko">입력</span><span class="ja">入力</span><span class="en">Input</span></h2>
     <div class="section">
       <div class="section-title">
         <strong><span class="ko">입력 대상</span><span class="ja">入力先</span><span class="en">Input target</span></strong>
       </div>
       <div class="seg compact" id="target-controls"></div>
       <p class="subtle" id="target-help"></p>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        <strong><span class="ko">패 팔레트</span><span class="ja">牌パレット</span><span class="en">Tile palette</span></strong>
+      </div>
+      <div class="palette" id="sim-palette"></div>
     </div>
 
     <div class="section meld-tools">
@@ -308,13 +330,6 @@
         <input type="text" id="tile-text-input" placeholder="123m456p77z" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="패 표기 입력 / Tile notation">
         <button type="button" class="action" id="btn-tile-text"><span class="ko">추가</span><span class="ja">追加</span><span class="en">Add</span></button>
       </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">
-        <strong><span class="ko">패 팔레트</span><span class="ja">牌パレット</span><span class="en">Tile palette</span></strong>
-      </div>
-      <div class="palette" id="sim-palette"></div>
     </div>
 
     <div class="section">
