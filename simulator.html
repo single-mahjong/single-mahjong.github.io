@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一発 Ippatsu — 턴 시뮬레이터 · シミュレーター · Simulator</title>
+<meta name="description" content="리치 마작 4인/3인 손패 턴 시뮬레이터. 버림패, 도라표시패, 북도라, 유효패와 남은 패산을 확인한다.">
+<link rel="canonical" href="https://single-mahjong.github.io/simulator.html">
+<link rel="icon" href="/icon.svg">
+<style>
+  :root {
+    --surface-app: #2a3744; --surface-raised: #3f4e5d; --surface-deep: #222d38;
+    --accent: #A9C56A; --accent-soft: rgb(169 197 106 / 14%); --accent-line: rgb(169 197 106 / 36%);
+    --text-strong: #D9DDE3; --text-body: #aeb6c0; --text-muted: #6b7682;
+    --warn: #f0b35a; --danger: #f07b7b;
+    --border-strong: rgb(238 241 244 / 16%);
+    --font-sans: "Pretendard", system-ui, -apple-system, "Hiragino Sans", "Noto Sans KR", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { margin: 0; background: var(--surface-app); color: var(--text-body); font-family: var(--font-sans); line-height: 1.55; font-size: 15px; word-break: keep-all; overflow-wrap: break-word; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 24px 16px 80px; }
+  header.top { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 6px 0 18px; border-bottom: 1px solid var(--border-strong); }
+  .logo { font-size: 26px; font-weight: 800; color: var(--text-strong); letter-spacing: .02em; }
+  .logo em { color: var(--accent); font-style: normal; }
+  .langs { margin-left: auto; display: flex; gap: 6px; }
+  .langbtn, .back, button, select { font: inherit; }
+  .langbtn, .back, .seg button, .action, select { background: var(--surface-raised); color: var(--text-body); border: 1px solid var(--border-strong); border-radius: 999px; padding: 6px 13px; font-size: 13px; }
+  .langbtn, .seg button, .action { cursor: pointer; }
+  .langbtn.on, .seg button.on, .action.primary { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .seg button:disabled, .action:disabled { opacity: .42; cursor: default; }
+  .back { color: var(--accent); text-decoration: none; border-color: var(--accent-line); }
+  .back:hover, .action:hover, .seg button:hover, .langbtn:hover { border-color: var(--accent); }
+  .grid { display: grid; grid-template-columns: minmax(280px, 340px) minmax(0, 1fr); gap: 16px; margin-top: 18px; align-items: start; }
+  .card { background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 10px; padding: 14px; }
+  .card h2, .card h3 { margin: 0 0 10px; color: var(--text-strong); font-size: 16px; }
+  .subtle { color: var(--text-muted); font-size: 12.5px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+  .row.tight { gap: 5px; }
+  .row label { min-width: 72px; color: var(--text-strong); font-size: 13px; font-weight: 700; }
+  .seg { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+  .seg.compact button { padding: 4px 10px; }
+  select { border-radius: 8px; padding: 5px 10px; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 12px 0; }
+  .stat { background: var(--surface-deep); border: 1px solid var(--border-strong); border-radius: 8px; padding: 9px 10px; min-width: 0; }
+  .stat b { display: block; color: var(--accent); font-size: 20px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+  .stat span { color: var(--text-muted); font-size: 12px; }
+  .palette { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; margin-top: 10px; }
+  .pal { background: none; border: 1px solid transparent; border-radius: 6px; padding: 2px; min-width: 0; cursor: pointer; }
+  .pal .tile { width: 100%; display: block; }
+  .pal:hover { border-color: var(--accent-line); background: var(--accent-soft); }
+  .pal:disabled { opacity: .24; cursor: default; border-color: transparent; background: none; }
+  .surface { background: var(--surface-deep); border: 1px dashed var(--border-strong); border-radius: 10px; padding: 10px; min-height: 74px; }
+  .surface.empty::before { color: var(--text-muted); font-size: 13px; }
+  .handline { display: flex; flex-wrap: wrap; gap: 3px; align-items: flex-end; }
+  .handline.big { --tw: 38px; }
+  .handline.small { --tw: 29px; }
+  .pond { display: flex; flex-wrap: wrap; gap: 3px; min-height: 37px; }
+  .section { margin-top: 14px; }
+  .section-title { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+  .section-title strong { color: var(--text-strong); }
+  .tile { position: relative; display: inline-block; width: var(--tw, 32px); aspect-ratio: 3 / 4; filter: drop-shadow(0 2px 2px rgb(0 0 0 / 35%)); flex: none; }
+  button.tile { background: none; border: none; padding: 0; cursor: pointer; }
+  .tile .tf { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+  .tile .tg { position: absolute; left: 11%; top: 11%; width: 78%; height: 78%; object-fit: contain; }
+  .tile.win::after { content: "▲"; position: absolute; left: 50%; transform: translateX(-50%); bottom: -15px; color: var(--accent); font-size: 11px; }
+  .tile.dead { opacity: .45; }
+  .result { display: grid; gap: 10px; }
+  .panel { border: 1px solid var(--border-strong); background: rgb(0 0 0 / 11%); border-radius: 10px; padding: 12px; }
+  .panel h3 { color: var(--accent); font-size: 15px; margin: 0 0 8px; }
+  .yline, .waitrow, .recrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 4px 0; border-bottom: 1px dashed rgb(238 241 244 / 10%); }
+  .yline:last-child, .waitrow:last-child, .recrow:last-child { border-bottom: none; }
+  .yline span:last-child { margin-left: auto; color: var(--text-strong); font-weight: 700; }
+  .chip { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--border-strong); border-radius: 999px; padding: 4px 9px; font-size: 12px; color: var(--text-body); }
+  .chip.good { border-color: var(--accent-line); color: var(--accent); background: var(--accent-soft); }
+  .chip.warn { border-color: rgb(240 179 90 / 42%); color: var(--warn); }
+  .chip.danger { border-color: rgb(240 123 123 / 42%); color: var(--danger); }
+  .muted { color: var(--text-muted); }
+  .total { color: var(--text-strong); font-weight: 800; font-size: 17px; }
+  .payment { color: var(--text-muted); font-size: 13px; }
+  .rules-note { border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 10px 10px 0; padding: 10px 12px; margin-top: 12px; }
+  .score-controls { display: grid; gap: 6px; margin-top: 8px; }
+  .score-row { display: grid; grid-template-columns: minmax(54px, 72px) minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+  .score-row span { color: var(--text-strong); font-size: 12.5px; font-weight: 700; }
+  .score-row input { width: 100%; min-width: 0; background: var(--surface-deep); color: var(--text-strong); border: 1px solid var(--border-strong); border-radius: 8px; padding: 6px 8px; font: inherit; font-size: 13px; font-variant-numeric: tabular-nums; }
+  .mini-toggle { background: var(--surface-deep); color: var(--text-muted); border: 1px solid var(--border-strong); border-radius: 999px; padding: 4px 8px; font-size: 11.5px; cursor: pointer; white-space: nowrap; }
+  .mini-toggle.on { color: var(--accent); border-color: var(--accent-line); background: var(--accent-soft); }
+  .score-spacer { min-width: 44px; }
+  .focus-target { cursor: pointer; outline: 1px solid transparent; outline-offset: 2px; transition: outline-color .12s ease, border-color .12s ease, background-color .12s ease; }
+  .focus-target:hover { outline-color: var(--accent-line); }
+  .focus-target.active { outline-color: var(--accent); border-color: var(--accent-line); background-color: rgb(169 197 106 / 9%); }
+  .meld-tools { display: grid; gap: 8px; }
+  .meld-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+  .meld-chip { display: inline-flex; align-items: center; gap: 6px; background: rgb(0 0 0 / 13%); border: 1px solid var(--border-strong); border-radius: 8px; padding: 5px 7px; color: var(--text-body); cursor: pointer; }
+  .meld-chip:hover { border-color: var(--danger); }
+  .meld-label { color: var(--accent); font-weight: 800; font-size: 12px; }
+  .meld-tiles { display: inline-flex; gap: 2px; --tw: 25px; }
+  .meld-empty { color: var(--text-muted); font-size: 12.5px; }
+  .surface.empty::before, .meld-list.empty::before { content: attr(data-empty); color: var(--text-muted); font-size: 12.5px; }
+  .meld-list { display: flex; flex-wrap: wrap; gap: 6px; min-height: 36px; }
+  .table-shell { background: linear-gradient(180deg, rgb(0 0 0 / 8%), rgb(0 0 0 / 0%)), var(--surface-raised); }
+  .table-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+  .table-head h2 { margin: 0; }
+  .turn-hint { color: var(--text-muted); font-size: 12.5px; }
+  .mahjong-table { position: relative; min-height: 620px; border: 1px solid rgb(238 241 244 / 12%); border-radius: 10px; background:
+      radial-gradient(circle at center, rgb(169 197 106 / 13%) 0 21%, transparent 22%),
+      linear-gradient(145deg, #1f2b35, #2b3a47 58%, #202b35);
+    overflow: hidden; }
+  .mahjong-table::before { content: ""; position: absolute; inset: 13%; border: 1px solid rgb(238 241 244 / 10%); border-radius: 8px; pointer-events: none; }
+  .seat { position: absolute; display: grid; gap: 6px; min-width: 180px; max-width: 340px; }
+  .seat-top { top: 18px; left: 50%; transform: translateX(-50%); width: min(340px, 42%); }
+  .seat-left { left: 16px; top: 50%; transform: translateY(-50%); width: min(250px, 28%); }
+  .seat-right { right: 16px; top: 50%; transform: translateY(-50%); width: min(250px, 28%); }
+  .seat-bottom { left: 50%; bottom: 18px; transform: translateX(-50%); width: min(520px, 68%); }
+  .seat.hidden { display: none; }
+  .seat-card { background: rgb(18 25 32 / 80%); border: 1px solid var(--border-strong); border-radius: 8px; padding: 8px 10px; backdrop-filter: blur(6px); }
+  .seat-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+  .seat-name { color: var(--text-strong); font-weight: 800; font-size: 13px; }
+  .seat-info { display: flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .seat-kita { min-height: 16px; color: var(--warn); font-size: 11.5px; }
+  .seat-kita.empty { display: none; }
+  .wind-badge { display: inline-grid; place-items: center; min-width: 23px; height: 23px; border-radius: 50%; color: var(--surface-deep); background: var(--accent); font-weight: 900; }
+  .center-console { position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%); width: min(280px, 36%); display: grid; gap: 8px; padding: 14px; border: 1px solid rgb(238 241 244 / 18%); border-radius: 10px; background: rgb(13 18 24 / 82%); box-shadow: 0 18px 50px rgb(0 0 0 / 28%); }
+  .round-line { display: flex; justify-content: center; gap: 8px; color: var(--text-strong); font-weight: 900; font-size: 18px; }
+  .center-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .mini-stat { border: 1px solid var(--border-strong); border-radius: 8px; padding: 6px 4px; text-align: center; background: rgb(255 255 255 / 4%); }
+  .mini-stat b { display: block; color: var(--accent); font-size: 16px; font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .mini-stat span { display: block; color: var(--text-muted); font-size: 10.5px; }
+  .center-dora { display: grid; gap: 4px; }
+  .center-dora-label { color: var(--text-muted); font-size: 11.5px; }
+  .center-dora .pond { min-height: 34px; }
+  .board-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 12px 0; }
+  .hand-rack { margin-top: 12px; }
+  .hand-rack .surface { min-height: 82px; }
+  .tile.north-discard::after { content: "北"; position: absolute; right: -4px; bottom: -4px; display: grid; place-items: center; min-width: 15px; height: 15px; border-radius: 50%; background: var(--warn); color: var(--surface-deep); font-size: 9px; font-weight: 900; }
+  [data-lang="ko"] .ja, [data-lang="ko"] .en,
+  [data-lang="ja"] .ko, [data-lang="ja"] .en,
+  [data-lang="en"] .ko, [data-lang="en"] .ja { display: none; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border-strong); font-size: 12.5px; color: var(--text-muted); }
+  @media (max-width: 800px) {
+    body { font-size: 14px; }
+    .grid { grid-template-columns: 1fr; }
+    .stats, .board-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .palette { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+    .handline.big { --tw: 33px; }
+    .langs { margin-left: 0; }
+    .mahjong-table {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas:
+        "top top"
+        "left right"
+        "center center"
+        "bottom bottom";
+      gap: 8px;
+      padding: 10px;
+      overflow: visible;
+    }
+    .mahjong-table::before { display: none; }
+    .seat, .center-console {
+      position: static;
+      inset: auto;
+      transform: none;
+      width: auto;
+      max-width: none;
+      min-width: 0;
+    }
+    .seat-top { grid-area: top; }
+    .seat-left { grid-area: left; }
+    .seat-right { grid-area: right; }
+    .seat-bottom { grid-area: bottom; }
+    .center-console { grid-area: center; padding: 10px; }
+    .seat-card { min-width: 0; padding: 7px 8px; }
+    .seat-left .seat-meta, .seat-right .seat-meta { align-items: flex-start; flex-direction: column; }
+    .seat-info { flex-wrap: wrap; }
+    .seat .pond { --tw: 25px; min-height: 32px; }
+    .center-dora .pond { --tw: 27px; }
+    .center-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 380px) {
+    .wrap { padding-left: 10px; padding-right: 10px; }
+    .card { padding: 10px; }
+    .palette { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+    .board-stats { gap: 6px; }
+    .stat { padding: 7px 8px; }
+    .stat b { font-size: 18px; }
+    .mahjong-table { padding: 8px; gap: 6px; }
+    .seat .pond { --tw: 23px; }
+    .handline.big { --tw: 30px; }
+  }
+</style>
+  <script type="module" crossorigin src="/assets/simulator-BqYE3K8U.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BXSLYv00.js">
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="logo">一発 <em>Ippatsu</em> <span class="ko">시뮬레이터</span><span class="ja">シミュレーター</span><span class="en">Simulator</span></div>
+  <div class="langs">
+    <button class="langbtn" data-l="ko">한국어</button>
+    <button class="langbtn" data-l="ja">日本語</button>
+    <button class="langbtn" data-l="en">English</button>
+  </div>
+  <a class="back" href="/rules.html">← <span class="ko">룰북으로</span><span class="ja">ルールブックへ</span><span class="en">Back to rules</span></a>
+</header>
+
+<p>
+  <span class="ko">실전처럼 손패, 도라표시패, 플레이어 버림패와 타가 버림패를 한 턴씩 넣어가며 유효패와 남은 패산을 확인합니다. 3인 모드는 2~8만 제외, 치 없음, 북抜き/북도라를 별도 처리합니다.</span>
+  <span class="ja">実戦のように手牌、ドラ表示牌、自分の河、他家の河を1手ずつ入力し、有効牌と残り山を確認します。三麻は2〜8萬なし、チーなし、北抜き/北ドラを別処理します。</span>
+  <span class="en">Enter the hand, dora indicators, your discards, and opponents' discards one turn at a time to inspect live outs and wall count. Sanma mode removes 2-8 man, has no chi, and tracks kita/north dora separately.</span>
+</p>
+
+<div class="grid">
+  <aside class="card">
+    <h2><span class="ko">설정</span><span class="ja">設定</span><span class="en">Settings</span></h2>
+    <div class="row">
+      <label><span class="ko">룰</span><span class="ja">ルール</span><span class="en">Rules</span></label>
+      <span class="seg compact" id="ruleset-controls"></span>
+    </div>
+    <div class="row">
+      <label><span class="ko">친/자</span><span class="ja">親/子</span><span class="en">Dealer</span></label>
+      <span class="seg compact" id="dealer-controls"></span>
+    </div>
+    <div class="row">
+      <label><span class="ko">자풍</span><span class="ja">自風</span><span class="en">Seat wind</span></label>
+      <span class="seg compact" id="seat-wind-controls"></span>
+    </div>
+    <div class="row">
+      <label><span class="ko">장풍</span><span class="ja">場風</span><span class="en">Round wind</span></label>
+      <span class="seg compact" id="round-wind-controls"></span>
+    </div>
+    <div class="row">
+      <label><span class="ko">화료</span><span class="ja">和了</span><span class="en">Win</span></label>
+      <span class="seg compact" id="win-controls"></span>
+    </div>
+    <div class="row">
+      <label><span class="ko">옵션</span><span class="ja">オプション</span><span class="en">Options</span></label>
+      <span class="seg compact" id="option-controls"></span>
+    </div>
+    <div class="row">
+      <label><span class="ko">본장</span><span class="ja">本場</span><span class="en">Honba</span></label>
+      <span class="seg compact" id="honba-controls"></span>
+    </div>
+    <div class="row">
+      <label><span class="ko">리치봉</span><span class="ja">供託</span><span class="en">Sticks</span></label>
+      <span class="seg compact" id="riichi-stick-controls"></span>
+    </div>
+
+    <div class="rules-note" id="rules-note"></div>
+
+    <div class="section">
+      <div class="section-title">
+        <strong><span class="ko">점수</span><span class="ja">点数</span><span class="en">Scores</span></strong>
+      </div>
+      <div class="score-controls" id="score-controls"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        <strong><span class="ko">입력 대상</span><span class="ja">入力先</span><span class="en">Input target</span></strong>
+      </div>
+      <div class="seg compact" id="target-controls"></div>
+      <p class="subtle" id="target-help"></p>
+    </div>
+
+    <div class="section meld-tools">
+      <div class="section-title">
+        <strong><span class="ko">플레이어 후로패</span><span class="ja">自分の副露牌</span><span class="en">Player calls</span></strong>
+      </div>
+      <div class="row tight">
+        <label><span class="ko">종류</span><span class="ja">種類</span><span class="en">Type</span></label>
+        <span class="seg compact" id="meld-kind-controls"></span>
+      </div>
+      <div class="row tight">
+        <label><span class="ko">출처</span><span class="ja">出所</span><span class="en">From</span></label>
+        <span class="seg compact" id="meld-from-controls"></span>
+      </div>
+      <div class="surface focus-target empty" id="sim-meld-surface" data-empty="후로패 드래프트">
+        <div class="handline small" id="sim-meld-draft"></div>
+      </div>
+      <div class="meld-actions">
+        <button type="button" class="action primary" id="btn-register-meld"><span class="ko">후로 등록</span><span class="ja">副露登録</span><span class="en">Register call</span></button>
+        <button type="button" class="action" id="btn-clear-meld-draft"><span class="ko">드래프트 비우기</span><span class="ja">ドラフト消去</span><span class="en">Clear draft</span></button>
+        <button type="button" class="action" id="btn-clear-melds"><span class="ko">후로 전체 삭제</span><span class="ja">副露全削除</span><span class="en">Clear calls</span></button>
+      </div>
+      <div class="meld-list empty" id="sim-player-melds" data-empty="등록된 후로 없음"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        <strong><span class="ko">패 팔레트</span><span class="ja">牌パレット</span><span class="en">Tile palette</span></strong>
+      </div>
+      <div class="palette" id="sim-palette"></div>
+    </div>
+
+    <div class="section">
+      <div class="row tight">
+        <button type="button" class="action" id="btn-sort"><span class="ko">손패 정렬</span><span class="ja">手牌整列</span><span class="en">Sort hand</span></button>
+        <button type="button" class="action" id="btn-kita"><span class="ko">북抜き</span><span class="ja">北抜き</span><span class="en">Kita</span></button>
+        <button type="button" class="action" id="btn-undo"><span class="ko">되돌리기</span><span class="ja">戻す</span><span class="en">Undo</span></button>
+        <button type="button" class="action" id="btn-clear"><span class="ko">비우기</span><span class="ja">クリア</span><span class="en">Clear</span></button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="card table-shell">
+    <div class="table-head">
+      <h2><span class="ko">작탁</span><span class="ja">卓</span><span class="en">Table</span></h2>
+      <span class="turn-hint" id="turn-hint"></span>
+    </div>
+
+    <div class="board-stats">
+      <div class="stat"><b id="stat-effective">0</b><span id="stat-effective-label"></span></div>
+      <div class="stat"><b id="stat-wall">0</b><span id="stat-wall-label"></span></div>
+      <div class="stat"><b id="stat-unseen">0</b><span id="stat-unseen-label"></span></div>
+      <div class="stat"><b id="stat-kita">0</b><span id="stat-kita-label"></span></div>
+    </div>
+
+    <div class="mahjong-table" id="mahjong-table">
+      <section class="seat seat-top" id="seat-opp1">
+        <div class="seat-card">
+          <div class="seat-meta"><span class="seat-name" id="seat-opp1-label"></span><span class="seat-info"><i class="wind-badge" id="seat-opp1-wind"></i><span id="seat-opp1-score"></span></span></div>
+          <div class="seat-kita empty" id="seat-opp1-kita"></div>
+          <div class="pond" id="sim-opp1-discards"></div>
+        </div>
+      </section>
+      <section class="seat seat-right" id="seat-opp0">
+        <div class="seat-card">
+          <div class="seat-meta"><span class="seat-name" id="seat-opp0-label"></span><span class="seat-info"><i class="wind-badge" id="seat-opp0-wind"></i><span id="seat-opp0-score"></span></span></div>
+          <div class="seat-kita empty" id="seat-opp0-kita"></div>
+          <div class="pond" id="sim-opp0-discards"></div>
+        </div>
+      </section>
+      <section class="seat seat-left" id="seat-opp2">
+        <div class="seat-card">
+          <div class="seat-meta"><span class="seat-name" id="seat-opp2-label"></span><span class="seat-info"><i class="wind-badge" id="seat-opp2-wind"></i><span id="seat-opp2-score"></span></span></div>
+          <div class="seat-kita empty" id="seat-opp2-kita"></div>
+          <div class="pond" id="sim-opp2-discards"></div>
+        </div>
+      </section>
+      <section class="seat seat-bottom" id="seat-player">
+        <div class="seat-card">
+          <div class="seat-meta"><span class="seat-name" id="seat-player-label"></span><span class="seat-info"><i class="wind-badge" id="seat-player-wind"></i><span id="seat-player-score"></span></span></div>
+          <div class="seat-kita empty" id="seat-player-kita"></div>
+          <div class="pond" id="sim-own-discards"></div>
+        </div>
+      </section>
+      <div class="center-console">
+        <div class="round-line"><span id="board-round"></span><span id="board-honba"></span></div>
+        <div class="center-metrics">
+          <div class="mini-stat"><b id="board-wall">0</b><span id="board-wall-label"></span></div>
+          <div class="mini-stat"><b id="board-riichi">0</b><span id="board-riichi-label"></span></div>
+          <div class="mini-stat"><b id="board-kita">0</b><span id="board-kita-label"></span></div>
+        </div>
+        <div class="center-dora">
+          <span class="center-dora-label" id="dora-count"></span>
+          <div class="pond" id="sim-dora"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section hand-rack">
+      <div class="section-title">
+        <strong><span class="ko">플레이어 손패</span><span class="ja">自分の手牌</span><span class="en">Player hand</span></strong>
+        <span class="subtle" id="hand-count"></span>
+      </div>
+      <div class="surface" id="sim-hand-surface"><div class="handline big" id="sim-hand"></div></div>
+      <div class="section-title" style="margin-top:10px">
+        <strong><span class="ko">플레이어 후로</span><span class="ja">自分の副露</span><span class="en">Player calls</span></strong>
+      </div>
+      <div class="meld-list empty" id="sim-player-melds-board" data-empty="등록된 후로 없음"></div>
+    </div>
+
+    <div class="section result" id="sim-result"></div>
+  </main>
+</div>
+
+<footer>
+  <span class="ko">계산은 가능한 한 게임 엔진을 사용합니다. 3인 북도라와 쯔모손 표시는 시뮬레이터 전용 3인 룰 레이어입니다.</span>
+  <span class="ja">計算は可能な限りゲームエンジンを使用します。三麻の北ドラとツモ損表示はシミュレーター専用の三麻ルール層です。</span>
+  <span class="en">Scoring uses the game engine wherever possible. Sanma north dora and tsumo-loss display are handled by this simulator's sanma rules layer.</span>
+</footer>
+</div>
+
+<script data-goatcounter="https://carrier.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
