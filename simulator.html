@@ -51,6 +51,11 @@
   }
   @media (max-width: 1079px) {
     .grid { grid-template-columns: 1fr; grid-template-areas: "settings" "input" "board"; }
+    /* 단일 컬럼(모바일): 팔레트(입력 패널) 바로 다음에 손패+결과가 오도록 시각 작탁을 맨 아래로. */
+    .table-shell { display: flex; flex-direction: column; }
+    .table-shell > .hand-rack { order: 1; margin-top: 0; }
+    .table-shell > .result { order: 2; }
+    .table-shell > .mahjong-table { order: 3; margin-top: 12px; }
   }
   .card { background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 10px; padding: 14px; }
   .card h2, .card h3 { margin: 0 0 7px; color: var(--text-strong); font-size: 15px; }
