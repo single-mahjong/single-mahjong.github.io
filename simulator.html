@@ -25,14 +25,18 @@
   *::-webkit-scrollbar-thumb { background: rgb(169 197 106 / 40%); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
   *::-webkit-scrollbar-thumb:hover { background: rgb(169 197 106 / 68%); background-clip: padding-box; }
   body { margin: 0; background: var(--surface-app); color: var(--text-body); font-family: var(--font-sans); line-height: 1.55; font-size: 15px; word-break: keep-all; overflow-wrap: break-word; }
-  .wrap { max-width: 1680px; margin: 0 auto; padding: 14px 16px 40px; }
-  header.top { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 6px 0 18px; border-bottom: 1px solid var(--border-strong); }
-  .intro-note { margin: 8px 0 0; color: var(--text-muted); font-size: 13px; }
-  .logo { font-size: 26px; font-weight: 800; color: var(--text-strong); letter-spacing: .02em; }
+  .wrap { max-width: 1680px; margin: 0 auto; padding: 10px 16px 12px; }
+  header.top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 2px 0 8px; border-bottom: 1px solid var(--border-strong); }
+  /* 크롬 압축(#user 무스크롤): 소개문·그리드 마진·푸터 여백을 줄여 ~110px를 되찾는다. */
+  .intro-note { margin: 4px 0 0; color: var(--text-muted); font-size: 12px; }
+  .logo { font-size: 22px; font-weight: 800; color: var(--text-strong); letter-spacing: .02em; }
   .logo em { color: var(--accent); font-style: normal; }
   .langs { margin-left: auto; display: flex; gap: 6px; }
   .langbtn, .back, button, select { font: inherit; }
-  .langbtn, .back, .seg button, .action, select { background: var(--surface-raised); color: var(--text-body); border: 1px solid var(--border-strong); border-radius: 999px; padding: 6px 13px; font-size: 13px; }
+  .langbtn, .back { background: var(--surface-raised); color: var(--text-body); border: 1px solid var(--border-strong); border-radius: 999px; padding: 5px 12px; font-size: 12.5px; }
+  /* 설정/액션 컨트롤은 알약이 아니라 박스형 카드(#user) — 좌우 패널 모두 같은 형태를 쓴다. */
+  .seg button, .action, select { background: var(--surface-raised); color: var(--text-body); border: 1px solid var(--border-strong); border-radius: 8px; padding: 6px 12px; font-size: 12.5px; box-shadow: 0 1px 0 rgb(0 0 0 / 18%); }
+  .seg button:hover:not(:disabled), .action:hover:not(:disabled) { border-color: var(--accent); background: var(--surface-deep); }
   .langbtn, .seg button, .action { cursor: pointer; }
   .langbtn.on, .seg button.on, .action.primary { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
   .seg button:disabled, .action:disabled { opacity: .42; cursor: default; }
@@ -43,7 +47,7 @@
      중앙에서 스탯·결과를 걷어내 작탁을 세로로 키우고도 페이지 세로 스크롤이 늘지 않게 한다(#user). */
   /* 좌우 컬럼 최대폭을 vw에 연동 — 고정 max(290/420)면 1400px 부근에서 컬럼이 한꺼번에 넓어지며
      작탁이 752px→636px로 되레 줄어드는 역전이 생긴다. min()으로 묶어 폭에 대해 단조 증가시킨다. */
-  .grid { display: grid; grid-template-columns: minmax(190px, min(290px, 18vw)) minmax(0, 1fr) minmax(260px, min(420px, 25vw)); grid-template-areas: "settings board input"; gap: 16px; margin-top: 18px; align-items: start; }
+  .grid { display: grid; grid-template-columns: minmax(190px, min(290px, 18vw)) minmax(0, 1fr) minmax(260px, min(420px, 25vw)); grid-template-areas: "settings board input"; gap: 14px; margin-top: 10px; align-items: start; }
   #panel-settings { grid-area: settings; }
   .table-shell { grid-area: board; }
   #panel-input { grid-area: input; }
@@ -66,7 +70,7 @@
     .table-shell > .hand-rack { order: 1; margin-top: 0; }
     .table-shell > .mahjong-table { order: 2; margin-top: 12px; }
   }
-  .card { background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 10px; padding: 14px; }
+  .card { background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 10px; padding: 11px 12px; }
   .card h2, .card h3 { margin: 0 0 7px; color: var(--text-strong); font-size: 15px; }
   .subtle { color: var(--text-muted); font-size: 12.5px; }
   .palette-target { margin: 0 0 6px; font-size: 12.5px; color: var(--text-body); }
@@ -82,8 +86,8 @@
   .stat { background: var(--surface-deep); border: 1px solid var(--border-strong); border-radius: 8px; padding: 6px 9px; min-width: 0; }
   .stat b { display: block; color: var(--accent); font-size: 16px; line-height: 1.15; font-variant-numeric: tabular-nums; }
   .stat span { color: var(--text-muted); font-size: 11px; }
-  .palette { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; margin-top: 10px; }
-  .pal { background: none; border: 1px solid transparent; border-radius: 6px; padding: 2px; min-width: 0; cursor: pointer; }
+  .palette { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 3px; margin-top: 6px; }
+  .pal { background: none; border: 1px solid transparent; border-radius: 6px; padding: 1px; min-width: 0; cursor: pointer; }
   .pal .tile { width: 100%; display: block; }
   .pal:hover { border-color: var(--accent-line); background: var(--accent-soft); }
   .pal:disabled { opacity: .24; cursor: default; border-color: transparent; background: none; }
@@ -96,11 +100,8 @@
   /* 버림패(강)는 실제 작탁처럼 6열 고정 — flex-wrap은 컨테이너 폭에 따라 줄당 장수가 흔들린다(#user "1줄에 6개").
      트랙 max가 --tw라 좁은 측면 좌석에서는 타일이 줄어들 뿐, 줄당 6장은 항상 유지된다.
      도라 표시패(.center-dora .pond)는 최대 5장이라 대상에서 제외 — 위 flex 유지. */
-  .seat .pond, .popover-contents { display: grid; grid-template-columns: repeat(6, minmax(0, var(--tw, 32px))); justify-content: start; align-content: start; gap: 3px; }
-  /* 좌석 강 타일 26px — 4행(24장)이 콘솔과 겹치지 않는 최대치(아래 min-height 계산 참조). */
-  .seat .pond { --tw: 26px; }
-  .seat .pond .tile, .popover-contents .tile { width: 100%; }
-  .popover-contents.empty::before { grid-column: 1 / -1; }
+  .seat .pond { display: grid; grid-template-columns: repeat(6, minmax(0, var(--tw, 32px))); justify-content: start; align-content: start; gap: 3px; }
+  .seat .pond .tile { width: 100%; }
   .section { margin-top: 10px; }
   details.section > summary { cursor: pointer; list-style: none; color: var(--text-strong); font-weight: 700; font-size: 13px; padding: 3px 0; user-select: none; }
   details.section > summary::-webkit-details-marker { display: none; }
@@ -117,9 +118,15 @@
   .tile.dead { opacity: .45; }
   .handline .tile.win { margin-left: 13px; }
   .tile-text-row { flex-wrap: nowrap; }
+  /* 빠른 입력 한 줄 + 액션 2×2(+비우기) 그리드 — 종전엔 5개가 제멋대로 감겨 2~3줄을 먹었다(#user). */
+  .quick-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+  .action-bar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; margin-top: 6px; }
+  .action-bar .action { width: 100%; padding: 7px 8px; text-align: center; }
+  .action-bar .action.danger { grid-column: 1 / -1; border-color: rgb(240 123 123 / 42%); color: var(--danger); }
+  .action-bar .action.danger:hover:not(:disabled) { border-color: var(--danger); }
   #tile-text-input { flex: 1; min-width: 0; background: var(--surface-deep); color: var(--text-strong); border: 1px solid var(--border-strong); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 13px; }
   .hand-controls { align-items: center; }
-  #hand-help { margin: 0; flex: 1; min-width: 120px; }
+  #hand-help { margin: 0; flex: 1; min-width: 0; font-size: 10.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .help-btn { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border-strong); background: var(--surface-deep); color: var(--text-body); font-weight: 800; font-size: 13px; line-height: 1; padding: 0; cursor: pointer; }
   .help-btn:hover { border-color: var(--accent); color: var(--accent); }
   .help-dialog { max-width: min(440px, 92vw); border: 1px solid var(--accent-line); border-radius: 12px; background: var(--surface-raised); color: var(--text-body); padding: 16px; box-shadow: 0 20px 60px rgb(0 0 0 / 45%); }
@@ -131,8 +138,8 @@
   .help-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; margin-top: 12px; }
   .intro-list { margin: 4px 0 12px; padding-left: 18px; display: grid; gap: 8px; font-size: 13.5px; color: var(--text-body); }
   .intro-list b { color: var(--accent); }
-  .result { display: grid; gap: 10px; }
-  .panel { border: 1px solid var(--border-strong); background: rgb(0 0 0 / 11%); border-radius: 10px; padding: 12px; }
+  .result { display: grid; gap: 8px; }
+  .panel { border: 1px solid var(--border-strong); background: rgb(0 0 0 / 11%); border-radius: 10px; padding: 9px 10px; }
   .panel h3 { color: var(--accent); font-size: 15px; margin: 0 0 8px; }
   .yline, .waitrow, .recrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 4px 0; border-bottom: 1px dashed rgb(238 241 244 / 10%); }
   .yline:last-child, .waitrow:last-child, .recrow:last-child { border-bottom: none; }
@@ -152,6 +159,19 @@
   .mini-toggle { background: var(--surface-deep); color: var(--text-muted); border: 1px solid var(--border-strong); border-radius: 999px; padding: 4px 8px; font-size: 11.5px; cursor: pointer; white-space: nowrap; }
   .mini-toggle.on { color: var(--accent); border-color: var(--accent-line); background: var(--accent-soft); }
   .score-spacer { min-width: 44px; }
+  /* 국 결과 상세(화료자·방총자·상대 점수·유국 텐파이) — 세그먼트 아래 접혀 붙는다. */
+  .outcome-detail { display: flex; flex-direction: column; gap: 5px; margin-top: 2px; }
+  .outcome-detail:empty { display: none; }
+  .outcome-line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+  .outcome-line > span:first-child { min-width: 52px; color: var(--text-muted); font-size: 11.5px; }
+  .outcome-points { width: 82px; background: var(--surface-deep); color: var(--text-strong); border: 1px solid var(--border-strong); border-radius: 6px; padding: 3px 6px; font: inherit; font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
+  .placement-table { display: grid; grid-template-columns: auto 1fr auto auto; gap: 2px 8px; align-items: center; margin-top: 6px; font-size: 12.5px; }
+  .placement-table .pl-rank { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .placement-table .pl-score { color: var(--text-strong); font-variant-numeric: tabular-nums; }
+  .placement-table .pl-delta { font-variant-numeric: tabular-nums; font-size: 11.5px; }
+  .placement-table .pl-delta.up { color: var(--accent); }
+  .placement-table .pl-delta.down { color: var(--danger); }
+  .placement-table .is-player { color: var(--accent); font-weight: 700; }
   .focus-target { cursor: pointer; outline: 1px solid transparent; outline-offset: 2px; transition: outline-color .12s ease, border-color .12s ease, background-color .12s ease; }
   .focus-target:hover { outline-color: var(--accent-line); }
   .focus-target.active { outline-color: var(--accent); border-color: var(--accent-line); background-color: rgb(169 197 106 / 9%); }
@@ -163,28 +183,40 @@
   .meld-empty { color: var(--text-muted); font-size: 12.5px; }
   .surface.empty::before, .meld-list.empty::before { content: attr(data-empty); color: var(--text-muted); font-size: 12.5px; }
   .meld-list { display: flex; flex-wrap: wrap; gap: 6px; min-height: 36px; }
-  .surface-add { margin-left: 6px; min-width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--accent-line); background: var(--surface-deep); color: var(--accent); font-weight: 800; font-size: 13px; line-height: 1; padding: 0; cursor: pointer; flex: none; }
-  .surface-add:hover { border-color: var(--accent); background: var(--accent-soft); }
-  .seat-kita-btn { margin-left: 4px; min-width: 22px; height: 22px; border-radius: 6px; border: 1px solid rgb(240 179 90 / 42%); background: var(--surface-deep); color: var(--warn); font-weight: 800; font-size: 12px; line-height: 1; padding: 0; cursor: pointer; flex: none; }
+  .seat-kita-btn { margin-left: 0; min-width: 20px; height: 20px; border-radius: 6px; border: 1px solid rgb(240 179 90 / 42%); background: var(--surface-deep); color: var(--warn); font-weight: 800; font-size: 12px; line-height: 1; padding: 0; cursor: pointer; flex: none; }
   .seat-kita-btn:hover { border-color: var(--warn); background: rgb(240 179 90 / 14%); }
   .seat-kita-btn.hidden { display: none; }
-  /* width를 반드시 명시할 것: <dialog>의 UA 기본값은 width:fit-content이고, 팔레트 트랙이
-     minmax(0,1fr) + 타일 이미지가 position:absolute라 max-content 기여가 0 → 그리드가 붕괴해
-     타일이 7px까지 줄고, 내용물이 늘 때마다 다이얼로그 폭이 따라 변한다(회귀 전례). */
-  .tile-popover, .meld-builder-dialog { width: min(520px, 94vw); max-width: min(520px, 94vw); }
-  .meld-builder-dialog .surface { min-height: 44px; margin: 6px 0; }
-  .popover-palette { grid-template-columns: repeat(10, minmax(0, 1fr)); margin: 4px 0 10px; }
-  .popover-contents { min-height: 44px; margin-bottom: 4px; }
-  @media (max-width: 800px) { .popover-palette { grid-template-columns: repeat(8, minmax(0, 1fr)); } }
+  /* 좌석 메타는 **한 줄**에 이름·자풍·점수·리치·후로(·北)를 담는다 — 감기면 카드가 24px 높아져
+     작탁 겹침 계약(min-height ↔ 강 4행 ↔ 콘솔)이 깨진다(실측). 이름만 줄어들게 해서 폭을 흡수한다. */
+  .seat-meta { flex-wrap: nowrap; gap: 4px; }
+  .seat-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wind-badge { flex: none; min-width: 20px; height: 20px; font-size: 11px; }
+  .seat-score-input { flex: none; width: 54px; min-width: 0; padding: 2px 4px; background: var(--surface-deep); color: var(--text-strong); border: 1px solid var(--border-strong); border-radius: 6px; font: inherit; font-size: 11px; font-variant-numeric: tabular-nums; text-align: right; }
+  .seat-score-input::-webkit-outer-spin-button, .seat-score-input::-webkit-inner-spin-button { appearance: none; margin: 0; }
+  .seat-score-input:focus { border-color: var(--accent); outline: none; }
+  .seat-riichi-btn, .seat-meld-btn { min-width: 20px; height: 20px; padding: 0 4px; border-radius: 5px; border: 1px solid var(--border-strong); background: var(--surface-deep); color: var(--text-muted); font-size: 10px; font-weight: 700; line-height: 1; cursor: pointer; flex: none; }
+  .seat-riichi-btn:hover:not(:disabled), .seat-meld-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .seat-riichi-btn.on, .seat-meld-btn.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .seat-riichi-btn:disabled { opacity: .4; cursor: default; }
+  /* 후로 영역: 각 좌석 카드의 '우측 하단'(#user). 비어 있고 대상도 아니면 렌더 자체를 안 하므로 높이 0. */
+  .seat-melds { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; margin-top: 4px; }
+  .seat-melds.hidden { display: none; }
+  .seat-melds.active { outline: 1px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+  .meld-draft { width: 100%; display: flex; flex-direction: column; gap: 4px; padding: 5px 6px; background: var(--surface-deep); border: 1px dashed var(--accent-line); border-radius: 8px; }
+  .meld-draft-tiles { display: flex; flex-wrap: wrap; gap: 3px; min-height: 30px; --tw: 24px; }
+  .meld-draft-tiles.empty::before { content: attr(data-empty); color: var(--text-muted); font-size: 11px; align-self: center; }
+  .meld-draft-row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+  .meld-detect { color: var(--accent); font-size: 11px; font-weight: 700; margin-right: auto; }
+  .meld-from-label { color: var(--text-muted); font-size: 11px; }
+  .meld-draft-row .action { padding: 3px 9px; font-size: 11.5px; }
+  /* <dialog>의 UA 기본값은 width:fit-content다 — 타일만 든 다이얼로그는 폭이 붕괴한다.
+     팝오버·빌더는 제거됐지만(#user) 표기법 안내·인트로는 남아 있으므로 규칙은 기억해 둘 것. */
   .meld-entry { display: inline-flex; align-items: stretch; gap: 4px; }
   .meld-upgrade { align-self: stretch; background: var(--surface-deep); color: var(--accent); border: 1px solid var(--accent-line); border-radius: 8px; padding: 2px 8px; font-size: 11px; font-weight: 800; cursor: pointer; white-space: nowrap; }
   .meld-upgrade:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
   .meld-upgrade:disabled { opacity: .42; cursor: default; color: var(--text-muted); border-color: var(--border-strong); }
   .table-shell { background: linear-gradient(180deg, rgb(0 0 0 / 8%), rgb(0 0 0 / 0%)), var(--surface-raised); }
-  .table-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
-  .table-head h2 { margin: 0; }
-  .turn-hint { color: var(--text-muted); font-size: 12.5px; }
-  .mahjong-table { position: relative; min-height: 600px; border: 1px solid rgb(238 241 244 / 12%); border-radius: 10px; background:
+  .mahjong-table { position: relative; min-height: 580px; border: 1px solid rgb(238 241 244 / 12%); border-radius: 10px; background:
       radial-gradient(circle at center, rgb(169 197 106 / 13%) 0 21%, transparent 22%),
       linear-gradient(145deg, #1f2b35, #2b3a47 58%, #202b35);
     overflow: hidden; }
@@ -195,8 +227,11 @@
   /* 상/하 좌석은 측면 좌석 레인(16px + --seat-side-w)을 침범하지 않는 폭으로 제한한다.
      가로로 겹치지 않으면 세로 간섭이 사라져(상단↔측면, 하단↔측면) 작탁을 덜 키우고도
      4행 강이 들어간다 — 종전 42%/68%는 좁은 작탁에서 측면 좌석을 파고들었다. */
-  .mahjong-table { --seat-side-w: clamp(170px, 28%, 250px); }
-  .seat-top, .seat-bottom { width: max(170px, min(340px, calc(100% - 2 * var(--seat-side-w) - 44px))); }
+  /* 좌석 카드 폭 = 강 6열(6×--tw + 5×3px gap) + 카드 패딩. 종전 고정 340px/28%는 강과 무관해
+     박스가 가로로 늘어졌다(#user). 계산식이 곧 내용 폭이므로 겹침 레인 계산도 여기서 파생된다. */
+  .mahjong-table { --seat-tw: 26px; --pond-w: calc(6 * var(--seat-tw) + 15px); --seat-side-w: max(calc(var(--pond-w) + 22px), 200px); }
+  .seat .pond { --tw: var(--seat-tw); }
+  .seat-top, .seat-bottom { width: var(--seat-side-w); }
   .seat-top { top: 18px; left: 50%; transform: translateX(-50%); }
   .seat-left { left: 16px; top: 50%; transform: translateY(-50%); width: var(--seat-side-w); }
   .seat-right { right: 16px; top: 50%; transform: translateY(-50%); width: var(--seat-side-w); }
@@ -216,18 +251,16 @@
   .mini-stat b { display: block; color: var(--accent); font-size: 13px; font-variant-numeric: tabular-nums; line-height: 1.15; }
   .mini-stat span { display: block; color: var(--text-muted); font-size: 9.5px; }
   .center-dora { display: grid; gap: 4px; }
-  /* 라벨과 ＋를 한 줄로 — 콘솔 높이가 곧 상/하 좌석의 세로 여유(위 min-height 계산의 consoleH). */
-  .center-dora-head { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
   .center-dora-label { color: var(--text-muted); font-size: 11.5px; }
   .center-dora .pond { min-height: 34px; }
   .board-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 8px 0; }
-  .hand-rack { margin-top: 8px; }
-  .hand-rack .surface { min-height: 72px; }
+  .hand-rack { margin-top: 4px; }
+  .hand-rack .surface { min-height: 54px; }
   .tile.north-discard::after { content: "北"; position: absolute; right: -4px; bottom: -4px; display: grid; place-items: center; min-width: 15px; height: 15px; border-radius: 50%; background: var(--warn); color: var(--surface-deep); font-size: 9px; font-weight: 900; }
   [data-lang="ko"] .ja, [data-lang="ko"] .en,
   [data-lang="ja"] .ko, [data-lang="ja"] .en,
   [data-lang="en"] .ko, [data-lang="en"] .ja { display: none; }
-  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border-strong); font-size: 12.5px; color: var(--text-muted); }
+  footer { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border-strong); font-size: 11.5px; color: var(--text-muted); }
   @media (max-width: 800px) {
     body { font-size: 14px; }
     .grid { grid-template-columns: 1fr; }
@@ -293,7 +326,7 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-Cs1yOVE-.js"></script>
+  <script type="module" crossorigin src="/assets/simulator-Cyj0uGbj.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BHz2gPSC.js">
 </head>
 <body>
@@ -342,13 +375,14 @@
       <span class="seg compact" id="round-wind-controls"></span>
     </div>
     <div class="row">
-      <label><span class="ko">화료</span><span class="ja">和了</span><span class="en">Win</span></label>
+      <label><span class="ko">화료 가정</span><span class="ja">和了仮定</span><span class="en">Win as</span></label>
       <span class="seg compact" id="win-controls"></span>
     </div>
     <div class="row">
-      <label><span class="ko">옵션</span><span class="ja">オプション</span><span class="en">Options</span></label>
-      <span class="seg compact" id="option-controls"></span>
+      <label><span class="ko">국 결과</span><span class="ja">局結果</span><span class="en">Outcome</span></label>
+      <span class="seg compact" id="outcome-controls"></span>
     </div>
+    <div class="outcome-detail" id="outcome-detail"></div>
     <div class="row">
       <label><span class="ko">본장</span><span class="ja">本場</span><span class="en">Honba</span></label>
       <span class="seg compact" id="honba-controls"></span>
@@ -358,92 +392,95 @@
       <span class="seg compact" id="riichi-stick-controls"></span>
     </div>
 
-    <div class="section">
-      <div class="section-title">
-        <strong><span class="ko">점수</span><span class="ja">点数</span><span class="en">Scores</span></strong>
-      </div>
-      <div class="score-controls" id="score-controls"></div>
-    </div>
   </aside>
 
   <aside class="card" id="panel-input">
     <h2><span class="ko">입력</span><span class="ja">入力</span><span class="en">Input</span></h2>
-    <div class="section">
-      <p class="palette-target"><span class="pt-dot">●</span> <span class="ko">팔레트 입력 대상: <b>손패</b> — 도라·버림패·후로는 각 자리의 ＋로</span><span class="ja">パレット入力先: <b>手牌</b> — ドラ·河·副露は各所の＋で</span><span class="en">Palette adds to: <b>hand</b> — use ＋ on each surface for dora/discards/calls</span></p>
+    <p class="palette-target">
+      <span class="pt-dot">●</span>
+      <span class="ko">입력 대상</span><span class="ja">入力先</span><span class="en">Adds to</span>
+      <b id="palette-target-label"></b>
+      <small class="ko">작탁의 표면을 눌러 바꿉니다</small><small class="ja">卓の面をクリックで変更</small><small class="en">click a surface on the table to change</small>
+    </p>
+    <div class="palette" id="sim-palette"></div>
+
+    <div class="quick-row">
+      <input type="text" id="tile-text-input" placeholder="123m456p77z" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="패 표기 입력 / Tile notation">
+      <button type="button" class="action" id="btn-tile-text"><span class="ko">추가</span><span class="ja">追加</span><span class="en">Add</span></button>
+      <button type="button" class="help-btn" id="btn-notation-help" aria-label="패 표기법 도움말 / Tile notation help">?</button>
     </div>
 
-    <div class="section">
-      <div class="section-title">
-        <strong><span class="ko">패 팔레트</span><span class="ja">牌パレット</span><span class="en">Tile palette</span></strong>
-      </div>
-      <div class="palette" id="sim-palette"></div>
-    </div>
-
-    <div class="section">
-      <button type="button" class="action" id="btn-open-meld-builder"><span class="ko">＋ 후로 만들기</span><span class="ja">＋ 副露を作る</span><span class="en">＋ Add call</span></button>
-      <div class="meld-list empty" id="sim-player-melds" data-empty=""></div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">
-        <strong><span class="ko">빠른 입력</span><span class="ja">クイック入力</span><span class="en">Quick input</span></strong>
-        <button type="button" class="help-btn" id="btn-notation-help" aria-label="패 표기법 도움말 / Tile notation help">?</button>
-      </div>
-      <div class="row tight">
-        <select id="preset-select" aria-label="예시 불러오기 / Load example"></select>
-      </div>
-      <div class="row tight tile-text-row">
-        <input type="text" id="tile-text-input" placeholder="123m456p77z" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="패 표기 입력 / Tile notation">
-        <button type="button" class="action" id="btn-tile-text"><span class="ko">추가</span><span class="ja">追加</span><span class="en">Add</span></button>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="row tight">
-        <button type="button" class="action" id="btn-kita"><span class="ko">북抜き</span><span class="ja">北抜き</span><span class="en">Kita</span></button>
-        <button type="button" class="action" id="btn-undo"><span class="ko">되돌리기</span><span class="ja">戻す</span><span class="en">Undo</span></button>
-        <button type="button" class="action" id="btn-redo"><span class="ko">다시 실행</span><span class="ja">やり直し</span><span class="en">Redo</span></button>
-        <button type="button" class="action" id="btn-clear"><span class="ko">비우기</span><span class="ja">クリア</span><span class="en">Clear</span></button>
-        <button type="button" class="action" id="btn-copy"><span class="ko">결과 복사</span><span class="ja">結果コピー</span><span class="en">Copy</span></button>
-      </div>
+    <div class="action-bar">
+      <button type="button" class="action" id="btn-undo"><span class="ko">되돌리기</span><span class="ja">戻す</span><span class="en">Undo</span></button>
+      <button type="button" class="action" id="btn-redo"><span class="ko">다시 실행</span><span class="ja">やり直し</span><span class="en">Redo</span></button>
+      <button type="button" class="action" id="btn-kita"><span class="ko">북 빼기</span><span class="ja">北抜き</span><span class="en">Kita</span></button>
+      <button type="button" class="action" id="btn-copy"><span class="ko">결과 복사</span><span class="ja">結果コピー</span><span class="en">Copy</span></button>
+      <button type="button" class="action danger" id="btn-clear"><span class="ko">비우기</span><span class="ja">クリア</span><span class="en">Clear</span></button>
     </div>
 
     <div class="section result" id="sim-result"></div>
   </aside>
 
   <main class="card table-shell">
-    <div class="table-head">
-      <h2><span class="ko">작탁</span><span class="ja">卓</span><span class="en">Table</span></h2>
-      <span class="turn-hint" id="turn-hint"></span>
-    </div>
-
     <div class="mahjong-table" id="mahjong-table">
       <section class="seat seat-top" id="seat-opp1">
         <div class="seat-card">
-          <div class="seat-meta"><span class="seat-name" id="seat-opp1-label"></span><span class="seat-info"><i class="wind-badge" id="seat-opp1-wind"></i><span id="seat-opp1-score"></span></span><button type="button" class="surface-add" data-add="opp1" aria-label="버림패 추가 / Add discard">＋</button><button type="button" class="seat-kita-btn hidden" data-kita-seat="opp1" aria-label="북 선언 / Declare kita">北</button></div>
+          <div class="seat-meta">
+            <span class="seat-name" id="seat-opp1-label"></span>
+            <i class="wind-badge" id="seat-opp1-wind"></i>
+            <input type="number" step="100" class="seat-score-input" id="seat-opp1-score" data-score-seat="opp1" aria-label="대면 점수 / score">
+            <button type="button" class="seat-riichi-btn" data-riichi-seat="opp1" aria-pressed="false" aria-label="대면 리치 / riichi">리치</button>
+            <button type="button" class="seat-meld-btn" data-meld-seat="opp1" aria-label="대면 후로 입력 / calls">副</button>
+            <button type="button" class="seat-kita-btn hidden" data-kita-seat="opp1" aria-label="북 빼기 / Kita">北</button>
+          </div>
           <div class="seat-kita empty" id="seat-opp1-kita"></div>
           <div class="pond" id="sim-opp1-discards"></div>
+          <div class="seat-melds hidden" id="sim-meld-opp1"></div>
         </div>
       </section>
       <section class="seat seat-right" id="seat-opp0">
         <div class="seat-card">
-          <div class="seat-meta"><span class="seat-name" id="seat-opp0-label"></span><span class="seat-info"><i class="wind-badge" id="seat-opp0-wind"></i><span id="seat-opp0-score"></span></span><button type="button" class="surface-add" data-add="opp0" aria-label="버림패 추가 / Add discard">＋</button><button type="button" class="seat-kita-btn hidden" data-kita-seat="opp0" aria-label="북 선언 / Declare kita">北</button></div>
+          <div class="seat-meta">
+            <span class="seat-name" id="seat-opp0-label"></span>
+            <i class="wind-badge" id="seat-opp0-wind"></i>
+            <input type="number" step="100" class="seat-score-input" id="seat-opp0-score" data-score-seat="opp0" aria-label="하가 점수 / score">
+            <button type="button" class="seat-riichi-btn" data-riichi-seat="opp0" aria-pressed="false" aria-label="하가 리치 / riichi">리치</button>
+            <button type="button" class="seat-meld-btn" data-meld-seat="opp0" aria-label="하가 후로 입력 / calls">副</button>
+            <button type="button" class="seat-kita-btn hidden" data-kita-seat="opp0" aria-label="북 빼기 / Kita">北</button>
+          </div>
           <div class="seat-kita empty" id="seat-opp0-kita"></div>
           <div class="pond" id="sim-opp0-discards"></div>
+          <div class="seat-melds hidden" id="sim-meld-opp0"></div>
         </div>
       </section>
       <section class="seat seat-left" id="seat-opp2">
         <div class="seat-card">
-          <div class="seat-meta"><span class="seat-name" id="seat-opp2-label"></span><span class="seat-info"><i class="wind-badge" id="seat-opp2-wind"></i><span id="seat-opp2-score"></span></span><button type="button" class="surface-add" data-add="opp2" aria-label="버림패 추가 / Add discard">＋</button><button type="button" class="seat-kita-btn hidden" data-kita-seat="opp2" aria-label="북 선언 / Declare kita">北</button></div>
+          <div class="seat-meta">
+            <span class="seat-name" id="seat-opp2-label"></span>
+            <i class="wind-badge" id="seat-opp2-wind"></i>
+            <input type="number" step="100" class="seat-score-input" id="seat-opp2-score" data-score-seat="opp2" aria-label="상가 점수 / score">
+            <button type="button" class="seat-riichi-btn" data-riichi-seat="opp2" aria-pressed="false" aria-label="상가 리치 / riichi">리치</button>
+            <button type="button" class="seat-meld-btn" data-meld-seat="opp2" aria-label="상가 후로 입력 / calls">副</button>
+            <button type="button" class="seat-kita-btn hidden" data-kita-seat="opp2" aria-label="북 빼기 / Kita">北</button>
+          </div>
           <div class="seat-kita empty" id="seat-opp2-kita"></div>
           <div class="pond" id="sim-opp2-discards"></div>
+          <div class="seat-melds hidden" id="sim-meld-opp2"></div>
         </div>
       </section>
       <section class="seat seat-bottom" id="seat-player">
         <div class="seat-card">
-          <div class="seat-meta"><span class="seat-name" id="seat-player-label"></span><span class="seat-info"><i class="wind-badge" id="seat-player-wind"></i><span id="seat-player-score"></span></span><button type="button" class="surface-add" data-add="own" aria-label="버림패 추가 / Add discard">＋</button></div>
+          <div class="seat-meta">
+            <span class="seat-name" id="seat-player-label"></span>
+            <i class="wind-badge" id="seat-player-wind"></i>
+            <input type="number" step="100" class="seat-score-input" id="seat-player-score" data-score-seat="player" aria-label="플레이어 점수 / score">
+            <button type="button" class="seat-riichi-btn" data-riichi-seat="player" aria-pressed="false" aria-label="플레이어 리치 / riichi">리치</button>
+            <button type="button" class="seat-meld-btn" data-meld-seat="player" aria-label="플레이어 후로 입력 / calls">副</button>
+            
+          </div>
           <div class="seat-kita empty" id="seat-player-kita"></div>
           <div class="pond" id="sim-own-discards"></div>
+          <div class="seat-melds hidden" id="sim-meld-player"></div>
         </div>
       </section>
       <div class="center-console">
@@ -454,24 +491,17 @@
           <div class="mini-stat"><b id="board-kita">0</b><span id="board-kita-label"></span></div>
         </div>
         <div class="center-dora">
-          <div class="center-dora-head">
-            <span class="center-dora-label" id="dora-count"></span>
-            <button type="button" class="surface-add" data-add="dora" aria-label="도라표시패 추가 / Add dora indicator">＋</button>
-          </div>
+          <span class="center-dora-label" id="dora-count"></span>
           <div class="pond" id="sim-dora"></div>
         </div>
       </div>
     </div>
 
     <div class="section hand-rack">
-      <div class="section-title">
-        <strong><span class="ko">플레이어 손패</span><span class="ja">自分の手牌</span><span class="en">Player hand</span></strong>
-        <span class="subtle" id="hand-count"></span>
-      </div>
       <div class="surface" id="sim-hand-surface"><div class="handline big" id="sim-hand"></div></div>
-      <div class="meld-list board-melds empty" id="sim-board-melds" data-empty=""></div>
       <div class="row tight hand-controls">
         <button type="button" class="action" id="btn-win-designate"><span class="ko">화료패 지정</span><span class="ja">和了牌指定</span><span class="en">Set winning tile</span></button>
+        <span class="subtle" id="hand-count"></span>
         <p class="subtle" id="hand-help"></p>
       </div>
     </div>
@@ -485,31 +515,12 @@
 </footer>
 </div>
 
-<dialog id="meld-builder" class="help-dialog meld-builder-dialog">
-  <h3><span class="ko">후로 만들기</span><span class="ja">副露を作る</span><span class="en">Add a call</span></h3>
-  <p class="subtle" id="meld-detect"></p>
-  <div class="palette popover-palette" id="meld-builder-palette"></div>
-  <div class="surface" id="sim-meld-surface" data-empty=""><div class="handline small" id="sim-meld-draft"></div></div>
-  <div class="row tight" id="meld-from-row">
-    <label><span class="ko">출처</span><span class="ja">出所</span><span class="en">From</span></label>
-    <span class="seg compact" id="meld-from-controls"></span>
-  </div>
-  <div class="row tight" id="meld-ankan-row">
-    <label><span class="ko">안깡</span><span class="ja">暗槓</span><span class="en">Concealed</span></label>
-    <button type="button" class="mini-toggle" id="meld-ankan-toggle" aria-pressed="false"><span class="ko">내 손 4장</span><span class="ja">自分の4枚</span><span class="en">From my hand</span></button>
-  </div>
-  <div class="help-actions">
-    <button type="button" class="action primary" id="btn-register-meld"><span class="ko">후로 등록</span><span class="ja">副露登録</span><span class="en">Register</span></button>
-    <button type="button" class="action" id="btn-clear-meld-draft"><span class="ko">비우기</span><span class="ja">消去</span><span class="en">Clear</span></button>
-    <button type="button" class="action" id="btn-meld-close"><span class="ko">닫기</span><span class="ja">閉じる</span><span class="en">Close</span></button>
-  </div>
-</dialog>
 
 <dialog id="sim-intro" class="help-dialog">
   <h3><span class="ko">국면 분석기 사용법</span><span class="ja">局面アナライザーの使い方</span><span class="en">How to use</span></h3>
   <ul class="intro-list">
     <li><span class="ko">이 도구는 <b>한 국면</b>을 분석합니다 — 턴을 이어 진행하지 않습니다.</span><span class="ja">これは<b>一つの局面</b>を分析します — ターンを続けて進めません。</span><span class="en">This analyzes <b>one position</b> — it does not play turns forward.</span></li>
-    <li><span class="ko"><b>손패</b>는 오른쪽 팔레트로, <b>도라·버림패·후로</b>는 각 자리의 <b>＋</b>로 입력합니다.</span><span class="ja"><b>手牌</b>は右のパレット、<b>ドラ·河·副露</b>は各所の<b>＋</b>で入力します。</span><span class="en"><b>Hand</b> uses the right palette; <b>dora/discards/calls</b> use the <b>＋</b> on each surface.</span></li>
+    <li><span class="ko">모든 패는 오른쪽 <b>패 팔레트</b> 하나로 넣습니다. <b>어디에 넣을지</b>는 작탁의 표면(손패·도라·각 좌석 버림패·후로)을 눌러 고릅니다.</span><span class="ja">牌はすべて右の<b>牌パレット</b>から入れます。<b>入力先</b>は卓の面(手牌・ドラ・各家の河・副露)をクリックして選びます。</span><span class="en">Every tile goes in from the single <b>tile palette</b> on the right. Click a surface on the table (hand, dora, a player's discards, calls) to choose <b>where</b> it goes.</span></li>
     <li><span class="ko">아래 결과에서 <b>유효패·점수·추천 타패</b>를 확인하세요.</span><span class="ja">下の結果で<b>有効牌·点数·推奨打牌</b>を確認できます。</span><span class="en">See <b>outs, score, and discard advice</b> in the results below.</span></li>
   </ul>
   <div class="help-actions">
@@ -517,14 +528,6 @@
   </div>
 </dialog>
 
-<dialog id="tile-popover" class="help-dialog tile-popover">
-  <h3 id="tile-popover-title"></h3>
-  <div class="palette popover-palette" id="tile-popover-palette"></div>
-  <div class="surface popover-contents" id="tile-popover-contents" data-empty=""></div>
-  <div class="help-actions">
-    <button type="button" class="action primary" id="btn-tile-popover-close"><span class="ko">닫기</span><span class="ja">閉じる</span><span class="en">Close</span></button>
-  </div>
-</dialog>
 
 <dialog id="notation-help" class="help-dialog">
   <div id="notation-help-body"></div>
