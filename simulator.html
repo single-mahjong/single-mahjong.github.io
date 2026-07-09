@@ -91,6 +91,14 @@
   .pal .tile { width: 100%; display: block; }
   .pal:hover { border-color: var(--accent-line); background: var(--accent-soft); }
   .pal:disabled { opacity: .24; cursor: default; border-color: transparent; background: none; }
+  /* 북 빼기 — 자패 줄(4번째 줄) 오른쪽 끝에 별도 표시(#user). 3인일 때만 렌더한다. -2/-1은 열 수와
+     무관하게 항상 마지막 열이라 8열·7열 모바일에서도 넘치지 않는다. */
+  .pal-kita { grid-column: -2 / -1; position: relative; display: flex; align-items: center; justify-content: center; background: var(--surface-deep); border: 1px solid rgb(240 179 90 / 55%); border-radius: 6px; cursor: pointer; padding: 2px; }
+  .pal-kita .tile { width: 82%; }
+  /* 우상단 작은 화살표로 '빼기'임을 시각적으로 구분(툴팁은 '북 빼기'). */
+  .pal-kita::after { content: "↑"; position: absolute; top: -2px; right: 1px; color: var(--warn); font-size: 10px; font-weight: 900; line-height: 1; }
+  .pal-kita:hover:not(:disabled) { border-color: var(--warn); background: rgb(240 179 90 / 14%); }
+  .pal-kita:disabled { opacity: .3; cursor: default; }
   .surface { background: var(--surface-deep); border: 1px dashed var(--border-strong); border-radius: 10px; padding: 10px; min-height: 74px; }
   .surface.empty::before { color: var(--text-muted); font-size: 13px; }
   .handline { display: flex; flex-wrap: wrap; gap: 3px; align-items: flex-end; }
@@ -124,6 +132,13 @@
   .action-bar .action { width: 100%; padding: 7px 8px; text-align: center; }
   .action-bar .action.danger { grid-column: 1 / -1; border-color: rgb(240 123 123 / 42%); color: var(--danger); }
   .action-bar .action.danger:hover:not(:disabled) { border-color: var(--danger); }
+  /* '입력' 제목 줄 오른쪽 끝에 결과 복사·비우기(#user) — 액션바에서 이 줄로 옮겼다. */
+  .input-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
+  .input-head h2 { margin: 0; }
+  .input-head-actions { display: flex; gap: 6px; flex: none; }
+  .input-head-actions .action { padding: 5px 10px; font-size: 12px; }
+  .input-head-actions .action.danger { border-color: rgb(240 123 123 / 42%); color: var(--danger); }
+  .input-head-actions .action.danger:hover:not(:disabled) { border-color: var(--danger); }
   #tile-text-input { flex: 1; min-width: 0; background: var(--surface-deep); color: var(--text-strong); border: 1px solid var(--border-strong); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 13px; }
   .hand-controls { align-items: center; }
   #hand-help { margin: 0; flex: 1; min-width: 0; font-size: 10.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -164,6 +179,11 @@
   .outcome-detail:empty { display: none; }
   .outcome-line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
   .outcome-line > span:first-child { min-width: 52px; color: var(--text-muted); font-size: 11.5px; }
+  /* 국 결과 상세 버튼(화료자·방법·텐파이)은 설정 세그먼트와 같은 박스형 카드로 통일(#user 일관성). */
+  .outcome-line button { background: var(--surface-raised); color: var(--text-body); border: 1px solid var(--border-strong); border-radius: 8px; padding: 4px 10px; font: inherit; font-size: 12.5px; box-shadow: 0 1px 0 rgb(0 0 0 / 18%); cursor: pointer; }
+  .outcome-line button:hover:not(:disabled) { border-color: var(--accent); background: var(--surface-deep); }
+  .outcome-line button.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .outcome-line button:disabled { opacity: .42; cursor: default; }
   .outcome-points { width: 82px; background: var(--surface-deep); color: var(--text-strong); border: 1px solid var(--border-strong); border-radius: 6px; padding: 3px 6px; font: inherit; font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
   .placement-table { display: grid; grid-template-columns: auto 1fr auto auto; gap: 2px 8px; align-items: center; margin-top: 6px; font-size: 12.5px; }
   .placement-table .pl-rank { color: var(--text-muted); font-variant-numeric: tabular-nums; }
@@ -198,10 +218,18 @@
   .seat-riichi-btn:hover:not(:disabled), .seat-meld-btn:hover { border-color: var(--accent); color: var(--accent); }
   .seat-riichi-btn.on, .seat-meld-btn.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
   .seat-riichi-btn:disabled { opacity: .4; cursor: default; }
-  /* 후로 영역: 각 좌석 카드의 '우측 하단'(#user). 비어 있고 대상도 아니면 렌더 자체를 안 하므로 높이 0. */
-  .seat-melds { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; margin-top: 4px; }
+  /* 후로 영역은 좌석 정보 박스에서 분리해 작탁 네 모서리에 둔다(#user 3x3 표: 각 좌석의 대각 모서리).
+     대면(상단)→좌상 · 하가(우측)→우상 · 상가(좌측)→좌하 · 플레이어(하단)→우하.
+     비어 있고 대상도 아니면 렌더 안 함(높이 0). 절대배치 → 중앙 좌석/콘솔 오버랩 계약과 독립. */
+  .seat-melds { display: flex; flex-wrap: wrap; gap: 4px; }
   .seat-melds.hidden { display: none; }
   .seat-melds.active { outline: 1px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+  /* 폭은 강 6열(--seat-side-w)로 캡하되 중앙 상/하 좌석과 안 겹치게 (50% - 120px)로도 캡한다. */
+  .board-meld-zone { position: absolute; z-index: 3; width: min(var(--seat-side-w), calc(50% - 120px)); }
+  .board-meld-tl { top: 16px; left: 16px; justify-content: flex-start; }
+  .board-meld-bl { bottom: 16px; left: 16px; justify-content: flex-start; }
+  .board-meld-tr { top: 16px; right: 16px; justify-content: flex-end; }
+  .board-meld-br { bottom: 16px; right: 16px; justify-content: flex-end; }
   .meld-draft { width: 100%; display: flex; flex-direction: column; gap: 4px; padding: 5px 6px; background: var(--surface-deep); border: 1px dashed var(--accent-line); border-radius: 8px; }
   .meld-draft-tiles { display: flex; flex-wrap: wrap; gap: 3px; min-height: 30px; --tw: 24px; }
   .meld-draft-tiles.empty::before { content: attr(data-empty); color: var(--text-muted); font-size: 11px; align-self: center; }
@@ -274,7 +302,9 @@
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-areas:
         "top top"
+        "mtl mtr"
         "left right"
+        "mbl mbr"
         "center center"
         "bottom bottom";
       gap: 8px;
@@ -282,7 +312,7 @@
       overflow: visible;
     }
     .mahjong-table::before { display: none; }
-    .seat, .center-console {
+    .seat, .center-console, .board-meld-zone {
       position: static;
       inset: auto;
       transform: none;
@@ -290,6 +320,11 @@
       max-width: none;
       min-width: 0;
     }
+    /* 모바일에선 각 후로를 자기 좌석 근처 행에 둔다(절대 모서리 배치는 데스크탑 전용). */
+    .board-meld-tl { grid-area: mtl; }
+    .board-meld-tr { grid-area: mtr; }
+    .board-meld-bl { grid-area: mbl; }
+    .board-meld-br { grid-area: mbr; }
     .seat-top { grid-area: top; }
     .seat-left { grid-area: left; }
     .seat-right { grid-area: right; }
@@ -326,7 +361,7 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-Cyj0uGbj.js"></script>
+  <script type="module" crossorigin src="/assets/simulator-BjhFvHH1.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BHz2gPSC.js">
 </head>
 <body>
@@ -395,7 +430,13 @@
   </aside>
 
   <aside class="card" id="panel-input">
-    <h2><span class="ko">입력</span><span class="ja">入力</span><span class="en">Input</span></h2>
+    <div class="input-head">
+      <h2><span class="ko">입력</span><span class="ja">入力</span><span class="en">Input</span></h2>
+      <div class="input-head-actions">
+        <button type="button" class="action" id="btn-copy"><span class="ko">결과 복사</span><span class="ja">結果コピー</span><span class="en">Copy</span></button>
+        <button type="button" class="action danger" id="btn-clear"><span class="ko">비우기</span><span class="ja">クリア</span><span class="en">Clear</span></button>
+      </div>
+    </div>
     <p class="palette-target">
       <span class="pt-dot">●</span>
       <span class="ko">입력 대상</span><span class="ja">入力先</span><span class="en">Adds to</span>
@@ -413,9 +454,6 @@
     <div class="action-bar">
       <button type="button" class="action" id="btn-undo"><span class="ko">되돌리기</span><span class="ja">戻す</span><span class="en">Undo</span></button>
       <button type="button" class="action" id="btn-redo"><span class="ko">다시 실행</span><span class="ja">やり直し</span><span class="en">Redo</span></button>
-      <button type="button" class="action" id="btn-kita"><span class="ko">북 빼기</span><span class="ja">北抜き</span><span class="en">Kita</span></button>
-      <button type="button" class="action" id="btn-copy"><span class="ko">결과 복사</span><span class="ja">結果コピー</span><span class="en">Copy</span></button>
-      <button type="button" class="action danger" id="btn-clear"><span class="ko">비우기</span><span class="ja">クリア</span><span class="en">Clear</span></button>
     </div>
 
     <div class="section result" id="sim-result"></div>
@@ -435,7 +473,6 @@
           </div>
           <div class="seat-kita empty" id="seat-opp1-kita"></div>
           <div class="pond" id="sim-opp1-discards"></div>
-          <div class="seat-melds hidden" id="sim-meld-opp1"></div>
         </div>
       </section>
       <section class="seat seat-right" id="seat-opp0">
@@ -450,7 +487,6 @@
           </div>
           <div class="seat-kita empty" id="seat-opp0-kita"></div>
           <div class="pond" id="sim-opp0-discards"></div>
-          <div class="seat-melds hidden" id="sim-meld-opp0"></div>
         </div>
       </section>
       <section class="seat seat-left" id="seat-opp2">
@@ -465,7 +501,6 @@
           </div>
           <div class="seat-kita empty" id="seat-opp2-kita"></div>
           <div class="pond" id="sim-opp2-discards"></div>
-          <div class="seat-melds hidden" id="sim-meld-opp2"></div>
         </div>
       </section>
       <section class="seat seat-bottom" id="seat-player">
@@ -480,7 +515,6 @@
           </div>
           <div class="seat-kita empty" id="seat-player-kita"></div>
           <div class="pond" id="sim-own-discards"></div>
-          <div class="seat-melds hidden" id="sim-meld-player"></div>
         </div>
       </section>
       <div class="center-console">
@@ -495,6 +529,11 @@
           <div class="pond" id="sim-dora"></div>
         </div>
       </div>
+      <!-- 후로 영역: 각 좌석의 대각 모서리(#user 3x3 표). 대면→좌상 · 하가→우상 · 상가→좌하 · 플레이어→우하. -->
+      <div class="seat-melds board-meld-zone board-meld-tl hidden" id="sim-meld-opp1"></div>
+      <div class="seat-melds board-meld-zone board-meld-tr hidden" id="sim-meld-opp0"></div>
+      <div class="seat-melds board-meld-zone board-meld-bl hidden" id="sim-meld-opp2"></div>
+      <div class="seat-melds board-meld-zone board-meld-br hidden" id="sim-meld-player"></div>
     </div>
 
     <div class="section hand-rack">
