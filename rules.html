@@ -91,6 +91,20 @@
   .optgrp .opt { border: none; border-radius: 0; }
   .opt.on { color: var(--accent); background: var(--accent-soft); }
   .opt.clear { margin-left: auto; }
+  /* 후로(치·펑·깡) — 등록 칩 + 드래프트 편집기. */
+  .calc-melds { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; margin: 0 0 8px; }
+  .calc-melds:empty { display: none; }
+  .meld-chip { display: inline-flex; align-items: center; gap: 5px; background: rgb(0 0 0 / 13%); border: 1px solid var(--border-strong); border-radius: 8px; padding: 4px 7px; cursor: pointer; }
+  .meld-chip:hover { border-color: rgb(240 123 123 / 60%); }
+  .meld-chip .mlabel { color: var(--accent); font-weight: 800; font-size: 12px; }
+  .meld-chip .tile { width: 22px; }
+  .meld-draft { display: flex; flex-direction: column; gap: 8px; padding: 8px 10px; background: var(--surface-app); border: 1px dashed var(--accent-line); border-radius: 10px; }
+  .meld-draft-tiles { display: flex; flex-wrap: wrap; gap: 3px; min-height: 30px; align-items: center; }
+  .meld-draft-tiles .tile { width: 26px; cursor: pointer; }
+  .meld-draft-tiles.empty::before { content: attr(data-empty); color: var(--text-muted); font-size: 12px; }
+  .meld-draft-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .meld-detect { color: var(--accent); font-weight: 700; font-size: 12.5px; margin-right: auto; }
+  .meld-draft .opt { padding: 4px 11px; font-size: 12.5px; }
   .calc-hand-area { min-height: 74px; border: 1px dashed var(--border-strong); border-radius: 10px; padding: 10px 12px 20px; margin: 8px 0; display: flex; align-items: center; }
   #calc-hand { gap: 3px; }
   #calc-hand .tile { cursor: pointer; }
@@ -172,7 +186,7 @@
     .yaku-list td .grp { flex-wrap: wrap; gap: 1px; max-width: 100%; }
   }
 </style>
-  <script type="module" crossorigin src="/assets/rules-ClYLWk9i.js"></script>
+  <script type="module" crossorigin src="/assets/rules-E9lNCAwi.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BHz2gPSC.js">
 </head>
 <body>
@@ -521,14 +535,16 @@
       <button type="button" class="opt on" id="opt-child"><span class="ko">자(子)</span><span class="ja">子</span><span class="en">Non-dealer</span></button>
       <button type="button" class="opt" id="opt-dealer"><span class="ko">친(親)</span><span class="ja">親</span><span class="en">Dealer</span></button>
     </span>
+    <button type="button" class="opt" id="opt-furo"><span class="ko">+ 후로</span><span class="ja">+ 副露</span><span class="en">+ Call</span></button>
     <button type="button" class="opt clear" id="opt-clear"><span class="ko">비우기</span><span class="ja">クリア</span><span class="en">Clear</span></button>
   </div>
+  <div class="calc-melds" id="calc-melds"></div>
   <div class="calc-hand-area"><span class="hand" id="calc-hand"></span></div>
   <div class="calc-result" id="calc-result"></div>
   <p class="note" style="margin:10px 0 0">
-    <span class="ko">장풍은 동 고정, 도라 표시패·본장·공탁 없음 기준. 적5는 도라 1로 계산됩니다. 입력은 멘젠 전용(치·펑·깡 입력 불가)이지만, 완성 시 「울면서 만들었다면」 비교를 같은 엔진 재계산으로 보여줍니다. 「노려볼 만한 역」은 모양 기준 힌트로, 확정이 아닙니다.</span>
-    <span class="ja">場風は東固定、ドラ表示牌・本場・供託なし。赤5はドラ1として計算。入力は門前専用(チー・ポン・カン入力不可)ですが、完成時に「鳴いて作った場合」の比較を同じエンジンの再計算で表示します。「狙えそうな役」は形のヒントで、確定ではありません。</span>
-    <span class="en">East round, no dora indicators, honba, or deposits. Red fives count as 1 dora each. Input is concealed-only (no chi/pon/kan), but complete hands also show an engine-recomputed "if built open" comparison. "Yaku to aim for" are shape hints, not guarantees.</span>
+    <span class="ko">장풍은 동 고정, 도라 표시패·본장·공탁 없음 기준. 적5는 도라 1로 계산됩니다. <strong>+ 후로</strong>로 치·펑·깡(안깡 포함)을 등록하면 울은 손패의 점수를 정확히 계산합니다(안깡만 있으면 멘젠 유지). 후로가 없을 때는 완성 시 「울면서 만들었다면」 비교도 보여줍니다. 「노려볼 만한 역」은 모양 기준 힌트로, 확정이 아닙니다.</span>
+    <span class="ja">場風は東固定、ドラ表示牌・本場・供託なし。赤5はドラ1として計算。<strong>+ 副露</strong>でチー・ポン・カン(暗槓含む)を登録すると、鳴いた手の点数を正確に計算します(暗槓のみなら門前を維持)。副露が無い場合は完成時に「鳴いて作った場合」の比較も表示します。「狙えそうな役」は形のヒントで、確定ではありません。</span>
+    <span class="en">East round, no dora indicators, honba, or deposits. Red fives count as 1 dora each. Use <strong>+ Call</strong> to register chi/pon/kan (incl. closed kan) and the open hand is scored exactly (a hand with only closed kans stays concealed). With no calls, complete hands also show an "if built open" comparison. "Yaku to aim for" are shape hints, not guarantees.</span>
   </p>
   <p class="note" style="margin:10px 0 0">
     <a class="tool-link" href="/simulator.html"><span class="ko">국면 분석기 열기 →</span><span class="ja">局面アナライザーを開く →</span><span class="en">Open position analyzer →</span></a>
