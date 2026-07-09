@@ -73,6 +73,10 @@
   .fu-table .ron { color: var(--text-strong); font-weight: 700; }
   .fu-table .tsm { font-size: 12px; color: var(--text-muted); }
   .fu-table td.man { color: var(--accent); font-weight: 700; }
+  /* 만관 이상 한도표 — fu-table 골격 재사용, 컬럼별 강조. */
+  .limit-table .limit-name { color: var(--accent); font-weight: 800; text-align: left; }
+  .limit-table .limit-ron { color: var(--text-strong); font-weight: 700; }
+  .limit-table .limit-tsm { color: var(--text-muted); font-size: 12px; }
   .fu-parts th:first-child, .fu-parts td:first-child { text-align: left; }
   .fu-parts td.num { font-weight: 700; }
   /* ── 역 만들기(계산기) ── */
@@ -168,7 +172,7 @@
     .yaku-list td .grp { flex-wrap: wrap; gap: 1px; max-width: 100%; }
   }
 </style>
-  <script type="module" crossorigin src="/assets/rules-CAHzarvI.js"></script>
+  <script type="module" crossorigin src="/assets/rules-ClYLWk9i.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BHz2gPSC.js">
 </head>
 <body>
@@ -343,14 +347,17 @@
 <div class="tblwrap" id="fu-han-table"></div>
 
 <h3><span class="ko">만관 이상</span><span class="ja">満貫以上</span><span class="en">Mangan and above</span></h3>
-<div class="tblwrap"><table>
-  <tr><th><span class="ko">한도</span><span class="ja">満貫区分</span><span class="en">Limit</span></th><th><span class="ko">판수</span><span class="ja">翻数</span><span class="en">Han</span></th><th><span class="ko">자(子) 화료</span><span class="ja">子の和了</span><span class="en">Non-dealer</span></th><th><span class="ko">친(親) 화료</span><span class="ja">親の和了</span><span class="en">Dealer</span></th></tr>
-  <tr><td><span class="ko">만관</span><span class="ja">満貫</span><span class="en">Mangan</span></td><td class="num">5</td><td class="num">8,000</td><td class="num">12,000</td></tr>
-  <tr><td><span class="ko">하네만</span><span class="ja">跳満</span><span class="en">Haneman</span></td><td class="num">6–7</td><td class="num">12,000</td><td class="num">18,000</td></tr>
-  <tr><td><span class="ko">배만</span><span class="ja">倍満</span><span class="en">Baiman</span></td><td class="num">8–10</td><td class="num">16,000</td><td class="num">24,000</td></tr>
-  <tr><td><span class="ko">삼배만</span><span class="ja">三倍満</span><span class="en">Sanbaiman</span></td><td class="num">11–12</td><td class="num">24,000</td><td class="num">36,000</td></tr>
-  <tr><td><span class="ko">역만 / 누적 역만</span><span class="ja">役満 / 数え役満</span><span class="en">Yakuman / counted</span></td><td class="num">13+</td><td class="num">32,000</td><td class="num">48,000</td></tr>
-</table></div>
+<p class="note">
+  <span class="ko"><strong>만관 이상은 부수(符)를 계산하지 않습니다.</strong> 등급이 <strong>판수</strong>(또는 역만 역)만으로 정해지므로, 부수가 20이든 110이든 점수는 같습니다 — 그래서 위 조견표에서 만관 칸에는 부수별 값 대신 「만관」이라고만 적혀 있습니다. 아래 값은 <strong>왼쪽 = 론</strong>(방총자 한 명이 전액 지불), <strong>오른쪽 = 쯔모</strong>. 자 쯔모는 「자 지불 / 친 지불」, 친 쯔모는 전원 동액입니다.</span>
+  <span class="ja"><strong>満貫以上は符を計算しません。</strong>ランクは<strong>翻数</strong>(または役満役)だけで決まるため、20符でも110符でも点数は同じ — だから上の早見表の満貫マスには符ごとの値ではなく「満貫」とだけ書かれています。下の値は<strong>左=ロン</strong>(放銃者が全額払い)、<strong>右=ツモ</strong>。子のツモは「子払い/親払い」、親のツモは全員同額。</span>
+  <span class="en"><strong>At mangan and above, fu is not counted.</strong> The rank is set by <strong>han</strong> alone (or a yakuman hand), so 20 fu and 110 fu score the same — that is why the table above just says "Mangan" instead of a per-fu number. Below, <strong>left = ron</strong> (one discarder pays the whole amount), <strong>right = tsumo</strong>. Non-dealer tsumo reads "non-dealer pays / dealer pays"; on a dealer tsumo everyone pays the same.</span>
+</p>
+<div class="tblwrap" id="limit-hands"></div>
+<p class="note">
+  <span class="ko"><strong>예</strong> — 자 하네만 쯔모(6판)는 자 둘이 3,000씩, 친이 6,000을 내어 합계 12,000점. 같은 하네만을 론하면 방총자 혼자 12,000점을 냅니다. 한편 <strong>판수가 낮아도</strong> 부수가 높으면(3판 70부·4판 40부 등) 자연스럽게 만관에 도달합니다 — 조견표의 만관 칸을 참고하세요. 일단 만관 이상이 되면 부수는 더는 영향을 주지 않습니다.</span>
+  <span class="ja"><strong>例</strong> — 子の跳満ツモ(6翻)は子2人が3,000ずつ・親が6,000で合計12,000点。同じ跳満をロンすると放銃者一人が12,000点。逆に<strong>翻数が低くても</strong>符が高ければ(3翻70符・4翻40符など)自然に満貫へ届きます — 早見表の満貫マスを参照。満貫以上になると符はもう影響しません。</span>
+  <span class="en"><strong>Example</strong> — a non-dealer haneman tsumo (6 han) is 3,000 from each non-dealer and 6,000 from the dealer, for 12,000 total; the same haneman by ron is 12,000 from the single discarder. Conversely, <strong>even with few han</strong> a high fu count (3 han 70 fu, 4 han 40 fu, …) reaches mangan on its own — see the mangan cells in the table above. Once you hit mangan, fu no longer matters.</span>
+</p>
 
 <h3 id="fu"><span class="ko">부수 계산</span><span class="ja">符の計算</span><span class="en">Counting fu</span></h3>
 <p>

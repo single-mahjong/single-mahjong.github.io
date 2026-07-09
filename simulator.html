@@ -153,6 +153,25 @@
   .help-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; margin-top: 12px; }
   .intro-list { margin: 4px 0 12px; padding-left: 18px; display: grid; gap: 8px; font-size: 13.5px; color: var(--text-body); }
   .intro-list b { color: var(--accent); }
+  /* 단계별 사용법 투어 — 대상을 하나씩 스포트라이트(#user). 오버레이가 클릭을 가로채 안내 중 오조작 방지. */
+  .tour-overlay { position: fixed; inset: 0; z-index: 120; }
+  .tour-overlay[hidden] { display: none; }
+  .tour-overlay.no-target { background: rgb(10 14 18 / 66%); }
+  .tour-spot { position: absolute; border-radius: 10px; border: 2px solid var(--accent); box-shadow: 0 0 0 9999px rgb(10 14 18 / 66%), 0 0 14px 2px rgb(169 197 106 / 35%); transition: top .22s ease, left .22s ease, width .22s ease, height .22s ease; pointer-events: none; }
+  .tour-overlay.no-target .tour-spot { display: none; }
+  .tour-tip { position: absolute; width: min(340px, calc(100vw - 28px)); background: var(--surface-raised); border: 1px solid var(--accent-line); border-radius: 12px; box-shadow: 0 20px 60px rgb(0 0 0 / 50%); padding: 14px 16px; }
+  .tour-step { color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .12em; font-variant-numeric: tabular-nums; }
+  .tour-title { margin: 4px 0 6px; color: var(--text-strong); font-size: 16px; }
+  .tour-body { margin: 0; color: var(--text-body); font-size: 13.5px; line-height: 1.6; }
+  .tour-body b { color: var(--accent); }
+  .tour-actions { display: flex; align-items: center; gap: 8px; margin-top: 14px; }
+  .tour-actions .spacer { flex: 1; }
+  .tour-btn { background: var(--surface-deep); color: var(--text-body); border: 1px solid var(--border-strong); border-radius: 8px; padding: 6px 13px; font: inherit; font-size: 12.5px; cursor: pointer; }
+  .tour-btn:hover:not(:disabled) { border-color: var(--accent); }
+  .tour-btn:disabled { opacity: .4; cursor: default; }
+  .tour-btn.primary { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .tour-skip { color: var(--text-muted); background: none; border: none; font: inherit; font-size: 12px; cursor: pointer; padding: 4px; }
+  .tour-skip:hover { color: var(--text-body); }
   .result { display: grid; gap: 8px; }
   .panel { border: 1px solid var(--border-strong); background: rgb(0 0 0 / 11%); border-radius: 10px; padding: 9px 10px; }
   .panel h3 { color: var(--accent); font-size: 15px; margin: 0 0 8px; }
@@ -372,7 +391,7 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-Cg9s0aif.js"></script>
+  <script type="module" crossorigin src="/assets/simulator-1imOMVq0.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BHz2gPSC.js">
 </head>
 <body>
@@ -564,19 +583,6 @@
   <span class="en">Scoring uses the game engine wherever possible. Sanma north dora and tsumo-loss display are handled by this simulator's sanma rules layer.</span>
 </footer>
 </div>
-
-
-<dialog id="sim-intro" class="help-dialog">
-  <h3><span class="ko">국면 분석기 사용법</span><span class="ja">局面アナライザーの使い方</span><span class="en">How to use</span></h3>
-  <ul class="intro-list">
-    <li><span class="ko">이 도구는 <b>한 국면</b>을 분석합니다 — 턴을 이어 진행하지 않습니다.</span><span class="ja">これは<b>一つの局面</b>を分析します — ターンを続けて進めません。</span><span class="en">This analyzes <b>one position</b> — it does not play turns forward.</span></li>
-    <li><span class="ko">모든 패는 오른쪽 <b>패 팔레트</b> 하나로 넣습니다. <b>어디에 넣을지</b>는 작탁의 표면(손패·도라·각 좌석 버림패·후로)을 눌러 고릅니다.</span><span class="ja">牌はすべて右の<b>牌パレット</b>から入れます。<b>入力先</b>は卓の面(手牌・ドラ・各家の河・副露)をクリックして選びます。</span><span class="en">Every tile goes in from the single <b>tile palette</b> on the right. Click a surface on the table (hand, dora, a player's discards, calls) to choose <b>where</b> it goes.</span></li>
-    <li><span class="ko">아래 결과에서 <b>유효패·점수·추천 타패</b>를 확인하세요.</span><span class="ja">下の結果で<b>有効牌·点数·推奨打牌</b>を確認できます。</span><span class="en">See <b>outs, score, and discard advice</b> in the results below.</span></li>
-  </ul>
-  <div class="help-actions">
-    <button type="button" class="action primary" id="btn-sim-intro-close"><span class="ko">시작</span><span class="ja">はじめる</span><span class="en">Start</span></button>
-  </div>
-</dialog>
 
 
 <dialog id="notation-help" class="help-dialog">
