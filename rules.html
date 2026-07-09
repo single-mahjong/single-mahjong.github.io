@@ -105,6 +105,16 @@
   .meld-draft-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   .meld-detect { color: var(--accent); font-weight: 700; font-size: 12.5px; margin-right: auto; }
   .meld-draft .opt { padding: 4px 11px; font-size: 12.5px; }
+  /* 장풍 선택 + 도라 표시패 칩. */
+  .wind-pick { display: inline-flex; align-items: center; gap: 6px; }
+  .wind-label { color: var(--text-muted); font-size: 12px; }
+  #round-wind .opt { padding: 5px 10px; }
+  .calc-dora { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 8px; }
+  .calc-dora:empty { display: none; }
+  .calc-dora .dora-title { color: var(--text-muted); font-size: 12px; }
+  .dora-chip { display: inline-flex; align-items: center; background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 8px; padding: 3px 5px; cursor: pointer; }
+  .dora-chip:hover { border-color: rgb(240 123 123 / 60%); }
+  .dora-chip .tile { width: 22px; }
   .calc-hand-area { min-height: 74px; border: 1px dashed var(--border-strong); border-radius: 10px; padding: 10px 12px 20px; margin: 8px 0; display: flex; align-items: center; }
   #calc-hand { gap: 3px; }
   #calc-hand .tile { cursor: pointer; }
@@ -186,7 +196,7 @@
     .yaku-list td .grp { flex-wrap: wrap; gap: 1px; max-width: 100%; }
   }
 </style>
-  <script type="module" crossorigin src="/assets/rules-E9lNCAwi.js"></script>
+  <script type="module" crossorigin src="/assets/rules-1Hdr7_AT.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BHz2gPSC.js">
 </head>
 <body>
@@ -535,16 +545,19 @@
       <button type="button" class="opt on" id="opt-child"><span class="ko">자(子)</span><span class="ja">子</span><span class="en">Non-dealer</span></button>
       <button type="button" class="opt" id="opt-dealer"><span class="ko">친(親)</span><span class="ja">親</span><span class="en">Dealer</span></button>
     </span>
+    <span class="wind-pick"><span class="wind-label"><span class="ko">장풍</span><span class="ja">場風</span><span class="en">Round</span></span><span class="optgrp" id="round-wind"></span></span>
     <button type="button" class="opt" id="opt-furo"><span class="ko">+ 후로</span><span class="ja">+ 副露</span><span class="en">+ Call</span></button>
+    <button type="button" class="opt" id="opt-dora"><span class="ko">+ 도라</span><span class="ja">+ ドラ</span><span class="en">+ Dora</span></button>
     <button type="button" class="opt clear" id="opt-clear"><span class="ko">비우기</span><span class="ja">クリア</span><span class="en">Clear</span></button>
   </div>
   <div class="calc-melds" id="calc-melds"></div>
+  <div class="calc-dora" id="calc-dora"></div>
   <div class="calc-hand-area"><span class="hand" id="calc-hand"></span></div>
   <div class="calc-result" id="calc-result"></div>
   <p class="note" style="margin:10px 0 0">
-    <span class="ko">장풍은 동 고정, 도라 표시패·본장·공탁 없음 기준. 적5는 도라 1로 계산됩니다. <strong>+ 후로</strong>로 치·펑·깡(안깡 포함)을 등록하면 울은 손패의 점수를 정확히 계산합니다(안깡만 있으면 멘젠 유지). 후로가 없을 때는 완성 시 「울면서 만들었다면」 비교도 보여줍니다. 「노려볼 만한 역」은 모양 기준 힌트로, 확정이 아닙니다.</span>
-    <span class="ja">場風は東固定、ドラ表示牌・本場・供託なし。赤5はドラ1として計算。<strong>+ 副露</strong>でチー・ポン・カン(暗槓含む)を登録すると、鳴いた手の点数を正確に計算します(暗槓のみなら門前を維持)。副露が無い場合は完成時に「鳴いて作った場合」の比較も表示します。「狙えそうな役」は形のヒントで、確定ではありません。</span>
-    <span class="en">East round, no dora indicators, honba, or deposits. Red fives count as 1 dora each. Use <strong>+ Call</strong> to register chi/pon/kan (incl. closed kan) and the open hand is scored exactly (a hand with only closed kans stays concealed). With no calls, complete hands also show an "if built open" comparison. "Yaku to aim for" are shape hints, not guarantees.</span>
+    <span class="ko">자풍은 친(동)/자(남), <strong>장풍</strong>은 선택, 우라도라·본장·공탁 없음 기준. 적5는 도라 1로 계산됩니다. <strong>+ 후로</strong>로 치·펑·깡(안깡 포함)을 등록하면 울은 손패의 점수를 정확히 계산하고(안깡만 있으면 멘젠 유지), <strong>+ 도라</strong>로 도라 표시패(최대 5장)를 넣으면 도라도 합산합니다. 후로가 없을 때는 완성 시 「울면서 만들었다면」 비교도 보여줍니다. 「노려볼 만한 역」은 모양 기준 힌트로, 확정이 아닙니다.</span>
+    <span class="ja">自風は親(東)/子(南)、<strong>場風</strong>は選択、裏ドラ・本場・供託なし。赤5はドラ1として計算。<strong>+ 副露</strong>でチー・ポン・カン(暗槓含む)を登録すると鳴いた手の点数を正確に計算し(暗槓のみなら門前維持)、<strong>+ ドラ</strong>でドラ表示牌(最大5枚)を入れるとドラも加算します。副露が無い場合は完成時に「鳴いて作った場合」の比較も表示します。「狙えそうな役」は形のヒントで、確定ではありません。</span>
+    <span class="en">Seat wind is dealer (East) / non-dealer (South); the <strong>round wind</strong> is selectable; no ura dora, honba, or deposits. Red fives count as 1 dora each. Use <strong>+ Call</strong> to register chi/pon/kan (incl. closed kan) — the open hand is scored exactly (only closed kans stays concealed) — and <strong>+ Dora</strong> to add dora indicators (up to 5), which are counted too. With no calls, complete hands also show an "if built open" comparison. "Yaku to aim for" are shape hints, not guarantees.</span>
   </p>
   <p class="note" style="margin:10px 0 0">
     <a class="tool-link" href="/simulator.html"><span class="ko">국면 분석기 열기 →</span><span class="ja">局面アナライザーを開く →</span><span class="en">Open position analyzer →</span></a>
