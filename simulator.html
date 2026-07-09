@@ -261,12 +261,19 @@
   .seat .pond { --tw: var(--seat-tw); }
   .seat-top, .seat-bottom { width: var(--seat-side-w); }
   .seat-top { top: 18px; left: 50%; transform: translateX(-50%); }
-  .seat-left { left: 16px; top: 50%; transform: translateY(-50%); width: var(--seat-side-w); }
-  .seat-right { right: 16px; top: 50%; transform: translateY(-50%); width: var(--seat-side-w); }
+  /* 측면 좌석 앵커 14px(종전 16) — 카드를 좌석 폭(min-width:0)으로 당긴 뒤 1200px 하한에서 좌단이
+     중앙 콘솔에 1px 닿던 것을 2px 바깥으로 밀어 해소. 잘림 여유는 -17→-14로 여전히 안전. */
+  .seat-left { left: 14px; top: 50%; transform: translateY(-50%); width: var(--seat-side-w); }
+  .seat-right { right: 14px; top: 50%; transform: translateY(-50%); width: var(--seat-side-w); }
   .seat-bottom { left: 50%; bottom: 18px; transform: translateX(-50%); }
   .seat.hidden { display: none; }
-  .seat-card { background: rgb(18 25 32 / 80%); border: 1px solid var(--border-strong); border-radius: 8px; padding: 8px 10px; backdrop-filter: blur(6px); }
-  .seat-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+  /* min-width:0 필수 — grid 아이템 기본 min-width:auto(min-content)면 카드가 좌석 폭(--seat-side-w)을
+     무시하고 nowrap meta 폭까지 확장해 하가(우측) 카드가 작탁 밖으로 잘린다(3인/영어, #user).
+     0이면 카드가 좌석 폭을 존중하고 좌석명이 ellipsis로 줄어 폭을 흡수한다. */
+  .seat-card { min-width: 0; background: rgb(18 25 32 / 80%); border: 1px solid var(--border-strong); border-radius: 8px; padding: 8px 10px; backdrop-filter: blur(6px); }
+  /* gap은 4px — nowrap 6칸(이름·자풍·점수·리치·副·北)이 좌석 폭을 넘겨 하가(우측) 카드가
+     작탁 밖으로 잘리던 문제(3인, #user). 8px면 3인 카드 231px로 우측 경계 14px 초과. */
+  .seat-meta { display: flex; align-items: center; justify-content: space-between; gap: 4px; margin-bottom: 6px; }
   .seat-name { color: var(--text-strong); font-weight: 800; font-size: 13px; }
   .seat-info { display: flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
   .seat-kita { min-height: 16px; color: var(--warn); font-size: 11.5px; display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
@@ -365,7 +372,7 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-D0eBRn1N.js"></script>
+  <script type="module" crossorigin src="/assets/simulator-xragoeP5.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BHz2gPSC.js">
 </head>
 <body>
