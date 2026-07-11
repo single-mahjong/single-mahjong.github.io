@@ -130,6 +130,11 @@
   .quick-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
   .action-bar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; margin-top: 6px; }
   .action-bar .action { width: 100%; padding: 7px 8px; text-align: center; }
+  /* 마지막 대국 국면 가져오기(#user) — 버튼 + 라벨/경과 한 줄. */
+  .import-live-row { display: flex; flex-direction: column; gap: 3px; margin-top: 6px; }
+  .import-live-row .action { width: 100%; text-align: center; }
+  .import-live-row .action:disabled { opacity: .45; cursor: default; }
+  #import-live-note { font-variant-numeric: tabular-nums; }
   .action-bar .action.danger { grid-column: 1 / -1; border-color: rgb(240 123 123 / 42%); color: var(--danger); }
   .action-bar .action.danger:hover:not(:disabled) { border-color: var(--danger); }
   /* '입력' 제목 줄 오른쪽 끝에 결과 복사·비우기(#user) — 액션바에서 이 줄로 옮겼다. */
@@ -394,7 +399,7 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-DRB4WIOB.js"></script>
+  <script type="module" crossorigin src="/assets/simulator-CO4cko7j.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BySqTxIv.js">
 </head>
 <body>
@@ -487,6 +492,11 @@
     <div class="action-bar">
       <button type="button" class="action" id="btn-undo"><span class="ko">되돌리기</span><span class="ja">戻す</span><span class="en">Undo</span></button>
       <button type="button" class="action" id="btn-redo"><span class="ko">다시 실행</span><span class="ja">やり直し</span><span class="en">Redo</span></button>
+    </div>
+    <!-- 게임이 남긴 마지막 대국 국면 가져오기(#user) — 라벨·경과는 JS가 채운다. 저장분 없으면 비활성. -->
+    <div class="import-live-row">
+      <button type="button" class="action" id="btn-import-live"><span class="ko">최신 대국 국면 가져오기</span><span class="ja">最新の対局局面を取り込む</span><span class="en">Import latest match position</span></button>
+      <small class="subtle" id="import-live-note"></small>
     </div>
 
     <div class="section result" id="sim-result"></div>

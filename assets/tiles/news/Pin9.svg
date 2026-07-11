@@ -15,13 +15,13 @@
   
   <!-- HERO: large rank/honor glyph -->
   <text x="150" y="226" font-family="Georgia,'Times New Roman',serif" font-size="200" font-weight="bold"
-    fill="#4C5560" text-anchor="middle" dominant-baseline="middle"
+    fill="#3E5C7E" text-anchor="middle" dominant-baseline="middle"
     letter-spacing="-4">9</text>
   
   <!-- Suit badge pill at bottom -->
-  <rect x="118" y="356" width="64" height="22" rx="5" fill="#4C5560" opacity="0.15"/>
+  <rect x="118" y="356" width="64" height="22" rx="5" fill="#3E5C7E" opacity="0.15"/>
   <text x="150" y="370" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold"
-    fill="#4C5560" text-anchor="middle" dominant-baseline="middle">P</text>
+    fill="#3E5C7E" text-anchor="middle" dominant-baseline="middle">P</text>
   <!-- Outer border -->
   <rect x="1" y="1" width="298" height="398" rx="9" fill="none" stroke="#D8D3C8" stroke-width="1.5"/>
 </svg>
