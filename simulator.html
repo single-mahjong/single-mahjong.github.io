@@ -131,10 +131,14 @@
   .action-bar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; margin-top: 6px; }
   .action-bar .action { width: 100%; padding: 7px 8px; text-align: center; }
   /* 마지막 대국 국면 가져오기(#user) — 버튼 + 라벨/경과 한 줄. */
-  .import-live-row { display: flex; flex-direction: column; gap: 3px; margin-top: 6px; }
-  .import-live-row .action { width: 100%; text-align: center; }
-  .import-live-row .action:disabled { opacity: .45; cursor: default; }
-  #import-live-note { font-variant-numeric: tabular-nums; }
+  .action-bar-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .action-bar .action:disabled { opacity: .45; cursor: default; }
+  .import-live-note { display: block; margin-top: 4px; color: var(--text-body); font-size: 12px; line-height: 1.5; font-variant-numeric: tabular-nums; }
+  /* 로고 옆 ? — 이 도구가 무엇인지 말풍선으로(#user: 상단 고정 문단 제거). */
+  .logo-help { margin-left: 8px; width: 22px; height: 22px; padding: 0; font-size: 12px; font-weight: 700; line-height: 1; color: var(--text-body); background: var(--surface-raised); border: 1px solid var(--border-strong); border-radius: 50%; cursor: pointer; vertical-align: middle; }
+  .logo-help:hover, .logo-help[aria-expanded="true"] { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+  .what-pop { position: absolute; z-index: 60; max-width: min(420px, 92vw); margin-top: 6px; padding: 10px 13px; color: var(--text-strong); font-size: 13px; line-height: 1.6; background: var(--surface-raised); border: 1px solid var(--accent-line); border-radius: 10px; box-shadow: 0 10px 30px rgb(0 0 0 / 45%); }
+  .what-pop[hidden] { display: none; }
   .action-bar .action.danger { grid-column: 1 / -1; border-color: rgb(240 123 123 / 42%); color: var(--danger); }
   .action-bar .action.danger:hover:not(:disabled) { border-color: var(--danger); }
   /* '입력' 제목 줄 오른쪽 끝에 결과 복사·비우기(#user) — 액션바에서 이 줄로 옮겼다. */
@@ -399,13 +403,18 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-CO4cko7j.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BySqTxIv.js">
+  <script type="module" crossorigin src="/assets/simulator-DgrxuMd-.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-A3W6MVSS.js">
 </head>
 <body>
 <div class="wrap">
 <header class="top">
-  <div class="logo">一発 <em>Ippatsu</em> <span class="ko">국면 분석기</span><span class="ja">局面アナライザー</span><span class="en">Position Analyzer</span></div>
+  <div class="logo">一発 <em>Ippatsu</em> <span class="ko">국면 분석기</span><span class="ja">局面アナライザー</span><span class="en">Position Analyzer</span><button type="button" class="logo-help" id="btn-what" aria-expanded="false" aria-label="이 도구는? / What is this?">?</button></div>
+  <div class="what-pop" id="what-pop" hidden role="tooltip">
+    <span class="ko">한 국면을 입력해 유효패·점수·추천 타패를 분석합니다. 턴을 이어서 진행하진 않습니다.</span>
+    <span class="ja">一つの局面を入力して有効牌・点数・推奨打牌を分析します。ターンを続けて進めるものではありません。</span>
+    <span class="en">Analyze one board position: outs, score, and discard advice. It does not play turns forward.</span>
+  </div>
   <div class="langs">
     <button class="langbtn" data-l="ko">한국어</button>
     <button class="langbtn" data-l="ja">日本語</button>
@@ -414,12 +423,6 @@
   <button type="button" class="back" id="btn-sim-help"><span class="ko">도움말</span><span class="ja">ヘルプ</span><span class="en">Help</span></button>
   <a class="back" href="/rules.html">← <span class="ko">룰북으로</span><span class="ja">ルールブックへ</span><span class="en">Back to rules</span></a>
 </header>
-<p class="intro-note">
-  <span class="ko">한 국면을 입력해 유효패·점수·추천 타패를 분석합니다. 턴을 이어서 진행하진 않습니다.</span>
-  <span class="ja">一つの局面を入力して有効牌・点数・推奨打牌を分析します。ターンを続けて進めるものではありません。</span>
-  <span class="en">Analyze one board position: outs, score, and discard advice. It does not play turns forward.</span>
-</p>
-
 <div class="grid">
   <aside class="card" id="panel-settings">
     <h2><span class="ko">설정</span><span class="ja">設定</span><span class="en">Settings</span></h2>
@@ -489,15 +492,13 @@
       <button type="button" class="help-btn" id="btn-notation-help" aria-label="패 표기법 도움말 / Tile notation help">?</button>
     </div>
 
-    <div class="action-bar">
+    <!-- 되돌리기 · 다시 실행 · 최신 대국 국면 가져오기를 한 줄로(#user). 라벨/경과는 JS가 채우고, 저장분 없으면 비활성. -->
+    <div class="action-bar action-bar-3">
       <button type="button" class="action" id="btn-undo"><span class="ko">되돌리기</span><span class="ja">戻す</span><span class="en">Undo</span></button>
       <button type="button" class="action" id="btn-redo"><span class="ko">다시 실행</span><span class="ja">やり直し</span><span class="en">Redo</span></button>
+      <button type="button" class="action" id="btn-import-live"><span class="ko">최신 대국 국면</span><span class="ja">最新の対局局面</span><span class="en">Import latest</span></button>
     </div>
-    <!-- 게임이 남긴 마지막 대국 국면 가져오기(#user) — 라벨·경과는 JS가 채운다. 저장분 없으면 비활성. -->
-    <div class="import-live-row">
-      <button type="button" class="action" id="btn-import-live"><span class="ko">최신 대국 국면 가져오기</span><span class="ja">最新の対局局面を取り込む</span><span class="en">Import latest match position</span></button>
-      <small class="subtle" id="import-live-note"></small>
-    </div>
+    <small class="subtle import-live-note" id="import-live-note"></small>
 
     <div class="section result" id="sim-result"></div>
   </aside>
@@ -590,11 +591,6 @@
   </main>
 </div>
 
-<footer>
-  <span class="ko">계산은 가능한 한 게임 엔진을 사용합니다. 3인 북도라와 쯔모손 표시는 시뮬레이터 전용 3인 룰 레이어입니다.</span>
-  <span class="ja">計算は可能な限りゲームエンジンを使用します。三麻の北ドラとツモ損表示はシミュレーター専用の三麻ルール層です。</span>
-  <span class="en">Scoring uses the game engine wherever possible. Sanma north dora and tsumo-loss display are handled by this simulator's sanma rules layer.</span>
-</footer>
 </div>
 
 
