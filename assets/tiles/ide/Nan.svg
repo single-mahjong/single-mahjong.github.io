@@ -11,24 +11,24 @@
   <!-- Active tab -->
   <rect x="12" y="2" width="120" height="24" rx="4" fill="#2D2D30"/>
   <!-- Tab dot (syntax-color — modified file indicator) -->
-  <circle cx="127" cy="13" r="3" fill="#4EC9B0"/>
+  <circle cx="127" cy="13" r="3" fill="#5C9C8C"/>
   <text x="72" y="13" font-family="Consolas,'Courier New',monospace" font-size="11"
-    fill="#D4D4D4" text-anchor="middle" dominant-baseline="middle">Nan.ts</text>
+    fill="#C0C0C0" text-anchor="middle" dominant-baseline="middle">Nan.ts</text>
   <!-- Tab separator -->
-  <line x1="10" y1="26" x2="300" y2="26" stroke="#3E3E42" stroke-width="1"/>
+  <line x1="10" y1="26" x2="300" y2="26" stroke="#3C3C40" stroke-width="1"/>
   <!-- HERO: large rank/honor glyph, syntax-colored -->
   <text x="155" y="206" font-family="Consolas,'Courier New',monospace" font-size="200" font-weight="bold"
-    fill="#4EC9B0" text-anchor="middle" dominant-baseline="middle"
+    fill="#5C9C8C" text-anchor="middle" dominant-baseline="middle"
     letter-spacing="-8">S</text>
   
   <!-- Type label below digit (small syntax token) -->
   <text x="155" y="370" font-family="Consolas,'Courier New',monospace" font-size="22"
-    fill="#4EC9B0" opacity="0.50" text-anchor="middle" dominant-baseline="middle">Wind</text>
+    fill="#5C9C8C" opacity="0.50" text-anchor="middle" dominant-baseline="middle">Wind</text>
   <!-- Status bar at bottom -->
   <rect x="0" y="386" width="300" height="14" rx="8" fill="#252526"/>
   <rect x="0" y="386" width="300" height="7" fill="#252526"/>
   <text x="16" y="393" font-family="Arial,Helvetica,sans-serif" font-size="8"
     fill="#858585" dominant-baseline="middle">TypeScript</text>
   <!-- Outer border -->
-  <rect x="0.75" y="0.75" width="298.5" height="398.5" rx="7.5" fill="none" stroke="#3E3E42" stroke-width="1.5"/>
+  <rect x="0.75" y="0.75" width="298.5" height="398.5" rx="7.5" fill="none" stroke="#3C3C40" stroke-width="1.5"/>
 </svg>

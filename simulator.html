@@ -243,6 +243,9 @@
   .seat-melds { display: flex; flex-wrap: wrap; gap: 4px; }
   .seat-melds.hidden { display: none; }
   .seat-melds.active { outline: 1px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+  /* 빈 후로 존의 진입 고스트 칩(#user — 버림패처럼 작탁 표면에서 바로 추가). 클릭은 존 표면이 처리. */
+  .meld-zone-ghost { padding: 3px 10px; color: var(--text-muted); font-size: 11px; border: 1px dashed var(--border-strong); border-radius: 999px; cursor: pointer; }
+  .seat-melds:hover .meld-zone-ghost { color: var(--accent); border-color: var(--accent); }
   /* 폭은 강 6열(--seat-side-w)로 캡하되 중앙 상/하 좌석과 안 겹치게 (50% - 120px)로도 캡한다. */
   .board-meld-zone { position: absolute; z-index: 3; width: min(var(--seat-side-w), calc(50% - 120px)); }
   .board-meld-tl { top: 16px; left: 16px; justify-content: flex-start; }
@@ -391,8 +394,8 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-CYrIUd9z.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-YJqqAA1C.js">
+  <script type="module" crossorigin src="/assets/simulator-Dn8-z-MN.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-Cyu6cG1P.js">
 </head>
 <body>
 <div class="wrap">

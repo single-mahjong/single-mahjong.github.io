@@ -1,23 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">
   <!-- Excel skin: Pei -->
   <!-- Cell background -->
-  <rect x="0" y="0" width="300" height="400" rx="10" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="300" height="400" rx="10" fill="#F4F5F6"/>
   <!-- Excel-green header strip (chrome signal) -->
-  <rect x="0" y="0" width="300" height="52" rx="10" fill="#217346"/>
-  <rect x="0" y="42" width="300" height="10" fill="#217346"/>
+  <rect x="0" y="0" width="300" height="52" rx="10" fill="#1D6138"/>
+  <rect x="0" y="42" width="300" height="10" fill="#1D6138"/>
   <text x="150" y="32" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="bold"
     fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">Wind</text>
   <!-- Hero zone background (rest of tile) -->
-  <rect x="0" y="52" width="300" height="348" fill="#FFFFFF"/>
+  <rect x="0" y="52" width="300" height="348" fill="#F4F5F6"/>
   <!-- HERO: large rank/honor glyph -->
   <text x="150" y="260" font-family="Arial Black,Arial,Helvetica,sans-serif" font-size="200" font-weight="900"
-    fill="#4472C4" text-anchor="middle" dominant-baseline="middle"
+    fill="#5C7396" text-anchor="middle" dominant-baseline="middle"
     letter-spacing="-4">N</text>
   
   <!-- Suit marker: small label at bottom -->
   <text x="150" y="378" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="bold"
-    fill="#4472C4" opacity="0.55" text-anchor="middle" dominant-baseline="middle">wind</text>
+    fill="#5C7396" opacity="0.55" text-anchor="middle" dominant-baseline="middle">wind</text>
   <!-- Cell border (minimal chrome) -->
   <rect x="0.75" y="0.75" width="298.5" height="398.5"
-    rx="9.25" fill="none" stroke="#D0D7E0" stroke-width="1.5"/>
+    rx="9.25" fill="none" stroke="#C0C2C5" stroke-width="1.5"/>
 </svg>

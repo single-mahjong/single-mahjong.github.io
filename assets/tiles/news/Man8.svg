@@ -1,27 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">
   <!-- News skin: Man8 -->
   <!-- Newsprint background -->
-  <rect x="0" y="0" width="300" height="400" rx="10" fill="#FAF9F6"/>
+  <rect x="0" y="0" width="300" height="400" rx="10" fill="#F4F2EC"/>
   <!-- Dark masthead (chrome signal) -->
-  <rect x="0" y="0" width="300" height="52" rx="10" fill="#1A1A1A"/>
-  <rect x="0" y="42" width="300" height="10" fill="#1A1A1A"/>
+  <rect x="0" y="0" width="300" height="52" rx="10" fill="#383838"/>
+  <rect x="0" y="42" width="300" height="10" fill="#383838"/>
   <!-- Masthead: paper name -->
   <text x="150" y="26" font-family="Georgia,'Times New Roman',serif" font-size="17" font-weight="bold"
-    fill="#CC0000" text-anchor="middle" dominant-baseline="middle">THE RECORD</text>
+    fill="#D9D5CC" text-anchor="middle" dominant-baseline="middle">THE RECORD</text>
   <!-- Category pill in masthead -->
-  <rect x="8" y="34" width="50" height="15" rx="3" fill="#CC0000"/>
+  <rect x="8" y="34" width="50" height="15" rx="3" fill="#4A4A4A"/>
   <text x="33" y="41.5" font-family="Arial,Helvetica,sans-serif" font-size="9" font-weight="bold"
     fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">CHARS</text>
   
   <!-- HERO: large rank/honor glyph -->
   <text x="150" y="226" font-family="Georgia,'Times New Roman',serif" font-size="200" font-weight="bold"
-    fill="#CC0000" text-anchor="middle" dominant-baseline="middle"
+    fill="#45403A" text-anchor="middle" dominant-baseline="middle"
     letter-spacing="-4">8</text>
   
   <!-- Suit badge pill at bottom -->
-  <rect x="118" y="356" width="64" height="22" rx="5" fill="#CC0000" opacity="0.15"/>
+  <rect x="118" y="356" width="64" height="22" rx="5" fill="#45403A" opacity="0.15"/>
   <text x="150" y="370" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold"
-    fill="#CC0000" text-anchor="middle" dominant-baseline="middle">M</text>
+    fill="#45403A" text-anchor="middle" dominant-baseline="middle">M</text>
   <!-- Outer border -->
-  <rect x="1" y="1" width="298" height="398" rx="9" fill="none" stroke="#E0DDD8" stroke-width="1.5"/>
+  <rect x="1" y="1" width="298" height="398" rx="9" fill="none" stroke="#D8D3C8" stroke-width="1.5"/>
 </svg>
