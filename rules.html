@@ -146,6 +146,9 @@
   .wcap { font-size: 11px; color: var(--text-muted); line-height: 1.2; }
   @media (max-width: 560px) {
     .hand { --tw: 26px; } .hand.big { --tw: 32px; } body { font-size: 14px; }
+    /* 계산기 팔레트 탭 타깃 확대(#user QA — 29×36px가 44px 가이드 미달): 7열 + 여백 확대. */
+    .calc-palette { grid-template-columns: repeat(7, 1fr); gap: 6px; max-width: none; }
+    .pal { padding: 4px; min-height: 44px; }
     /* 모바일: 색인은 한 줄 가로 스크롤(스티키가 화면을 덜 차지하도록) — overflow는 내부 래퍼에만 */
     .toc-scroll { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
     .toc-scroll::-webkit-scrollbar { display: none; }
@@ -195,9 +198,12 @@
     .yaku-list td .hand.sm { --tw: 22px; }
     .yaku-list td .grp { flex-wrap: wrap; gap: 1px; max-width: 100%; }
   }
+  /* 본문 앵커 — UA 기본 파랑/보라는 다크 배경에서 저대비(#user QA). 헤더/TOC는 자체 규칙 유지. */
+  main a { color: var(--accent); }
+  main a:visited { color: var(--accent); }
 </style>
-  <script type="module" crossorigin src="/assets/rules-CmEsTrVl.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-CDI7su4B.js">
+  <script type="module" crossorigin src="/assets/rules-CVcK0eP_.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-B0N03a5w.js">
 </head>
 <body>
 <div class="readbar" id="readbar" aria-hidden="true"></div>
