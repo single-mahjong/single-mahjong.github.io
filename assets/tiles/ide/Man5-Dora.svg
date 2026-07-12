@@ -11,20 +11,21 @@
   <!-- Active tab -->
   <rect x="12" y="2" width="120" height="24" rx="4" fill="#2D2D30"/>
   <!-- Tab dot (syntax-color — modified file indicator) -->
-  <circle cx="127" cy="13" r="3" fill="#9C8A52"/>
+  <circle cx="127" cy="13" r="3" fill="#9C7BA8"/>
   <text x="72" y="13" font-family="Consolas,'Courier New',monospace" font-size="11"
     fill="#C0C0C0" text-anchor="middle" dominant-baseline="middle">Man5-Dora.ts</text>
   <!-- Tab separator -->
   <line x1="10" y1="26" x2="300" y2="26" stroke="#3C3C40" stroke-width="1"/>
   <!-- HERO: large rank/honor glyph, syntax-colored -->
   <text x="155" y="206" font-family="Consolas,'Courier New',monospace" font-size="200" font-weight="bold"
-    fill="#9C8A52" text-anchor="middle" dominant-baseline="middle"
+    fill="#AD8163" text-anchor="middle" dominant-baseline="middle"
     letter-spacing="-8">5</text>
   
-  <rect x="60" y="340" width="180" height="6" rx="3" fill="#9C8A52" opacity="0.85"/>
+  <path d="M 0 26 L 92 26 L 0 118 Z" fill="#9C7BA8" opacity="0.92"/>
+  <rect x="30" y="336" width="240" height="18" rx="9" fill="#9C7BA8" opacity="0.9"/>
   <!-- Type label below digit (small syntax token) -->
   <text x="155" y="370" font-family="Consolas,'Courier New',monospace" font-size="22"
-    fill="#9C8A52" opacity="0.50" text-anchor="middle" dominant-baseline="middle">man</text>
+    fill="#AD8163" opacity="0.50" text-anchor="middle" dominant-baseline="middle">man</text>
   <!-- Status bar at bottom -->
   <rect x="0" y="386" width="300" height="14" rx="8" fill="#252526"/>
   <rect x="0" y="386" width="300" height="7" fill="#252526"/>

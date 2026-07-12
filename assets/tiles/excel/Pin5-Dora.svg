@@ -11,15 +11,16 @@
   <rect x="0" y="52" width="300" height="348" fill="#F4F5F6"/>
   <!-- HERO: large rank/honor glyph -->
   <text x="150" y="260" font-family="Arial Black,Arial,Helvetica,sans-serif" font-size="200" font-weight="900"
-    fill="#A9574F" text-anchor="middle" dominant-baseline="middle"
+    fill="#5C7396" text-anchor="middle" dominant-baseline="middle"
     letter-spacing="-4">5</text>
   
-  <text x="262" y="100" font-family="Arial,Helvetica,sans-serif" font-size="36"
+  <path d="M 0 0 L 96 0 L 0 96 Z" fill="#B8874B" opacity="0.92"/>
+  <text x="248" y="106" font-family="Arial,Helvetica,sans-serif" font-size="60"
     fill="#B8874B" text-anchor="middle" dominant-baseline="middle">&#9733;</text>
   <!-- Suit marker: small label at bottom -->
   <text x="150" y="378" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="bold"
-    fill="#A9574F" opacity="0.55" text-anchor="middle" dominant-baseline="middle">P</text>
+    fill="#5C7396" opacity="0.55" text-anchor="middle" dominant-baseline="middle">P</text>
   <!-- Cell border (minimal chrome) -->
-  <rect x="2" y="2" width="296" height="396"
-    rx="8" fill="none" stroke="#B8874B" stroke-width="4"/>
+  <rect x="4.5" y="4.5" width="291" height="391"
+    rx="5.5" fill="none" stroke="#B8874B" stroke-width="9"/>
 </svg>

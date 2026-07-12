@@ -18,11 +18,12 @@
     fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">BREAKING</text>
   <!-- HERO: large rank/honor glyph -->
   <text x="150" y="238" font-family="Georgia,'Times New Roman',serif" font-size="200" font-weight="bold"
-    fill="#28251F" text-anchor="middle" dominant-baseline="middle"
+    fill="#3E5C7E" text-anchor="middle" dominant-baseline="middle"
     letter-spacing="-4">5</text>
   
-  <text x="262" y="124" font-family="Georgia,serif" font-size="36"
-    fill="#4A4A4A" text-anchor="middle" dominant-baseline="middle">&#9733;</text>
+  <path d="M 0 76 L 92 76 L 0 168 Z" fill="#28251F" opacity="0.9"/>
+  <text x="248" y="132" font-family="Georgia,serif" font-size="60"
+    fill="#28251F" text-anchor="middle" dominant-baseline="middle">&#9733;</text>
   <!-- Suit badge pill at bottom -->
   <rect x="118" y="356" width="64" height="22" rx="5" fill="#3E5C7E" opacity="0.15"/>
   <text x="150" y="370" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold"
