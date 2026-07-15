@@ -321,8 +321,11 @@
   .mini-stat b { display: block; color: var(--accent); font-size: 13px; font-variant-numeric: tabular-nums; line-height: 1.15; }
   .mini-stat span { display: block; color: var(--text-muted); font-size: 9.5px; }
   .center-dora { display: grid; gap: 4px; }
-  .center-dora-label { color: var(--text-muted); font-size: 11.5px; }
-  .center-dora .pond { min-height: 34px; }
+  /* 도라|뒷도라 2열 — 세로 스택 금지(consoleH 148 연립 제약). 반폭 셀에 맞춰 타일만 축소. */
+  .center-dora-duo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px 8px; }
+  .center-dora-cell { display: grid; gap: 4px; min-width: 0; align-content: start; }
+  .center-dora-label { color: var(--text-muted); font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .center-dora .pond { min-height: 34px; --tw: 20px; }
   .board-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 8px 0; }
   .hand-rack { margin-top: 4px; }
   .hand-rack .surface { min-height: 54px; }
@@ -403,8 +406,8 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator--pvFG5oo.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-CftPGBf0.js">
+  <script type="module" crossorigin src="/assets/simulator-Bsf3G5ta.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-DC8_Wpme.js">
 </head>
 <body>
 <div class="wrap">
@@ -568,9 +571,17 @@
           <div class="mini-stat"><b id="board-riichi">0</b><span id="board-riichi-label"></span></div>
           <div class="mini-stat"><b id="board-kita">0</b><span id="board-kita-label"></span></div>
         </div>
-        <div class="center-dora">
-          <span class="center-dora-label" id="dora-count"></span>
-          <div class="pond" id="sim-dora"></div>
+        <!-- 도라/뒷도라 표시패는 한 행 2열(#user 뒷도라 추가) — 세로로 쌓으면 콘솔 높이(consoleH)가
+             자라 좌석↔콘솔 오버랩 연립 제약(아래 min-height 주석)이 깨진다. 행 높이는 종전과 동일. -->
+        <div class="center-dora center-dora-duo">
+          <div class="center-dora-cell">
+            <span class="center-dora-label" id="dora-count"></span>
+            <div class="pond" id="sim-dora"></div>
+          </div>
+          <div class="center-dora-cell">
+            <span class="center-dora-label" id="ura-count"></span>
+            <div class="pond" id="sim-ura"></div>
+          </div>
         </div>
       </div>
       <!-- 후로 영역: 각 좌석의 대각 모서리(#user 3x3 표). 대면→좌상 · 하가→우상 · 상가→좌하 · 플레이어→우하. -->
