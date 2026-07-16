@@ -125,6 +125,11 @@
   .tile.win::after { content: "▲"; position: absolute; left: 50%; transform: translateX(-50%); bottom: -15px; color: var(--accent); font-size: 11px; }
   .tile.dead { opacity: .45; }
   .handline .tile.win { margin-left: 13px; }
+  /* 강 화료패 지정(#user 제보 — 재고 소진 재현): 강 클릭은 보통 제거지만 arm 모드에서는 지정으로
+     바뀐다. 강 그리드(6열·gap 3px)라 .tile.win의 -15px 배지는 아래 줄과 겹친다 — 대신
+     .tile.north-discard와 같은 -3px 코너 배지 geometry를 accent 톤으로 재사용한다. */
+  .tile.is-ron-tile { box-shadow: 0 0 0 2px var(--accent), 0 0 0 4px var(--accent-line); border-radius: 3px; }
+  .tile.is-ron-tile::after { content: "▲"; position: absolute; right: -3px; bottom: -3px; display: grid; place-items: center; min-width: 13px; height: 13px; border-radius: 50%; background: var(--accent); color: var(--surface-deep); font-size: 8px; font-weight: 900; }
   .tile-text-row { flex-wrap: nowrap; }
   /* 빠른 입력 한 줄 + 액션 2×2(+비우기) 그리드 — 종전엔 5개가 제멋대로 감겨 2~3줄을 먹었다(#user). */
   .quick-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
@@ -406,8 +411,8 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-Bsf3G5ta.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-DC8_Wpme.js">
+  <script type="module" crossorigin src="/assets/simulator-BYuEJdVu.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-3m9w_zSX.js">
 </head>
 <body>
 <div class="wrap">
