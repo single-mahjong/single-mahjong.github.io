@@ -136,7 +136,8 @@
   .action-bar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; margin-top: 6px; }
   .action-bar .action { width: 100%; padding: 7px 8px; text-align: center; }
   /* 마지막 대국 국면 가져오기(#user) — 버튼 + 라벨/경과 한 줄. */
-  .action-bar-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* 세 번째 칸(마지막 상황 불러오기)이 라벨이 길어 넓게 — 되돌리기/다시 실행 축소는 #user 승인. */
+  .action-bar-3 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.7fr); }
   .action-bar .action:disabled { opacity: .45; cursor: default; }
   .import-live-note { display: block; margin-top: 4px; color: var(--text-body); font-size: 12px; line-height: 1.5; font-variant-numeric: tabular-nums; }
   /* 로고 옆 ? — 이 도구가 무엇인지 말풍선으로(#user: 상단 고정 문단 제거). */
@@ -211,7 +212,8 @@
   .outcome-detail { display: flex; flex-direction: column; gap: 5px; margin-top: 2px; }
   .outcome-detail:empty { display: none; }
   .outcome-line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
-  .outcome-line > span:first-child { min-width: 52px; color: var(--text-muted); font-size: 11.5px; }
+  /* 상세 라벨(화료자·화료 방식·방총자·화료패 지정…)은 다른 행 라벨과 같은 밝기(#user 2026-07-17). */
+  .outcome-line > span:first-child { min-width: 52px; color: var(--text-strong); font-size: 11.5px; }
   /* 국 결과 상세 버튼(화료자·방법·텐파이)은 설정 세그먼트와 같은 박스형 카드로 통일(#user 일관성). */
   .outcome-line button { background: var(--surface-raised); color: var(--text-body); border: 1px solid var(--border-strong); border-radius: 8px; padding: 4px 10px; font: inherit; font-size: 12.5px; box-shadow: 0 1px 0 rgb(0 0 0 / 18%); cursor: pointer; }
   .outcome-line button:hover:not(:disabled) { border-color: var(--accent); background: var(--surface-deep); }
@@ -232,7 +234,12 @@
   .meld-chip { display: inline-flex; align-items: center; gap: 6px; background: rgb(0 0 0 / 13%); border: 1px solid var(--border-strong); border-radius: 8px; padding: 5px 7px; color: var(--text-body); cursor: pointer; }
   .meld-chip:hover { border-color: var(--danger); }
   .meld-label { color: var(--accent); font-weight: 800; font-size: 12px; }
-  .meld-tiles { display: inline-flex; gap: 2px; --tw: 25px; }
+  .meld-tiles { display: inline-flex; align-items: center; gap: 2px; --tw: 25px; }
+  /* 출처 방향 눕힘 패(#user 2026-07-17 — 출처 텍스트 대체). 회전해도 bbox는 세로 그대로라
+     좌우 마진으로 회전 폭(높이−너비 = --tw/3)을 확보한다. */
+  .meld-tiles .tile.called { transform: rotate(90deg); margin-inline: calc(var(--tw, 25px) / 6); }
+  /* 후로 박스 소유자 라벨(#user 2026-07-17 「누구의 후로 박스인지」). */
+  .meld-owner { flex: none; align-self: center; color: var(--text-muted); font-size: 10px; letter-spacing: .03em; }
   .meld-empty { color: var(--text-muted); font-size: 12.5px; }
   .surface.empty::before, .meld-list.empty::before { content: attr(data-empty); color: var(--text-muted); font-size: 12.5px; }
   .meld-list { display: flex; flex-wrap: wrap; gap: 6px; min-height: 36px; }
@@ -267,8 +274,8 @@
   .board-meld-tr { top: 16px; right: 16px; justify-content: flex-end; }
   .board-meld-br { bottom: 16px; right: 16px; justify-content: flex-end; }
   .meld-draft { width: 100%; display: flex; flex-direction: column; gap: 4px; padding: 5px 6px; background: var(--surface-deep); border: 1px dashed var(--accent-line); border-radius: 8px; }
+  /* (빈 드래프트 안내 「팔레트로 3~4장」 ::before는 삭제 — #user 2026-07-17, 무표기.) */
   .meld-draft-tiles { display: flex; flex-wrap: wrap; gap: 3px; min-height: 30px; --tw: 24px; }
-  .meld-draft-tiles.empty::before { content: attr(data-empty); color: var(--text-muted); font-size: 11px; align-self: center; }
   .meld-draft-row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
   .meld-detect { color: var(--accent); font-size: 11px; font-weight: 700; margin-right: auto; }
   .meld-from-label { color: var(--text-muted); font-size: 11px; }
@@ -414,7 +421,7 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-BWE9V31L.js"></script>
+  <script type="module" crossorigin src="/assets/simulator-CJZSpkj8.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BN_9jpX5.js">
 </head>
 <body>
@@ -461,10 +468,8 @@
       <label><span class="ko">장풍</span><span class="ja">場風</span><span class="en">Round wind</span></label>
       <span class="seg compact" id="round-wind-controls"></span>
     </div>
-    <div class="row">
-      <label><span class="ko">화료 가정</span><span class="ja">和了仮定</span><span class="en">Win as</span></label>
-      <span class="seg compact" id="win-controls"></span>
-    </div>
+    <!-- 종전 「화료 가정」(쯔모/론) 행은 국 결과 상세의 「화료 방식」 행으로 이전됐다(#user 2026-07-17
+         — 화료일 때만 의미). 렌더는 simulator.ts renderOutcomeControls. -->
     <div class="row">
       <label><span class="ko">국 결과</span><span class="ja">局結果</span><span class="en">Outcome</span></label>
       <span class="seg compact" id="outcome-controls"></span>
@@ -503,11 +508,11 @@
       <button type="button" class="help-btn" id="btn-notation-help" aria-label="패 표기법 도움말 / Tile notation help">?</button>
     </div>
 
-    <!-- 되돌리기 · 다시 실행 · 최신 대국 국면 가져오기를 한 줄로(#user). 라벨/경과는 JS가 채우고, 저장분 없으면 비활성. -->
+    <!-- 되돌리기 · 다시 실행 · 마지막 상황 불러오기를 한 줄로(#user). 경과 노트는 JS가 채우고, 저장분 없으면 비활성. -->
     <div class="action-bar action-bar-3">
       <button type="button" class="action" id="btn-undo"><span class="ko">되돌리기</span><span class="ja">戻す</span><span class="en">Undo</span></button>
       <button type="button" class="action" id="btn-redo"><span class="ko">다시 실행</span><span class="ja">やり直し</span><span class="en">Redo</span></button>
-      <button type="button" class="action" id="btn-import-live"><span class="ko">최신 대국 국면</span><span class="ja">最新の対局局面</span><span class="en">Import latest</span></button>
+      <button type="button" class="action" id="btn-import-live"><span class="ko">마지막 상황 불러오기</span><span class="ja">最後の局面を読み込み</span><span class="en">Load last position</span></button>
     </div>
     <small class="subtle import-live-note" id="import-live-note"></small>
 
