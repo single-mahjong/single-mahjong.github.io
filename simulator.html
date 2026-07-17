@@ -280,7 +280,7 @@
   .meld-upgrade:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
   .meld-upgrade:disabled { opacity: .42; cursor: default; color: var(--text-muted); border-color: var(--border-strong); }
   .table-shell { background: linear-gradient(180deg, rgb(0 0 0 / 8%), rgb(0 0 0 / 0%)), var(--surface-raised); }
-  .mahjong-table { position: relative; min-height: 580px; border: 1px solid rgb(238 241 244 / 12%); border-radius: 10px; background:
+  .mahjong-table { position: relative; min-height: 640px; border: 1px solid rgb(238 241 244 / 12%); border-radius: 10px; background:
       radial-gradient(circle at center, rgb(169 197 106 / 13%) 0 21%, transparent 22%),
       linear-gradient(145deg, #1f2b35, #2b3a47 58%, #202b35);
     overflow: hidden; }
@@ -326,8 +326,10 @@
   .mini-stat b { display: block; color: var(--accent); font-size: 13px; font-variant-numeric: tabular-nums; line-height: 1.15; }
   .mini-stat span { display: block; color: var(--text-muted); font-size: 9.5px; }
   .center-dora { display: grid; gap: 4px; }
-  /* 도라|뒷도라 2열 — 세로 스택 금지(consoleH 148 연립 제약). 반폭 셀에 맞춰 타일만 축소. */
-  .center-dora-duo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px 8px; }
+  /* 도라/뒷도라 **세로 스택**(#user 2026-07-17 — 반폭 2열에선 표시패 5장째가 줄바꿈됐다): 행마다
+     콘솔 전폭(내용 192px)을 써서 5장(--tw 20 → 108px)이 항상 한 줄. 콘솔이 ~55px 자라므로
+     아래 .mahjong-table min-height 연립 제약을 580→640으로 함께 올렸다(하나만 바꾸면 오버랩). */
+  .center-dora-duo { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .center-dora-cell { display: grid; gap: 4px; min-width: 0; align-content: start; }
   .center-dora-label { color: var(--text-muted); font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .center-dora .pond { min-height: 34px; --tw: 20px; }
@@ -404,14 +406,15 @@
      "닫으면 버림패가 한 줄밖에 안 보인다"는 회귀였다(#user).
      상/하 좌석이 중앙 콘솔을 덮지 않을 조건(실측 유도, 1680×900):
         18(seat top) + pondH + 47(meta+padding) ≤ (min-height − consoleH)/2
-     즉 min-height ≥ 2*(65 + pondH) + consoleH. pondH=147.7(--tw:26), consoleH=148 → ≥ 573px.
+     즉 min-height ≥ 2*(65 + pondH) + consoleH. pondH=147.7(--tw:26), consoleH≈203
+     (2026-07-17 도라/뒷도라 세로 스택으로 148→203) → ≥ 629px → min-height 640.
      --tw / consoleH / min-height 셋 중 하나만 바꾸면 오버랩이 되살아난다 — 반드시 함께 검산할 것. */
   .mahjong-table .seat .pond { max-height: calc(var(--tw, 32px) * 16 / 3 + 9px); overflow-y: auto; }
   /* 작탁의 플레이어 후로 표시(손패 옆) — 등록된 후로가 있을 때만. */
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-BVju4odm.js"></script>
+  <script type="module" crossorigin src="/assets/simulator-BWE9V31L.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BN_9jpX5.js">
 </head>
 <body>
