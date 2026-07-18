@@ -124,6 +124,10 @@
   .tile .tg { position: absolute; left: 11%; top: 11%; width: 78%; height: 78%; object-fit: contain; }
   .tile.win::after { content: "▲"; position: absolute; left: 50%; transform: translateX(-50%); bottom: -15px; color: var(--accent); font-size: 11px; }
   .tile.dead { opacity: .45; }
+  /* 안깡 양끝 뒷면(#user 스크린샷 제보 — 작혼/실물 관례 [뒷면][앞면][앞면][뒷면]). 기존 뒷면
+     표현이 없어 신설 — 앞면 텍스처 이미지 없이 단색+테두리만으로 뒷면임을 명확히 한다.
+     크기는 .tile 기존 --tw/aspect-ratio 그대로(자식이 없어도 박스 치수는 유지된다). */
+  .tile.back { background: linear-gradient(160deg, var(--surface-raised), var(--surface-deep)); border: 1px solid var(--accent-line); border-radius: 3px; box-sizing: border-box; }
   .handline .tile.win { margin-left: 13px; }
   /* 강 화료패 지정(#user 제보 — 재고 소진 재현): 강 클릭은 보통 제거지만 arm 모드에서는 지정으로
      바뀐다. 강 그리드(6열·gap 3px)라 .tile.win의 -15px 배지는 아래 줄과 겹친다 — 대신
@@ -145,6 +149,9 @@
   .logo-help:hover, .logo-help[aria-expanded="true"] { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
   .what-pop { position: absolute; z-index: 60; max-width: min(420px, 92vw); margin-top: 6px; padding: 10px 13px; color: var(--text-strong); font-size: 13px; line-height: 1.6; background: var(--surface-raised); border: 1px solid var(--accent-line); border-radius: 10px; box-shadow: 0 10px 30px rgb(0 0 0 / 45%); }
   .what-pop[hidden] { display: none; }
+  /* 패널 제목 「?」 말풍선(attachPanelHelp) — 패널이 absolute의 기준이고, 폭은 패널 안쪽에 맞춘다. */
+  .panel.has-help { position: relative; }
+  .panel-help-pop { left: 6px; right: 6px; }
   .action-bar .action.danger { grid-column: 1 / -1; border-color: rgb(240 123 123 / 42%); color: var(--danger); }
   .action-bar .action.danger:hover:not(:disabled) { border-color: var(--danger); }
   /* '입력' 제목 줄 오른쪽 끝에 결과 복사·비우기(#user) — 액션바에서 이 줄로 옮겼다. */
@@ -236,8 +243,14 @@
   .meld-label { color: var(--accent); font-weight: 800; font-size: 12px; }
   .meld-tiles { display: inline-flex; align-items: center; gap: 2px; --tw: 25px; }
   /* 출처 방향 눕힘 패(#user 2026-07-17 — 출처 텍스트 대체). 회전해도 bbox는 세로 그대로라
-     좌우 마진으로 회전 폭(높이−너비 = --tw/3)을 확보한다. */
-  .meld-tiles .tile.called { transform: rotate(90deg); margin-inline: calc(var(--tw, 25px) / 6); }
+     좌우 마진으로 회전 폭(높이−너비 = --tw/3)을 확보한다.
+     바닥 정렬(#user 스크린샷 제보 2026-07-18 — 행 세로 중앙에 뜬 것처럼 보였다): 회전 후
+     페인트 높이는 원래 너비(--tw)뿐이라 레이아웃 박스(세로 --tw*4/3, aspect-ratio 3/4)
+     한가운데에 그려져 위아래로 뜬다. translateY는 rotate보다 **먼저** 써야(합성 순서상
+     나중에 적용돼) 회전된 결과를 화면 기준 수직으로 밀어낸다 — 순서를 바꾸면 세로 이동이
+     회전에 휩쓸려 가로 이동이 된다. 이동량(박스 높이−너비)/2 = --tw/6은 margin-inline과
+     같은 유도식(레이아웃 치수는 불변, 시각 위치만 보정). */
+  .meld-tiles .tile.called { transform: translateY(calc(var(--tw, 25px) / 6)) rotate(90deg); margin-inline: calc(var(--tw, 25px) / 6); }
   /* 후로 박스 소유자 라벨(#user 2026-07-17 「누구의 후로 박스인지」). */
   .meld-owner { flex: none; align-self: center; color: var(--text-muted); font-size: 10px; letter-spacing: .03em; }
   .meld-empty { color: var(--text-muted); font-size: 12.5px; }
@@ -421,8 +434,8 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-BmAq1F_I.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BDqgWrJv.js">
+  <script type="module" crossorigin src="/assets/simulator-DS6aeCOP.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-D0U59CZL.js">
 </head>
 <body>
 <div class="wrap">
