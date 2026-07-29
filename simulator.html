@@ -261,6 +261,10 @@
      회전에 휩쓸려 가로 이동이 된다. 이동량(박스 높이−너비)/2 = --tw/6은 margin-inline과
      같은 유도식(레이아웃 치수는 불변, 시각 위치만 보정). */
   .meld-tiles .tile.called { transform: translateY(calc(var(--tw, 25px) / 6)) rotate(90deg); margin-inline: calc(var(--tw, 25px) / 6); }
+  /* 대면(對面) 후로만 가져온 패를 **위쪽**으로(#user 2026-07-29 — 인게임 taimen-hud와 동일 관례):
+     대면의 눕힌 패는 π 회전 시점상 우리 기준 행의 위 가장자리에 붙는다. 기본 규칙의 바닥 정렬을
+     같은 유도식의 반대 부호(−--tw/6)로 뒤집는다 — margin-inline·회전각은 기본 규칙 그대로 상속. */
+  #sim-meld-opp1 .meld-tiles .tile.called { transform: translateY(calc(var(--tw, 25px) / -6)) rotate(90deg); }
   /* 후로 박스 소유자 라벨(#user 2026-07-17 「누구의 후로 박스인지」). */
   .meld-owner { flex: none; align-self: center; color: var(--text-muted); font-size: 10px; letter-spacing: .03em; }
   .meld-empty { color: var(--text-muted); font-size: 12.5px; }
@@ -498,8 +502,8 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-lETXwUfA.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/en-ZIlJ6mEP.js">
+  <script type="module" crossorigin src="/assets/simulator-BBOzwEo3.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/en-DVJxugA7.js">
 </head>
 <body>
 <div class="wrap">
