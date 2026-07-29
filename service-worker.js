@@ -2,9 +2,9 @@
 
 // CACHE_NAME 끝의 빌드 해시와 BUILD_ASSETS는 빌드 시 vite-plugin-sw-precache가 주입한다.
 // 개발 중(주입 전)에는 앱 셸만 캐시한다.
-const CACHE_NAME = "ippatsu-shell-ms4nj2sz";
+const CACHE_NAME = "ippatsu-shell-ms5cssa2";
 const APP_SHELL = ["/", "/index.html", "/manifest.webmanifest", "/icon.svg"];
-const BUILD_ASSETS = ["/assets/SharedSystems-CFosRual.js","/assets/WebGLRenderer-BO333LEP.js","/assets/WebGPURenderer-Bsy_8y-U.js","/assets/browserAll-DK-fq1mM.js","/assets/colorToUniform-C4TCoX4b.js","/assets/en-CNnMWDvx.js","/assets/main-BGGI1XUD.js","/assets/main-D3lt8ChG.css","/assets/rules-DIQXR7XM.js","/assets/simulator-BhoWO7NC.js","/assets/webworkerAll-DrqoBjWK.js"];
+const BUILD_ASSETS = ["/assets/SharedSystems-TuLHOL04.js","/assets/WebGLRenderer-D59VuR1o.js","/assets/WebGPURenderer-Cm6iuRZG.js","/assets/browserAll-BOBCBgfp.js","/assets/colorToUniform-B5-7INDq.js","/assets/en-dQWd0sbP.js","/assets/main-BiQyyzmE.js","/assets/main-DmVhDWS_.css","/assets/rules-BWMlR6MO.js","/assets/simulator-CHClNcga.js","/assets/webworkerAll-DRLso38T.js"];
 
 self.addEventListener("install", (event) => {
   // 해시된 JS/CSS 번들까지 프리캐시 → 온라인 방문 없이도 오프라인 콜드스타트가 동작한다.
@@ -28,6 +28,9 @@ self.addEventListener("activate", (event) => {
 // 종전 판정은 "/index.html로 끝나지 않는 .html"을 문서로 봤는데, 그러면 /ko/learn/(과
 // /ko/learn/index.html)이 shell로 분류돼 cache.put("/index.html", 문서본문)으로 앱 셸을
 // 오염시켰다 — 오프라인에서 게임 자리에 문서가 뜬다. 앱 셸을 화이트리스트로 못박아 막는다.
+/** 타일 SVG 경로 접두 — 쿼리 무시 폴백을 이 아래로만 허용한다(아래 fetch 핸들러). */
+const TILE_ASSET_PREFIX = "/assets/tiles/";
+
 function classifyRequest(pathname, mode) {
   if (pathname === "/" || pathname === "/index.html") return "shell";
   if (pathname.endsWith(".html") || mode === "navigate") return "doc";
@@ -70,7 +73,23 @@ self.addEventListener("fetch", (event) => {
         }
       }
       // ignoreVary: 모듈 스크립트(CORS, Origin 헤더)가 프리캐시 엔트리(Vary)와 어긋나 미스나지 않게.
-      const cached = await cache.match(request, { ignoreVary: true });
+      // 쿼리 무시 폴백은 **타일 SVG(`?r=`)에만** 좁힌다 — 2026-07-29 리뷰가 잡은 구멍:
+      // 전 asset에 걸면 **캐시버스팅을 무력화한다**. `/x.js?v=1`만 캐시된 상태에서 `?v=2`를 요청하면
+      // 정확 매칭이 실패하는 **바로 그 순간**이 캐시버스팅이 일어나는 순간인데, 폴백이 낡은 바이트를
+      // 돌려주고 `cache.put`도 안 일어나 영구 고착된다("정확 매칭이 우선이라 안전"은 두 변종이 모두
+      // 캐시에 있을 때만 참이다).
+      const tileGen = kind === "asset"
+        && url.pathname.startsWith(`${TILE_ASSET_PREFIX}`)
+        && [...url.searchParams.keys()].every((k) => k === "r");
+      const cached = await cache.match(request, { ignoreVary: true })
+        // 쿼리 무시 폴백(2026-07-29) — **정확 매칭이 실패했을 때만, 그리고 타일 SVG만**. 래스터 해상도를
+        // 세대 키로 삼는 `?r=<해상도>`를 달고 요청된다(board.ts `loadSkinTextures` — pixi Assets가
+        // src로 dedup하는 것을 우회하는 유일한 방법). 쿼리는 **클라이언트 래스터 크기만** 바꾸고
+        // 서버가 주는 바이트는 동일하므로, 다른 `?r=` 변종이 캐시에 있으면 그걸 줘도 정확하다.
+        // 이게 없으면 오프라인에서 해상도 버킷이 바뀌는 순간(창 크기 변경·회전·모니터 이동) 캐시
+        // 미스 → fetch 실패 → 패 그림이 placeholder로 떨어진다. 정확 매칭이 항상 우선이라
+        // 해시 번들처럼 쿼리가 의미를 갖는 자원의 동작은 바뀌지 않는다.
+        ?? (tileGen ? await cache.match(request, { ignoreVary: true, ignoreSearch: true }) : undefined);
       if (cached) return cached;
       try {
         const response = await fetch(request);

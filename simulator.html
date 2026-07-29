@@ -25,7 +25,10 @@
   *::-webkit-scrollbar-thumb { background: rgb(169 197 106 / 40%); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
   *::-webkit-scrollbar-thumb:hover { background: rgb(169 197 106 / 68%); background-clip: padding-box; }
   body { margin: 0; background: var(--surface-app); color: var(--text-body); font-family: var(--font-sans); line-height: 1.55; font-size: 15px; word-break: keep-all; overflow-wrap: break-word; }
-  .wrap { max-width: 1680px; margin: 0 auto; padding: 10px 16px 12px; }
+  /* 1680 → 1920(#user 2026-07-28 「작탁 타일을 더 크게, 그리드를 키워도 좋다」): 좌우 컬럼 최대폭이
+     290/420으로 이미 캡돼 있어 늘어난 폭은 **전부 중앙(작탁)** 으로 간다 — 작탁이 884→1124px가 되고
+     그만큼 --seat-tw(강 타일)가 커진다. */
+  .wrap { max-width: 1920px; margin: 0 auto; padding: 10px 16px 12px; }
   header.top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 2px 0 8px; border-bottom: 1px solid var(--border-strong); }
   /* 크롬 압축(#user 무스크롤): 소개문·그리드 마진·푸터 여백을 줄여 ~110px를 되찾는다. */
   .intro-note { margin: 4px 0 0; color: var(--text-muted); font-size: 12px; }
@@ -64,7 +67,11 @@
     #panel-settings .board-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 1199px) {
-    .grid { grid-template-columns: 1fr; grid-template-areas: "settings" "input" "board"; }
+    /* minmax(0,1fr) — `1fr`의 min은 auto(=min-content)라, 영어 모드처럼 어떤 자식의 min-content가
+       화면보다 넓으면 **단일 컬럼 자체가 뷰포트를 넘어** 페이지에 가로 스크롤이 생겼다(390/360px 실측).
+       루트 grid 아이템 min-width:0 규칙과 같은 부류. */
+    .grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "settings" "input" "board"; }
+    .grid > * { min-width: 0; }
     /* 단일 컬럼(모바일): 결과는 입력 패널(위쪽) 안에 있고, 보드에서는 손패를 시각 작탁 위로. */
     .table-shell { display: flex; flex-direction: column; }
     .table-shell > .hand-rack { order: 1; margin-top: 0; }
@@ -102,12 +109,15 @@
   .surface { background: var(--surface-deep); border: 1px dashed var(--border-strong); border-radius: 10px; padding: 10px; min-height: 74px; }
   .surface.empty::before { color: var(--text-muted); font-size: 13px; }
   .handline { display: flex; flex-wrap: wrap; gap: 3px; align-items: flex-end; }
-  .handline.big { --tw: 38px; }
+  /* 손패도 작탁 폭 연동(#user 2026-07-28) — 14장이 한 줄에 들어가는 상한 (tableW − 59)/14 아래로
+     묶는다(3컬럼: tableW ≈ 0.57vw − 86 → 4vw − 10px가 그 아래). 상한 56px은 폭이 더 안 자라는
+     1680px 이상 구간용. flex-wrap이라 넘쳐도 잘리진 않지만 한 줄 유지가 읽기 기준이다. */
+  .handline.big { --tw: clamp(38px, calc(4vw - 10px), 56px); }
   .handline.small { --tw: 29px; }
   .pond { display: flex; flex-wrap: wrap; gap: 3px; min-height: 37px; }
   /* 버림패(강)는 실제 작탁처럼 6열 고정 — flex-wrap은 컨테이너 폭에 따라 줄당 장수가 흔들린다(#user "1줄에 6개").
      트랙 max가 --tw라 좁은 측면 좌석에서는 타일이 줄어들 뿐, 줄당 6장은 항상 유지된다.
-     도라 표시패(.center-dora .pond)는 최대 5장이라 대상에서 제외 — 위 flex 유지. */
+     도라/뒷도라 표시패(.center-dora .pond)도 같은 이유로 5열 고정 그리드다(아래 .center-dora 절). */
   .seat .pond { display: grid; grid-template-columns: repeat(6, minmax(0, var(--tw, 32px))); justify-content: start; align-content: start; gap: 3px; }
   .seat .pond .tile { width: 100%; }
   .section { margin-top: 10px; }
@@ -280,8 +290,10 @@
   /* 빈 후로 존의 진입 고스트 칩(#user — 버림패처럼 작탁 표면에서 바로 추가). 클릭은 존 표면이 처리. */
   .meld-zone-ghost { padding: 3px 10px; color: var(--text-muted); font-size: 11px; border: 1px dashed var(--border-strong); border-radius: 999px; cursor: pointer; }
   .seat-melds:hover .meld-zone-ghost { color: var(--accent); border-color: var(--accent); }
-  /* 폭은 강 6열(--seat-side-w)로 캡하되 중앙 상/하 좌석과 안 겹치게 (50% - 120px)로도 캡한다. */
-  .board-meld-zone { position: absolute; z-index: 3; width: min(var(--seat-side-w), calc(50% - 120px)); }
+  /* 폭은 강 6열(--seat-side-w)로 캡하되 중앙 상/하 좌석과 안 겹치게 「반폭 − 상/하 좌석 반폭 − 여백」으로도
+     캡한다. 종전 상수 120px = 좌석 반폭 100(=200/2) + 여백 20이었는데, --seat-side-w가 폭 연동으로
+     자라면 그 100이 거짓이 된다 — 좌석 폭에서 직접 유도해 두 값이 어긋나지 않게 한다. */
+  .board-meld-zone { position: absolute; z-index: 3; width: min(var(--seat-side-w), calc(50% - var(--seat-side-w) / 2 - 20px)); }
   .board-meld-tl { top: 16px; left: 16px; justify-content: flex-start; }
   .board-meld-bl { bottom: 16px; left: 16px; justify-content: flex-start; }
   .board-meld-tr { top: 16px; right: 16px; justify-content: flex-end; }
@@ -300,7 +312,9 @@
   .meld-upgrade:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
   .meld-upgrade:disabled { opacity: .42; cursor: default; color: var(--text-muted); border-color: var(--border-strong); }
   .table-shell { background: linear-gradient(180deg, rgb(0 0 0 / 8%), rgb(0 0 0 / 0%)), var(--surface-raised); }
-  .mahjong-table { position: relative; min-height: 640px; border: 1px solid rgb(238 241 244 / 12%); border-radius: 10px; background:
+  /* min-height는 더 이상 상수가 아니다 — 아래 「작탁 치수 연립 제약」 주석의 부등식을 그대로 calc로
+     옮겼다(--seat-tw를 바꾸면 높이가 따라온다. 종전엔 손으로 재계산해야 해서 한쪽만 고치면 겹쳤다). */
+  .mahjong-table { position: relative; min-height: calc(2 * (20px + var(--seat-card-h)) + var(--console-h)); border: 1px solid rgb(238 241 244 / 12%); border-radius: 10px; background:
       radial-gradient(circle at center, rgb(169 197 106 / 13%) 0 21%, transparent 22%),
       linear-gradient(145deg, #1f2b35, #2b3a47 58%, #202b35);
     overflow: hidden; }
@@ -313,9 +327,35 @@
      4행 강이 들어간다 — 종전 42%/68%는 좁은 작탁에서 측면 좌석을 파고들었다. */
   /* 좌석 카드 폭 = 강 6열(6×--tw + 5×3px gap) + 카드 패딩. 종전 고정 340px/28%는 강과 무관해
      박스가 가로로 늘어졌다(#user). 계산식이 곧 내용 폭이므로 겹침 레인 계산도 여기서 파생된다. */
-  .mahjong-table { --seat-tw: 26px; --pond-w: calc(6 * var(--seat-tw) + 15px); --seat-side-w: max(calc(var(--pond-w) + 22px), 200px); }
+  /* 강 타일 크기(#user 2026-07-28 「작탁 타일을 더 크게」) — 종전 상수 26px에서 **작탁 폭 연동**으로.
+     작탁 폭은 3컬럼에서 tableW ≈ 0.57vw − 86(1200~1611px) → 1680px 이후 폭 상한까지 단조 증가하고,
+     겹침 없는 최대 타일은 tw ≤ 0.06·tableW − 9.2(아래 가로 레인 부등식 역산)이고, vw 계수 3%는
+     그 아래에 놓이면서 콘솔(도라/뒷도라 한 행)이 쓸 폭도 남긴다 — 좌석과 콘솔이 같은 레인을
+     나눠 쓰므로 계수를 올리면 **표시패가 그만큼 작아진다**(1200→26 하한 · 1440→30 · 1920→38 상한 — 상한은 1920×1080에서 24장×4좌석 최대 상태가 세로 스크롤 0이 되는 값이다).
+     **하한 26px을 낮추지 말 것** — 1200px에서는 좌석 카드 하한(200px)이 이미 레인을 다 쓴다. */
+  .mahjong-table {
+    --seat-tw: clamp(26px, calc(3vw - 13px), 38px);
+    --pond-w: calc(6 * var(--seat-tw) + 15px);
+    --seat-side-w: max(calc(var(--pond-w) + 22px), 200px);
+    /* 좌석 카드 높이 = 강 4행(--seat-tw*16/3 + 9) + 메타/패딩 47 + 산마 北행 16(4인은 그만큼 여유). */
+    --seat-card-h: calc(var(--seat-tw) * 16 / 3 + 72px);
+    /* 콘솔 실측 높이(도라·뒷도라 한 행): ko/ja/en × 1200~1920 실측 143.6~164.5px(영어·좁은 콘솔에서
+       미니 스탯 라벨이 두 줄로 접힌다) — **최악값 기준**으로 168px. 콘솔 내용을 늘리면 다시 실측할 것. */
+    --console-h: 168px;
+  }
+  /* 단일 컬럼(1199px 이하, 단 801px 이상은 여전히 절대배치 작탁)에서는 작탁이 화면 폭을 거의 다 쓰므로
+     같은 vw라도 훨씬 큰 타일이 들어간다(tableW ≈ vw − 58). 아래 @media(max-width:800px)의 모바일
+     그리드가 이 값을 다시 덮으므로(--tw 25px) 순서를 뒤집지 말 것. */
+  @media (max-width: 1199px) {
+    .mahjong-table { --seat-tw: clamp(26px, calc(5.5vw - 12px), 40px); }
+    .handline.big { --tw: clamp(38px, calc(6vw - 6px), 56px); }
+  }
   .seat .pond { --tw: var(--seat-tw); }
-  .seat-top, .seat-bottom { width: var(--seat-side-w); }
+  /* 상/하 좌석은 측면 좌석 레인(14 + --seat-side-w)을 침범하지 않는 폭까지만 — 종전 `var(--seat-side-w)`
+     고정은 좁은 작탁(1200px, 598px)에서 3×200 + 여백 > 598이라 **좌석끼리 겹쳤다**(세로 여유로만 가려져
+     있었고 산마·영어에서는 실제로 겹쳤다). 36px = 좌우 카드 사이 6px씩 — 이 캡이 실제로 작동하는
+     구간은 3*좌석폭 + 36 > 작탁폭, 즉 ~1266px 미만뿐이고 그 아래에서만 상/하 강 타일이 줄어든다. */
+  .seat-top, .seat-bottom { width: min(var(--seat-side-w), calc(100% - 2 * var(--seat-side-w) - 36px)); min-width: 140px; }
   .seat-top { top: 18px; left: 50%; transform: translateX(-50%); }
   /* 측면 좌석 앵커 14px(종전 16) — 카드를 좌석 폭(min-width:0)으로 당긴 뒤 1200px 하한에서 좌단이
      중앙 콘솔에 1px 닿던 것을 2px 바깥으로 밀어 해소. 잘림 여유는 -17→-14로 여전히 안전. */
@@ -339,20 +379,31 @@
   .kita-cancel:hover { border-color: var(--warn); background: rgb(240 179 90 / 22%); }
   .seat-kita-note { color: var(--warn); }
   .wind-badge { display: inline-grid; place-items: center; min-width: 23px; height: 23px; border-radius: 50%; color: var(--surface-deep); background: var(--accent); font-weight: 900; }
-  .center-console { position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%); width: min(210px, 28%); display: grid; gap: 6px; padding: 9px; border: 1px solid rgb(238 241 244 / 18%); border-radius: 10px; background: rgb(13 18 24 / 82%); box-shadow: 0 18px 50px rgb(0 0 0 / 28%); }
+  /* 콘솔 폭(#user 2026-07-28 도라/뒷도라 한 행 — 표시패 두 열이 나란히 서려면 폭이 필요하다):
+     종전 `min(210px, 28%)`의 28%는 「1200px에서 측면 좌석 레인이 남기는 자유 폭」을 손으로 맞춘
+     상수였다 — --seat-tw가 폭 연동으로 자라면 그 28%가 자유 폭을 넘어 좌석↔콘솔이 겹친다.
+     그래서 **자유 레인을 직접 계산해 그만큼 채운다**: 100% − 2*(좌석 앵커 14 + 좌석 폭) − 여백 16.
+     28%는 이제 하한(1200px 하한 폭에서 종전과 동일한 값), 300px는 상한(그 이상은 표시패가 과하게 커짐).
+     이 식 자체가 가로 연립 제약이라 좌석이 커지면 콘솔이 자동으로 물러난다. */
+  .center-console { position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%);
+    width: min(300px, max(28%, calc(100% - 2 * (14px + var(--seat-side-w)) - 16px))); display: grid; gap: 6px; padding: 9px; border: 1px solid rgb(238 241 244 / 18%); border-radius: 10px; background: rgb(13 18 24 / 82%); box-shadow: 0 18px 50px rgb(0 0 0 / 28%); }
   .round-line { display: flex; justify-content: center; gap: 6px; color: var(--text-strong); font-weight: 800; font-size: 13.5px; }
   .center-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
   .mini-stat { border: 1px solid var(--border-strong); border-radius: 7px; padding: 4px 3px; text-align: center; background: rgb(255 255 255 / 4%); }
   .mini-stat b { display: block; color: var(--accent); font-size: 13px; font-variant-numeric: tabular-nums; line-height: 1.15; }
   .mini-stat span { display: block; color: var(--text-muted); font-size: 9.5px; }
   .center-dora { display: grid; gap: 4px; }
-  /* 도라/뒷도라 **세로 스택**(#user 2026-07-17 — 반폭 2열에선 표시패 5장째가 줄바꿈됐다): 행마다
-     콘솔 전폭(내용 192px)을 써서 5장(--tw 20 → 108px)이 항상 한 줄. 콘솔이 ~55px 자라므로
-     아래 .mahjong-table min-height 연립 제약을 580→640으로 함께 올렸다(하나만 바꾸면 오버랩). */
-  .center-dora-duo { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  /* 도라/뒷도라는 **한 행 두 열**(#user 2026-07-28 「같은 열에 두세요」). 2026-07-17에 세로 스택으로
+     돌아갔던 이유는 「반폭 셀에서 표시패 5장째가 줄바꿈」이었는데, 그 원인은 flex-wrap이었다 —
+     아래처럼 **5열 고정 그리드**(좌석 강의 6열 문법과 같은 원리)로 두면 셀이 좁아져도 트랙만 줄고
+     줄바꿈은 구조적으로 불가능하다. 콘솔이 한 셀만큼(~60px) 낮아진 만큼을 강 타일 크기로 돌려준다. */
+  /* 열 간격 12px — 6px면 두 강이 이어 붙어 10장짜리 한 줄로 보인다(라벨만으로는 경계가 안 읽힌다). */
+  .center-dora-duo { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 12px; }
   .center-dora-cell { display: grid; gap: 4px; min-width: 0; align-content: start; }
-  .center-dora-label { color: var(--text-muted); font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .center-dora .pond { min-height: 34px; --tw: 20px; }
+  .center-dora-label { color: var(--text-muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* 표시패 강: 5열 고정(최대 5장) — 트랙 max가 --tw라 좁은 콘솔에선 타일만 줄고 항상 한 줄이다. */
+  .center-dora .pond { display: grid; grid-template-columns: repeat(5, minmax(0, var(--tw))); justify-content: start; align-content: start; min-height: 30px; --tw: 26px; }
+  .center-dora .pond .tile { width: 100%; }
   .board-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 8px 0; }
   .hand-rack { margin-top: 4px; }
   .hand-rack .surface { min-height: 54px; }
@@ -424,18 +475,31 @@
   /* 좌석 강 = 6열 × 4행(24장, 한 국의 실질 상한)이 잘리지 않고 보인다. 행 높이는 타일
      aspect-ratio 3/4 → --tw*4/3, 4행 = --tw*16/3 + 3*3px. 종전 52px 캡은 ~1.5행만 보여
      "닫으면 버림패가 한 줄밖에 안 보인다"는 회귀였다(#user).
-     상/하 좌석이 중앙 콘솔을 덮지 않을 조건(실측 유도, 1680×900):
-        18(seat top) + pondH + 47(meta+padding) ≤ (min-height − consoleH)/2
-     즉 min-height ≥ 2*(65 + pondH) + consoleH. pondH=147.7(--tw:26), consoleH≈203
-     (2026-07-17 도라/뒷도라 세로 스택으로 148→203) → ≥ 629px → min-height 640.
-     --tw / consoleH / min-height 셋 중 하나만 바꾸면 오버랩이 되살아난다 — 반드시 함께 검산할 것. */
+
+     ── 작탁 치수 연립 제약 (세로) ──
+     상/하 좌석이 중앙 콘솔을 덮지 않을 조건:
+        20(seat top 18 + 테두리 1 + ε) + cardH ≤ (min-height − consoleH)/2
+     즉 min-height ≥ 2*(20 + cardH) + consoleH.  cardH = --seat-tw*16/3 + 9(강 4행) + 47(메타·패딩)
+     + 16(산마 北행) = --seat-tw*16/3 + 72 = `--seat-card-h`.
+     **이 부등식은 이제 위 .mahjong-table min-height의 calc 그 자체다** — 손 계산으로 상수를 맞추던
+     구조(2026-07-08 580 → 07-17 640)를 대체했다. --seat-tw를 바꿔도 높이가 따라오지만,
+     **--console-h(콘솔 실측 높이)는 여전히 손으로 유지하는 상수다** — 콘솔 내용을 바꿨으면 실측해서 갱신할 것.
+
+     ── 작탁 치수 연립 제약 (가로) ──
+     측면 좌석 레인이 콘솔을 덮지 않을 조건:
+        2*(14 + --seat-side-w) + consoleW ≤ tableW,  --seat-side-w = max(6*--seat-tw + 37, 200)
+     이게 --seat-tw의 vw 계수(3%)와 콘솔 폭 식(자유 레인 채우기 + 28% 하한 + 300px 상한)의 근거다.
+     콘솔 폭 식이 이 부등식을 스스로 만족시키므로 좌석이 커지면 콘솔이 물러난다 — 단 1200px(3컬럼
+     하한)에서는 좌석 하한 200px가 레인을 거의 다 써서 여유가 ~3px뿐이다(그래서 --seat-tw 하한 26px).
+     추가로 **상/하 좌석 vs 측면 좌석**은 3*--seat-side-w + 36 ≤ tableW여야 하는데, 좁은 폭에서는
+     상/하 좌석 폭 캡(.seat-top/.seat-bottom)이 그 조건을 강제한다. */
   .mahjong-table .seat .pond { max-height: calc(var(--tw, 32px) * 16 / 3 + 9px); overflow-y: auto; }
   /* 작탁의 플레이어 후로 표시(손패 옆) — 등록된 후로가 있을 때만. */
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-BhoWO7NC.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/en-CNnMWDvx.js">
+  <script type="module" crossorigin src="/assets/simulator-CHClNcga.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/en-dQWd0sbP.js">
 </head>
 <body>
 <div class="wrap">
@@ -597,8 +661,9 @@
           <div class="mini-stat"><b id="board-riichi">0</b><span id="board-riichi-label"></span></div>
           <div class="mini-stat"><b id="board-kita">0</b><span id="board-kita-label"></span></div>
         </div>
-        <!-- 도라/뒷도라 표시패는 한 행 2열(#user 뒷도라 추가) — 세로로 쌓으면 콘솔 높이(consoleH)가
-             자라 좌석↔콘솔 오버랩 연립 제약(아래 min-height 주석)이 깨진다. 행 높이는 종전과 동일. -->
+        <!-- 도라/뒷도라 표시패는 한 행 2열(#user 2026-07-28 「같은 열에 두세요」). 세로로 쌓으면
+             콘솔 높이(consoleH)가 ~60px 자라 min-height 연립 제약을 그만큼 밀어올린다(= 강 타일이 작아진다).
+             각 셀은 5열 고정 그리드라 좁아져도 줄바꿈 없이 타일만 줄어든다(CSS .center-dora 절 참조). -->
         <div class="center-dora center-dora-duo">
           <div class="center-dora-cell">
             <span class="center-dora-label" id="dora-count"></span>
