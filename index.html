@@ -7,7 +7,12 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; base-uri 'none'; object-src 'none'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; img-src 'self' data: blob: https://carrier.goatcounter.com; font-src 'self'; connect-src 'self' ws: data: https://carrier.goatcounter.com; manifest-src 'self'; worker-src 'self' blob:; form-action 'none'"
     />
-    <meta name="referrer" content="no-referrer" />
+    <!-- same-origin: 바깥으로는 여전히 아무것도 안 보내고(하드닝 유지), 우리 origin 안에서는
+         리퍼러를 싣는다. 종전 `no-referrer`는 게임 → /rules.html·/simulator.html·/ko/learn/ 이동을
+         전부 「직접 방문」으로 찍어 내부 흐름 측정을 자기 손으로 죽이고 있었다(2026-08-29 실브라우저
+         실측: 룰북 탭의 document.referrer가 ""). 근거·전후 실측은 docs/harness/analytics-seo.md 「요구 25」.
+         ⚠ 이 값을 no-referrer로 되돌리거나 unsafe-url로 넓히지 말 것 — referrer-policy.test.ts가 잠근다. -->
+    <meta name="referrer" content="same-origin" />
     <meta name="google-site-verification" content="CxAkQg2jS9rj2NvZppERVyWCX3BOY1lSn8YkKZxHizY" />
     <link rel="canonical" href="https://single-mahjong.github.io/" />
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()" />
@@ -37,8 +42,15 @@
     <title>一発(일발) — 싱글 리치 마작 / 一人麻雀</title>
     <style>
       /* 정적 SEO 본문은 크롤러용 — 인라인으로 즉시 화면 밖에 숨겨 부팅 전 깜빡임(FOUC) 방지.
-         display:none 대신 visually-hidden이라 크롤러/스크린리더는 읽음. */
+         display:none 대신 visually-hidden이라 크롤러/스크린리더는 읽음.
+
+         ⚠ **`font-family`를 시스템 서체로 못 박는다**(2026-08-28). 이 블록엔 ko·ja 문단이
+         통째로 들어 있고, `display:none`이 아니라 «클립»이라 브라우저가 실제로 그린다 —
+         그래서 본문 서체를 상속하면 **영어 화면도 CJK 서체 396,732 B를 받았다**
+         (실측: `qa/font-transfer.mjs`). 1×1로 잘린 자리라 자형이 아무에게도 안 보이고,
+         크롤러는 텍스트 노드를 읽지 서체를 읽지 않으므로 **SEO 계약은 무접촉**이다. */
       .seo-intro {
+        font-family: system-ui, sans-serif;
         position: absolute;
         width: 1px;
         height: 1px;
@@ -69,9 +81,10 @@
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       }
     </script>
-    <script type="module" crossorigin src="/assets/main-BPJGa4oB.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/assist-discard-CNt_2W1F.js">
-    <link rel="modulepreload" crossorigin href="/assets/discard-recommend-CJqvOdoe.js">
+    <script type="module" crossorigin src="/assets/main-CGsS1eTN.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/src-DTIqCceS.js">
+    <link rel="modulepreload" crossorigin href="/assets/assist-discard-DHtgnX8T.js">
+    <link rel="modulepreload" crossorigin href="/assets/discard-recommend-cNt58Ffj.js">
     <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-hePW80VL.js">
     <link rel="modulepreload" crossorigin href="/assets/Shader-CvHcEFxT.js">
     <link rel="modulepreload" crossorigin href="/assets/Filter-Citu75KN.js">
@@ -88,7 +101,9 @@
     <link rel="modulepreload" crossorigin href="/assets/getPo2TextureFromSource-CnIJYhMV.js">
     <link rel="modulepreload" crossorigin href="/assets/CanvasRenderer-DhU8IIEI.js">
     <link rel="modulepreload" crossorigin href="/assets/BitmapFont-RZ563Fxl.js">
-    <link rel="stylesheet" crossorigin href="/assets/main-poW-U0I2.css">
+    <link rel="modulepreload" crossorigin href="/assets/en-jOeTj1rS.js">
+    <link rel="modulepreload" crossorigin href="/assets/tile-face-BIdAlB88.js">
+    <link rel="stylesheet" crossorigin href="/assets/main-Cmr8zEPD.css">
   </head>
   <body>
     <div id="app"></div>

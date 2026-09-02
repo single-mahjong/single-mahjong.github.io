@@ -502,9 +502,12 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-DcfCqDtt.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/assist-discard-CNt_2W1F.js">
-  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-CJqvOdoe.js">
+  <script type="module" crossorigin src="/assets/simulator-B44wlnFz.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/src-DTIqCceS.js">
+  <link rel="modulepreload" crossorigin href="/assets/assist-discard-DHtgnX8T.js">
+  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-cNt58Ffj.js">
+  <link rel="modulepreload" crossorigin href="/assets/en-jOeTj1rS.js">
+  <link rel="modulepreload" crossorigin href="/assets/mpa-return-9o8tWLQV.js">
 </head>
 <body>
 <div class="wrap">
@@ -521,7 +524,13 @@
     <button class="langbtn" data-l="en">English</button>
   </div>
   <button type="button" class="back" id="btn-sim-help"><span class="ko">도움말</span><span class="ja">ヘルプ</span><span class="en">Help</span></button>
-  <a class="back" href="/rules.html">← <span class="ko">룰북으로</span><span class="ja">ルールブックへ</span><span class="en">Back to rules</span></a>
+  <!-- 룰북은 «되돌아가는 길»이 아니라 옆으로 가는 길이다 — 여기 들어온 사람은 룰북에서 온 게
+       아니라 앱에서 왔다(요구 21 실측: 종전 「← 룰북으로」는 목적지가 아예 틀렸다). 화살표를 뺀다. -->
+  <a class="back" href="/rules.html"><span class="ko">룰북 · 역 일람</span><span class="ja">ルールブック・役一覧</span><span class="en">Rulebook &amp; Yaku List</span></a>
+  <!-- 되돌아가는 길 — 앱이 새 탭으로 열었으면 「탭 닫기」, 직접 들어왔으면 「게임 첫 화면」.
+       판정·배선은 src/mpa-return.ts(simulator.ts가 부른다). 둘 중 하나만 보인다. -->
+  <a class="back" id="nav-back" href="/">← <span class="ko">게임 첫 화면</span><span class="ja">タイトル画面</span><span class="en">Start screen</span></a>
+  <button type="button" class="back" id="nav-close" hidden>✕ <span class="ko">탭 닫기</span><span class="ja">タブを閉じる</span><span class="en">Close tab</span></button>
 </header>
 <div class="grid">
   <aside class="card" id="panel-settings">
@@ -700,9 +709,9 @@
 
 <footer>
 <p class="more">
-  <span class="ko">더 알아보기: <a href="/ko/learn/">마작 혼자 배우기</a> · <a href="/ko/glossary/">마작 용어 사전</a> · <a href="/ko/quiet/">사무실에서 하기 좋은 게임</a></span>
-  <span class="ja">もっと詳しく: <a href="/ja/learn/">麻雀を一人で練習する</a> · <a href="/ja/quiet/">職場でも気軽に開ける麻雀</a></span>
-  <span class="en">More: <a href="/en/learn/">Learn riichi mahjong on your own</a> · <a href="/en/quiet/">Mahjong you can open at your desk</a></span>
+  <span class="ko">더 알아보기: <a href="/ko/learn/">마작 혼자 배우기</a> · <a href="/ko/glossary/">마작 용어 사전</a></span>
+  <span class="ja">もっと詳しく: <a href="/ja/learn/">麻雀を一人で練習する</a></span>
+  <span class="en">More: <a href="/en/learn/">Learn riichi mahjong on your own</a></span>
 </p>
 </footer>
 
