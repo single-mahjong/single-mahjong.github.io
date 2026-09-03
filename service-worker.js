@@ -2,9 +2,9 @@
 
 // CACHE_NAME 끝의 빌드 해시와 BUILD_ASSETS는 빌드 시 vite-plugin-sw-precache가 주입한다.
 // 개발 중(주입 전)에는 앱 셸만 캐시한다.
-const CACHE_NAME = "ippatsu-shell-mtjlzgqi";
+const CACHE_NAME = "ippatsu-shell-mtkw4h3h";
 const APP_SHELL = ["/", "/index.html", "/manifest.webmanifest", "/icon.svg"];
-const BUILD_ASSETS = ["/assets/BitmapFont-RZ563Fxl.js","/assets/Cache-DCSosWKX.js","/assets/CanvasPool-5nq_wsyU.js","/assets/CanvasRenderer-DhU8IIEI.js","/assets/Filter-Citu75KN.js","/assets/GCManagedHash-g_34Cda9.js","/assets/GpuStencilModesToPixi-COqJqNL8.js","/assets/GraphicsContext-Ch1z3vPt.js","/assets/RenderTargetSystem-Bz6yqnjB.js","/assets/Shader-CvHcEFxT.js","/assets/WebGLRenderer-DYqvoYX0.js","/assets/WebGPURenderer-CZWwH8ED.js","/assets/assist-discard-DHtgnX8T.js","/assets/board3d-CsCLrDxl.js","/assets/browserAll-DYJEWIas.js","/assets/canvasUtils-Esa-DAG8.js","/assets/discard-recommend-cNt58Ffj.js","/assets/en-jOeTj1rS.js","/assets/getPo2TextureFromSource-CnIJYhMV.js","/assets/getTextureBatchBindGroup-B0NN4nvz.js","/assets/init-Bo7V3xu4.js","/assets/main-CGsS1eTN.js","/assets/main-Cmr8zEPD.css","/assets/mpa-return-9o8tWLQV.js","/assets/rolldown-runtime-hePW80VL.js","/assets/rules-Bur88VED.js","/assets/simulator-B44wlnFz.js","/assets/src-DTIqCceS.js","/assets/tile-face-BIdAlB88.js","/assets/webworkerAll-BxO_OHnE.js"];
+const BUILD_ASSETS = ["/assets/assist-discard-w9mfCwTB.js","/assets/board3d-D2y2_a_8.js","/assets/config-Bg04nE9z.js","/assets/discard-recommend-pqv-7TyX.js","/assets/en-Cj3dGEAC.js","/assets/main-B2JA9phd.css","/assets/main-SKZ2nK6A.js","/assets/mpa-return-9o8tWLQV.js","/assets/rules-DwvQ4rkl.js","/assets/simulator-CL-H7-bJ.js"];
 
 self.addEventListener("install", (event) => {
   // 해시된 JS/CSS 번들까지 프리캐시 → 온라인 방문 없이도 오프라인 콜드스타트가 동작한다.
@@ -82,13 +82,20 @@ self.addEventListener("fetch", (event) => {
         && url.pathname.startsWith(`${TILE_ASSET_PREFIX}`)
         && [...url.searchParams.keys()].every((k) => k === "r");
       const cached = await cache.match(request, { ignoreVary: true })
-        // 쿼리 무시 폴백(2026-07-29) — **정확 매칭이 실패했을 때만, 그리고 타일 SVG만**. 래스터 해상도를
-        // 세대 키로 삼는 `?r=<해상도>`를 달고 요청된다(board.ts `loadSkinTextures` — pixi Assets가
-        // src로 dedup하는 것을 우회하는 유일한 방법). 쿼리는 **클라이언트 래스터 크기만** 바꾸고
-        // 서버가 주는 바이트는 동일하므로, 다른 `?r=` 변종이 캐시에 있으면 그걸 줘도 정확하다.
-        // 이게 없으면 오프라인에서 해상도 버킷이 바뀌는 순간(창 크기 변경·회전·모니터 이동) 캐시
-        // 미스 → fetch 실패 → 패 그림이 placeholder로 떨어진다. 정확 매칭이 항상 우선이라
-        // 해시 번들처럼 쿼리가 의미를 갖는 자원의 동작은 바뀌지 않는다.
+        // 쿼리 무시 폴백(2026-07-29) — **정확 매칭이 실패했을 때만, 그리고 타일 SVG만**.
+        //
+        // ⚠⚠ **2026-09-03 현재 `?r=`를 «붙이는» 코드가 하나도 없다.** 그 쿼리를 달던 것은
+        // pixi 로더(`board.ts` `loadSkinTextures`)였고 — 래스터 해상도를 세대 키로 삼아 pixi
+        // `Assets`의 src dedup을 우회하는 유일한 방법이었다 — 그 파일이 지워졌다(요구 24 슬라이스 ②).
+        // 3D 아틀라스는 SVG를 쿼리 없이 한 번 받아 자기가 굽는다. **그래서 이 폴백은 지금 아무도
+        // 안 타는 방어물이다.** 남겨 둔 이유는 지우는 쪽이 오프라인 캐시 동작을 건드리기 때문이고,
+        // 실제 정리는 「죽은 파생 걷기」(슬라이스 ③) 몫이다. 되살릴 사람은 **누가 쿼리를 붙이는지**부터
+        // 답할 것.
+        //
+        // 종전 근거(옛 pixi 경로에서 참이던 것): 쿼리는 클라이언트 래스터 크기만 바꾸고 서버가
+        // 주는 바이트는 같으므로 다른 `?r=` 변종을 줘도 정확했고, 이게 없으면 오프라인에서 해상도
+        // 버킷이 바뀌는 순간 캐시 미스 → 패 그림이 placeholder로 떨어졌다. 정확 매칭이 항상
+        // 우선이라 해시 번들처럼 쿼리가 의미를 갖는 자원의 동작은 바뀌지 않는다.
         ?? (tileGen ? await cache.match(request, { ignoreVary: true, ignoreSearch: true }) : undefined);
       if (cached) return cached;
       try {
