@@ -139,6 +139,16 @@
      크기는 .tile 기존 --tw/aspect-ratio 그대로(자식이 없어도 박스 치수는 유지된다). */
   .tile.back { background: linear-gradient(160deg, var(--surface-raised), var(--surface-deep)); border: 1px solid var(--accent-line); border-radius: 3px; box-sizing: border-box; }
   .handline .tile.win { margin-left: 13px; }
+  /* **고르려는 패를 표시한다**(2026-09-04 요구 34-17 #user 「보유패에 마우스 호버하거나 (모바일
+     기준)클릭했을 때 해당 패를 별도 표시해서 무엇을 고르고자 하는지 명확하게 플레이어가 알 수
+     있도록」). 여기서 손패를 누르면 «그 자리에서» 버려지므로 남는 표시가 없다 — 그래서 표시는
+     누르기 «전»의 것이다: 호버(마우스) · 포커스(키보드) · 누르는 동안(굵은 포인터).
+     ⚠ 링은 `.is-ron-tile`과 **같은 문법**이다(box-shadow 두 겹) — 새 어휘를 만들지 않는다.
+     ⚠ 강·후로가 아니라 **손패 줄에만** 건다: 강을 누르는 것은 「지운다」라 「고른다」가 아니다. */
+  #sim-hand .tile:hover,
+  #sim-hand .tile:focus-visible,
+  #sim-hand .tile:active { box-shadow: 0 0 0 2px var(--accent), 0 0 0 4px var(--accent-line); border-radius: 3px; }
+  #sim-hand .tile:hover { transform: translateY(-3px); }
   /* 강 화료패 지정(#user 제보 — 재고 소진 재현): 강 클릭은 보통 제거지만 arm 모드에서는 지정으로
      바뀐다. 강 그리드(6열·gap 3px)라 .tile.win의 -15px 배지는 아래 줄과 겹친다 — 대신
      .tile.north-discard와 같은 -3px 코너 배지 geometry를 accent 톤으로 재사용한다. */
@@ -502,10 +512,10 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-CfAJZO4c.js"></script>
+  <script type="module" crossorigin src="/assets/simulator-tmwSwAA8.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/assist-discard-w9mfCwTB.js">
-  <link rel="modulepreload" crossorigin href="/assets/en-z1ZVblah.js">
-  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-C34WTsPK.js">
+  <link rel="modulepreload" crossorigin href="/assets/en-CWN91YN_.js">
+  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-TxWzLQ_X.js">
   <link rel="modulepreload" crossorigin href="/assets/mpa-return-9o8tWLQV.js">
 </head>
 <body>
