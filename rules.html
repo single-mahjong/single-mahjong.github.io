@@ -17,6 +17,17 @@
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  /* 스크롤바는 «스크롤할 때만» 보인다(요구 53, 2026-09-06 #user) — style.css의 «사본»이다(이 페이지는
+     그 파일을 안 읽는다). 색만 투명으로 두고 자리는 유지한다(막대가 뜰 때 안 밀린다 — CLS 0).
+     `.is-scrolling`을 다는 자는 src/scrollbar-autohide.ts 하나이고 rules-calc.ts가 건다.
+     ⚠ 아래 `.toc-scroll`의 `scrollbar-width: none`은 «가로 목차 띠»의 의도적 예외다(0,1,0으로 이긴다). */
+  * { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+  *::-webkit-scrollbar { width: 9px; height: 9px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb { background: transparent; border-radius: 999px; }
+  .is-scrolling { scrollbar-color: rgb(169 197 106 / 42%) transparent; }
+  .is-scrolling::-webkit-scrollbar-thumb { background: rgb(169 197 106 / 40%); }
+  .is-scrolling::-webkit-scrollbar-thumb:hover { background: rgb(169 197 106 / 68%); }
   /* keep-all: 한국어 단어 중간 개행 금지(모바일 가독성) — 넘치면 break-word로만 꺾는다 */
   body { margin: 0; background: var(--surface-app); color: var(--text-body); font-family: var(--font-sans); line-height: 1.65; font-size: 15px; word-break: keep-all; overflow-wrap: break-word; }
   .wrap { max-width: 860px; margin: 0 auto; padding: 24px 16px 80px; }
@@ -204,10 +215,10 @@
   main a { color: var(--accent); }
   main a:visited { color: var(--accent); }
 </style>
-  <script type="module" crossorigin src="/assets/rules-jeJSy6IN.js"></script>
+  <script type="module" crossorigin src="/assets/rules-CVPnwgW6.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/assist-discard-w9mfCwTB.js">
-  <link rel="modulepreload" crossorigin href="/assets/en-BopgPk6c.js">
-  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BQZ6Om40.js">
+  <link rel="modulepreload" crossorigin href="/assets/en-KE4ty1iD.js">
+  <link rel="modulepreload" crossorigin href="/assets/scrollbar-autohide-BXRhbbS9.js">
   <link rel="modulepreload" crossorigin href="/assets/mpa-return-9o8tWLQV.js">
 </head>
 <body>

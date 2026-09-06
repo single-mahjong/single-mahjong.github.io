@@ -18,12 +18,17 @@
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-  /* 스크롤바 테마 — 얇은 라임 accent, 둥근 썸, 투명 트랙(패널·페이지 공통) */
-  * { scrollbar-width: thin; scrollbar-color: rgb(169 197 106 / 42%) transparent; }
+  /* 스크롤바 테마 — 얇은 라임 accent, 둥근 썸, 투명 트랙(패널·페이지 공통).
+     ⚠ **스크롤할 때만 보인다**(요구 53, 2026-09-06 #user) — style.css의 «사본»이다(이 페이지는
+     그 파일을 안 읽는다). 색만 투명으로 두고 자리는 유지한다(막대가 뜰 때 안 밀린다 — CLS 0).
+     `.is-scrolling`을 다는 자는 src/scrollbar-autohide.ts 하나이고 simulator.ts가 건다. */
+  * { scrollbar-width: thin; scrollbar-color: transparent transparent; }
   *::-webkit-scrollbar { width: 9px; height: 9px; }
   *::-webkit-scrollbar-track { background: transparent; }
-  *::-webkit-scrollbar-thumb { background: rgb(169 197 106 / 40%); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
-  *::-webkit-scrollbar-thumb:hover { background: rgb(169 197 106 / 68%); background-clip: padding-box; }
+  *::-webkit-scrollbar-thumb { background: transparent; border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+  .is-scrolling { scrollbar-color: rgb(169 197 106 / 42%) transparent; }
+  .is-scrolling::-webkit-scrollbar-thumb { background: rgb(169 197 106 / 40%); background-clip: padding-box; }
+  .is-scrolling::-webkit-scrollbar-thumb:hover { background: rgb(169 197 106 / 68%); background-clip: padding-box; }
   body { margin: 0; background: var(--surface-app); color: var(--text-body); font-family: var(--font-sans); line-height: 1.55; font-size: 15px; word-break: keep-all; overflow-wrap: break-word; }
   /* 1680 → 1920(#user 2026-07-28 「작탁 타일을 더 크게, 그리드를 키워도 좋다」): 좌우 컬럼 최대폭이
      290/420으로 이미 캡돼 있어 늘어난 폭은 **전부 중앙(작탁)** 으로 간다 — 작탁이 884→1124px가 되고
@@ -568,10 +573,10 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-w_3RrYHH.js"></script>
+  <script type="module" crossorigin src="/assets/simulator-BuCpYNav.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/assist-discard-w9mfCwTB.js">
-  <link rel="modulepreload" crossorigin href="/assets/en-BopgPk6c.js">
-  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-BQZ6Om40.js">
+  <link rel="modulepreload" crossorigin href="/assets/en-KE4ty1iD.js">
+  <link rel="modulepreload" crossorigin href="/assets/scrollbar-autohide-BXRhbbS9.js">
   <link rel="modulepreload" crossorigin href="/assets/number-field-CbKGqjkh.js">
   <link rel="modulepreload" crossorigin href="/assets/mpa-return-9o8tWLQV.js">
 </head>
