@@ -247,6 +247,25 @@
   .outcome-line button.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
   .outcome-line button:disabled { opacity: .42; cursor: default; }
   .outcome-points { width: 82px; background: var(--surface-deep); color: var(--text-strong); border: 1px solid var(--border-strong); border-radius: 6px; padding: 3px 6px; font: inherit; font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
+  /**
+   * # number 칸의 스피너를 숨기고 −/+ 스텝퍼를 세운다 (요구 42, 2026-09-06 #user)
+   *
+   * #user 스크린샷의 그 자리가 「화료 점수」다. 칸 «안»의 ▲▼는 12px짜리 두 반쪽이라 못 누른다.
+   *
+   * ⚠ **`src/style.css`의 «사본»이다** — 이 페이지는 별도 MPA라 앱 CSS를 안 읽는다(인라인 style만).
+   *   한쪽만 고치면 한 화면에서만 스피너가 돌아온다. 골격 자체(`attachStepper`)는 하나를 나눠 쓴다.
+   * ⚠ **`.num-field .num-step`이라야 한다** — 한 겹짜리 `.num-step`(0,1,0)은 `.outcome-line button`
+   *   (0,1,1)에 져서 스텝퍼가 조용히 일반 버튼 모양으로 돌아간다.
+   */
+  input[type="number"] { appearance: textfield; -moz-appearance: textfield; }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  .num-field { display: inline-flex; align-items: center; gap: 4px; }
+  .num-field .num-step { flex: none; min-width: 32px; min-height: 32px; padding: 0; background: var(--surface-deep); color: var(--text-strong); border: 1px solid var(--border-strong); border-radius: 6px; font: inherit; font-size: 15px; line-height: 1; cursor: pointer; }
+  .num-field .num-step:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .num-field .num-step:disabled { opacity: .42; cursor: default; }
+  .num-field-compact { gap: 2px; }
+  .num-field-compact .num-step { min-width: 24px; min-height: 24px; font-size: 13px; }
   .placement-table { display: grid; grid-template-columns: auto 1fr auto auto; gap: 2px 8px; align-items: center; margin-top: 6px; font-size: 12.5px; }
   .placement-table .pl-rank { color: var(--text-muted); font-variant-numeric: tabular-nums; }
   .placement-table .pl-score { color: var(--text-strong); font-variant-numeric: tabular-nums; }
@@ -285,12 +304,45 @@
   .seat-kita-btn.hidden { display: none; }
   /* 좌석 메타는 **한 줄**에 이름·자풍·점수·리치·후로(·北)를 담는다 — 감기면 카드가 24px 높아져
      작탁 겹침 계약(min-height ↔ 강 4행 ↔ 콘솔)이 깨진다(실측). 이름만 줄어들게 해서 폭을 흡수한다. */
-  .seat-meta { flex-wrap: nowrap; gap: 4px; }
+  /* ⚠ 간격 4 → 2 · `container-type`은 요구 42이 더한 것이다 — 스텝퍼가 이 줄에 36px을 요구해서
+     이름이 밀려 나갔다(실측: 1366에서 49.9 → 13.9px). 아래 `@container`가 「안 들어가면 스텝퍼를
+     접는다」를 **줄 자신의 폭으로** 판정한다. 뷰포트 대역으로 적으면 콘솔·좌석 치수가 바뀔 때마다
+     거짓이 된다(이 파일의 치수는 전부 연립 제약이다). 줄 폭은 카드가 정하므로 순환은 없다. */
+  /* ⚠ **`gap`은 여기 없다** — 아래 `.seat-meta { display: flex … }`(같은 특정도·뒤 순서)가 이긴다.
+     여기 적으면 조용히 무시된다(요구 42에서 실제로 물렸다: 간격을 3으로 줄여도 실측이 안 변했다). */
+  .seat-meta { flex-wrap: nowrap; container-type: inline-size; }
   .seat-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .wind-badge { flex: none; min-width: 20px; height: 20px; font-size: 11px; }
-  .seat-score-input { flex: none; width: 54px; min-width: 0; padding: 2px 4px; background: var(--surface-deep); color: var(--text-strong); border: 1px solid var(--border-strong); border-radius: 6px; font: inherit; font-size: 11px; font-variant-numeric: tabular-nums; text-align: right; }
+  .seat-score-input { flex: none; width: 44px; min-width: 0; padding: 2px 4px; background: var(--surface-deep); color: var(--text-strong); border: 1px solid var(--border-strong); border-radius: 6px; font: inherit; font-size: 11px; font-variant-numeric: tabular-nums; text-align: right; }
   .seat-score-input::-webkit-outer-spin-button, .seat-score-input::-webkit-inner-spin-button { appearance: none; margin: 0; }
   .seat-score-input:focus { border-color: var(--accent); outline: none; }
+  /**
+   * 좌석 점수의 −/+ (요구 42) — **이 줄만 18×18**이다(공용 compact 24px보다 작다). `.seat-meta`는
+   * 한 줄 계약이고, 감기면 좌석 카드가 한 행 높아져 작탁 겹침 계약(min-height ↔ 강 4행 ↔ 콘솔)이
+   * 깨진다. 입력도 54 → 44px로 줄여 그 몫을 스텝퍼에 준다(4인 점수 다섯 자리가 여전히 들어간다).
+   *
+   * ⚠ **줄이 못 담으면 스텝퍼를 접는다** — 이 줄의 「남는 폭」은 곧 `.seat-name`이라, 접지 않으면
+   *   좌석 이름이 «잘린다»(1200px에서 0px, 1366px에서 22~30px — 한국어 「대면」 한 단어도 못 담는다).
+   *   4인 줄 상수 실측 **153px** = 23(자풍) + 82(스텝퍼 `18+1+44+1+18`) + 20 + 20(리치·후로)
+   *   + 8(간격 넷 × 2). 3인은 北 칩 하나(+23·간격 2)를 더 이어 **178px**이다.
+   *
+   * ⚠⚠ **하한은 「안 사라진다」가 아니라 «안 잘린다»여야 한다**(2026-09-06 적대 검증 — #user 스크린샷:
+   *   1366×900 한국어에서 「대..」「상…」「하…」). 종전 게이트(4인 176 · 3인 201)는 이름 24px만
+   *   지켜서 **줄임표가 그대로 났다.** 이름은 좌석 카드의 정체성이라 스텝퍼보다 «먼저»다 —
+   *   게이트를 **4인 200 · 3인 225**로 올린다(이름 폭 하한 ≈ 47px, 가장 긴 라벨 「Across」 49px과
+   *   같은 자리). 그러면 1366·1440은 접히고 1920·폰 가로·폰 세로 상하는 보인다.
+   */
+  .seat-meta .num-field { flex: none; gap: 1px; }
+  .seat-meta .num-step { flex: none; width: 18px; min-width: 18px; height: 18px; min-height: 18px; padding: 0; font-size: 12px; border-radius: 5px; }
+  @container (max-width: 200px) {
+    .seat-meta .num-step { display: none; }
+  }
+  /* 3인은 北 칩 하나(+23·간격 2)를 더 이고 있다 — 그 좌석만 게이트를 25px 위로 올린다.
+     `:has()`가 없는 브라우저는 이 규칙만 잃는다(4인 게이트는 그대로) — 컨테이너 쿼리를 아는
+     브라우저는 전부 `:has()`도 안다(Chrome 105 · Safari 16 · Firefox 121 이후는 둘 다). */
+  @container (max-width: 225px) {
+    .seat-meta:has(.seat-kita-btn:not(.hidden)) .num-step { display: none; }
+  }
   .seat-riichi-btn, .seat-meld-btn { min-width: 20px; height: 20px; padding: 0 4px; border-radius: 5px; border: 1px solid var(--border-strong); background: var(--surface-deep); color: var(--text-muted); font-size: 10px; font-weight: 700; line-height: 1; cursor: pointer; flex: none; }
   .seat-riichi-btn:hover:not(:disabled), .seat-meld-btn:hover { border-color: var(--accent); color: var(--accent); }
   .seat-riichi-btn.on, .seat-meld-btn.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
@@ -383,7 +435,8 @@
   .seat-card { min-width: 0; background: rgb(18 25 32 / 80%); border: 1px solid var(--border-strong); border-radius: 8px; padding: 8px 10px; backdrop-filter: blur(6px); }
   /* gap은 4px — nowrap 6칸(이름·자풍·점수·리치·副·北)이 좌석 폭을 넘겨 하가(우측) 카드가
      작탁 밖으로 잘리던 문제(3인, #user). 8px면 3인 카드 231px로 우측 경계 14px 초과. */
-  .seat-meta { display: flex; align-items: center; justify-content: space-between; gap: 4px; margin-bottom: 6px; }
+  /* 간격 4 → 2(요구 42) — 스텝퍼가 이 줄에 든 몫을 좌석 이름에 돌려준다. */
+  .seat-meta { display: flex; align-items: center; justify-content: space-between; gap: 2px; margin-bottom: 6px; }
   .seat-name { color: var(--text-strong); font-weight: 800; font-size: 13px; }
   .seat-info { display: flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
   .seat-kita { min-height: 16px; color: var(--warn); font-size: 11.5px; display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
@@ -469,6 +522,9 @@
     .center-console { grid-area: center; padding: 10px; }
     .seat-card { min-width: 0; padding: 7px 8px; }
     .seat-left .seat-meta, .seat-right .seat-meta { align-items: flex-start; flex-direction: column; }
+    /* 세로로 선 메타에서는 스텝퍼가 이름을 «안» 밀친다(각자 제 줄이다) — 위 컨테이너 게이트를 되연다.
+       이 좌석들은 여기서 이미 여러 줄이므로 한 줄 계약도 걸리지 않는다(요구 42). */
+    .seat-left .seat-meta .num-step, .seat-right .seat-meta .num-step { display: inline-flex; }
     .seat-info { flex-wrap: wrap; }
     .seat .pond { --tw: 25px; min-height: 32px; }
     .center-dora .pond { --tw: 27px; }
@@ -512,10 +568,11 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-CdiEAqlg.js"></script>
+  <script type="module" crossorigin src="/assets/simulator-Cj0F16eD.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/assist-discard-w9mfCwTB.js">
-  <link rel="modulepreload" crossorigin href="/assets/en-DYGsafsx.js">
-  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-CFcyRs3S.js">
+  <link rel="modulepreload" crossorigin href="/assets/en-DIkqF5CS.js">
+  <link rel="modulepreload" crossorigin href="/assets/discard-recommend-DvFSNBIT.js">
+  <link rel="modulepreload" crossorigin href="/assets/number-field-CbKGqjkh.js">
   <link rel="modulepreload" crossorigin href="/assets/mpa-return-9o8tWLQV.js">
 </head>
 <body>
