@@ -2,9 +2,9 @@
 
 // CACHE_NAME 끝의 빌드 해시와 BUILD_ASSETS는 빌드 시 vite-plugin-sw-precache가 주입한다.
 // 개발 중(주입 전)에는 앱 셸만 캐시한다.
-const CACHE_NAME = "ippatsu-shell-mtq3e71m";
+const CACHE_NAME = "ippatsu-shell-mtqkucvm";
 const APP_SHELL = ["/", "/index.html", "/manifest.webmanifest", "/icon.svg"];
-const BUILD_ASSETS = ["/assets/assist-discard-w9mfCwTB.js","/assets/board3d-B_4bTHpS.js","/assets/config-0RD2Q69d.js","/assets/en-Zs5oiaui.js","/assets/main-CHrEKOA3.js","/assets/main-Dw3mpQP5.css","/assets/mpa-return-9o8tWLQV.js","/assets/number-field-CbKGqjkh.js","/assets/rules-C8S6N2Ff.js","/assets/scrollbar-autohide-DMefimz7.js","/assets/simulator-DLYGrrvE.js"];
+const BUILD_ASSETS = ["/assets/assist-discard-w9mfCwTB.js","/assets/board3d-DDK6Ox1Z.js","/assets/config-D9lbhAhq.js","/assets/en-BdqmuXRY.js","/assets/main-Bc7B34Kw.css","/assets/main-BiiAJU13.js","/assets/mpa-return-9o8tWLQV.js","/assets/number-field-CbKGqjkh.js","/assets/rules-DenoYpoq.js","/assets/scrollbar-autohide-Cb8TgHkD.js","/assets/simulator-B1cwBLg1.js"];
 
 self.addEventListener("install", (event) => {
   // 해시된 JS/CSS 번들까지 프리캐시 → 온라인 방문 없이도 오프라인 콜드스타트가 동작한다.
