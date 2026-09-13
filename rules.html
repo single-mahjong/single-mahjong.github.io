@@ -253,12 +253,12 @@
   main a { color: var(--accent); }
   main a:visited { color: var(--accent); }
 </style>
-  <script type="module" crossorigin src="/assets/rules-BJArteSw.js"></script>
+  <script type="module" crossorigin src="/assets/rules-GeZe2uMf.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/assist-discard-w9mfCwTB.js">
-  <link rel="modulepreload" crossorigin href="/assets/en-Bol7Ms6C.js">
-  <link rel="modulepreload" crossorigin href="/assets/tokens-_gQw6rJ2.js">
-  <link rel="modulepreload" crossorigin href="/assets/tile-face-BzG3BCY1.js">
-  <link rel="modulepreload" crossorigin href="/assets/glossary-l7CYzlah.js">
+  <link rel="modulepreload" crossorigin href="/assets/en-DoR9nxB0.js">
+  <link rel="modulepreload" crossorigin href="/assets/tokens-ktC_9p0K.js">
+  <link rel="modulepreload" crossorigin href="/assets/tile-face-B_G90QIl.js">
+  <link rel="modulepreload" crossorigin href="/assets/glossary-D_Nei3Gp.js">
   <link rel="modulepreload" crossorigin href="/assets/mpa-return-9o8tWLQV.js">
   <link rel="stylesheet" crossorigin href="/assets/tokens-DP4JCglC.css">
 </head>
@@ -273,10 +273,6 @@
     <button class="langbtn" data-l="ja">日本語</button>
     <button class="langbtn" data-l="en">English</button>
   </div>
-  <!-- 되돌아가는 길 — 앱이 새 탭으로 열었으면 「탭 닫기」, 직접 들어왔으면 「게임 첫 화면」.
-       판정·배선은 src/mpa-return.ts(rules-calc.ts가 부른다). 둘 중 하나만 보인다. -->
-  <a class="back" id="nav-back" href="/">← <span class="ko">게임 첫 화면</span><span class="ja">タイトル画面</span><span class="en">Start screen</span></a>
-  <button type="button" class="back" id="nav-close" hidden>✕ <span class="ko">탭 닫기</span><span class="ja">タブを閉じる</span><span class="en">Close tab</span></button>
 </header>
 
 <nav class="toc">
@@ -301,9 +297,17 @@
 <main id="rulebook-sections">
 
 <p>
-  <span class="ko"><strong>一発(Ippatsu)</strong>는 4인 리치 마작 게임입니다. 룰은 <strong>일반적인 온라인 리치 마작 표준</strong>을 따릅니다. 시작 25,000점, 동풍전/반장전(스테이지가 지정), 적도라 3매 포함 136매.</span>
-  <span class="ja"><strong>一発(Ippatsu)</strong>は4人打ちリーチ麻雀です。ルールは<strong>一般的なオンラインリーチ麻雀の標準</strong>に準拠。配給原点25,000点、東風戦/半荘戦(ステージが指定)、赤ドラ3枚を含む136枚。</span>
-  <span class="en"><strong>Ippatsu (一発)</strong> is a four-player riichi mahjong game. The rules follow the <strong>common online riichi standard</strong>: 25,000 starting points, East-only or half-game (set per stage), 136 tiles including 3 red fives.</span>
+  <span class="ko"><strong>一発</strong>는 4인 리치 마작 게임입니다. <strong>일반적인 온라인 리치 마작 표준룰</strong>을 따릅니다. 시작 25,000점, 동풍전/반장전, 적도라 3매 포함 136매.</span>
+  <span class="ja"><strong>一発</strong>は4人打ちリーチ麻雀です。ルールは<strong>一般的なオンラインリーチ麻雀の標準</strong>に準拠。配給原点25,000点、東風戦/半荘戦、赤ドラ3枚を含む136枚。</span>
+  <span class="en"><strong>Ippatsu (一発)</strong> is a four-player riichi mahjong game. The rules follow the <strong>common online riichi standard</strong>: 25,000 starting points, East-only or half-game, 136 tiles including 3 red fives.</span>
+</p>
+
+<!-- 되돌아가는 길 — 앱이 새 탭으로 열었으면 「탭 닫기」, 직접 들어왔으면 「메인 화면으로 돌아가기」.
+     판정·배선은 src/mpa-return.ts(rules-calc.ts가 부른다). 둘 중 하나만 보인다.
+     헤더가 아니라 소개 문단 아래에 두는 것과 그 라벨은 2026-09-13 #user 요구다. -->
+<p class="back-row">
+  <a class="back" id="nav-back" href="/">← <span class="ko">메인 화면으로 돌아가기</span><span class="ja">メイン画面に戻る</span><span class="en">Back to main screen</span></a>
+  <button type="button" class="back" id="nav-close" hidden>✕ <span class="ko">탭 닫기</span><span class="ja">タブを閉じる</span><span class="en">Close tab</span></button>
 </p>
 
 <details class="sec" open data-terms="치,퐁,깡,후로,멘젠,리치,텐파이,샨텐,도라,뒷도라,쯔모,론,역,국">
