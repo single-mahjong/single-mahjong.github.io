@@ -42,7 +42,10 @@
   .back { font-size: var(--step-00); font-family: var(--font-display); color: var(--accent); text-decoration: none; border: 1px solid var(--accent-line); border-radius: var(--radius-pill); padding: 6px var(--space-3); cursor: pointer; background: none; }
   .back:hover { background: var(--accent-soft); }
   /* ── 상단 고정 색인 + 읽기 진행 바 ── */
-  .readbar { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--accent); z-index: 50; }
+  /* ⚠ 진행 바는 «변환»으로 그린다 — `width`로 되돌리지 말 것(2026-09-14 #user 「스크롤이 매우 끊긴다」).
+     폭을 매 프레임 쓰면 문서(노드 5,110개, 타일 659개)의 레이아웃이 프레임마다 다시 잡힌다.
+     실측(390×844 · CPU 4배 느리게): 바를 숨기면 p50 51.0ms → 16.7ms. 자는 `qa/rulebook-scroll.mjs`. */
+  .readbar { position: fixed; top: 0; left: 0; height: 3px; width: 100%; transform: scaleX(0); transform-origin: 0 50%; will-change: transform; background: var(--accent); z-index: 50; }
   /* sticky와 가로 스크롤(overflow)을 같은 요소에 두면 iOS Safari에서 sticky가 풀린다
      — 바깥(nav)이 sticky, 안쪽(.toc-scroll)이 스크롤 컨테이너 */
   nav.toc { position: -webkit-sticky; position: sticky; top: 0; z-index: 40; margin: 18px 0 6px; padding: 12px 0 10px; background: var(--surface-app); }
@@ -64,7 +67,15 @@
      「본문이 거기 있다」를 전제로 서 있다. 그래서 접기는 «독자가 고르는 것»이고 기본값이 아니다.
      여는 장치는 <details>/<summary>라 키보드(Tab → Enter/Space)가 그냥 된다. `aria-expanded`는
      rules-calc.ts가 열림 상태에서 다시 찍는다(보조기술이 «지금 열렸나»를 읽는다). */
-  details.sec { margin: var(--space-6) 0 0; border-top: 1px solid var(--border-strong); }
+  /* ⚠ 화면 밖 절은 «그리지 않는다» — 2026-09-14 #user 「스크롤이 매우 끊긴다」의 주된 고침.
+     이 문서는 21,272px · 노드 5,110개 · 타일 659개라 상단 진행 바가 한 번 무효화될 때마다
+     그 전부가 다시 레이아웃·페인트에 걸린다. `content-visibility: auto`는 뷰포트 밖 절을
+     통째로 건너뛴다. 실측(390×844 · CPU 4배 느리게): p50 39.2ms → 16.7ms(60fps 천장).
+     ⚠ 접기(`<details>` 닫기)와 달리 **찾기·앵커·본문 추출이 그대로 산다** — 브라우저가 필요할 때
+     그려 준다. 그래서 「절의 기본은 펼침」의 근거(Ctrl+F·앵커·SEO)와 부딪치지 않는다.
+     `contain-intrinsic-size`의 `auto`는 한 번 그린 절의 «실제» 높이를 기억해 스크롤바가 덜 튄다.
+     자는 `qa/rulebook-scroll.mjs`. */
+  details.sec { margin: var(--space-6) 0 0; border-top: 1px solid var(--border-strong); content-visibility: auto; contain-intrinsic-size: auto 1200px; }
   summary.sec-head { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) 0 var(--space-2); cursor: pointer; list-style: none; }
   summary.sec-head::-webkit-details-marker { display: none; }
   summary.sec-head:hover h2 { color: var(--accent-press); }
@@ -253,12 +264,12 @@
   main a { color: var(--accent); }
   main a:visited { color: var(--accent); }
 </style>
-  <script type="module" crossorigin src="/assets/rules-lTc_l6Zu.js"></script>
+  <script type="module" crossorigin src="/assets/rules-DC4YrD_7.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/assist-discard-w9mfCwTB.js">
   <link rel="modulepreload" crossorigin href="/assets/en-v_-qnumy.js">
   <link rel="modulepreload" crossorigin href="/assets/tokens-Uq80HvpY.js">
   <link rel="modulepreload" crossorigin href="/assets/tile-face-Dpv43NVp.js">
-  <link rel="modulepreload" crossorigin href="/assets/glossary-BQ4fSR9a.js">
+  <link rel="modulepreload" crossorigin href="/assets/glossary-tGtRb-wz.js">
   <link rel="modulepreload" crossorigin href="/assets/mpa-return-9o8tWLQV.js">
   <link rel="stylesheet" crossorigin href="/assets/tokens-DP4JCglC.css">
 </head>
@@ -297,15 +308,16 @@
 <main id="rulebook-sections">
 
 <p>
-  <span class="ko"><strong>一発</strong>는 4인 리치 마작 게임입니다. <strong>일반적인 온라인 리치 마작 표준룰</strong>을 따릅니다. 시작 25,000점, 동풍전/반장전, 적도라 3매 포함 136매.</span>
-  <span class="ja"><strong>一発</strong>は4人打ちリーチ麻雀です。ルールは<strong>一般的なオンラインリーチ麻雀の標準</strong>に準拠。配給原点25,000点、東風戦/半荘戦、赤ドラ3枚を含む136枚。</span>
-  <span class="en"><strong>Ippatsu (一発)</strong> is a four-player riichi mahjong game. The rules follow the <strong>common online riichi standard</strong>: 25,000 starting points, East-only or half-game, 136 tiles including 3 red fives.</span>
+  <span class="ko"><strong>一発</strong>은 <strong>일반적인 온라인 리치마작 표준</strong>을 따릅니다. 시작 25,000점, 동풍전/반장전, 적도라 3매 포함 136매.</span>
+  <span class="ja"><strong>一発</strong>のルールは<strong>一般的なオンラインリーチ麻雀の標準</strong>に準拠。配給原点25,000点、東風戦/半荘戦、赤ドラ3枚を含む136枚。</span>
+  <span class="en"><strong>Ippatsu (一発)</strong> follows the <strong>common online riichi standard</strong>: 25,000 starting points, East-only or half-game, 136 tiles including 3 red fives.</span>
 </p>
 
 <!-- 되돌아가는 길 — 앱이 새 탭으로 열었으면 「탭 닫기」, 직접 들어왔으면 「메인 화면으로 돌아가기」.
      판정·배선은 src/mpa-return.ts(rules-calc.ts가 부른다). 둘 중 하나만 보인다.
      헤더가 아니라 소개 문단 아래에 두는 것과 그 라벨은 2026-09-13 #user 요구다. -->
 <p class="back-row">
+  <a class="back" id="nav-site" href="https://single-mahjong.github.io/"><span class="ko">一発 공식 사이트</span><span class="ja">一発 公式サイト</span><span class="en">Ippatsu official site</span></a>
   <a class="back" id="nav-back" href="/">← <span class="ko">메인 화면으로 돌아가기</span><span class="ja">メイン画面に戻る</span><span class="en">Back to main screen</span></a>
   <button type="button" class="back" id="nav-close" hidden>✕ <span class="ko">탭 닫기</span><span class="ja">タブを閉じる</span><span class="en">Close tab</span></button>
 </p>
