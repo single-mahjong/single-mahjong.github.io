@@ -188,6 +188,7 @@
   .input-head-actions { display: flex; gap: 6px; flex: none; }
   .input-head-actions .action { padding: 5px 10px; font-size: 12px; }
   .input-head-actions .action.danger { border-color: color-mix(in srgb, var(--danger) 42%, transparent); color: var(--danger); }
+  #btn-clear { background: var(--surface-app); }
   .input-head-actions .action.danger:hover:not(:disabled) { border-color: var(--danger); }
   #tile-text-input { flex: 1; min-width: 0; background: var(--sim-deep); color: var(--text-strong); border: 1px solid var(--border-strong); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 13px; }
   .hand-controls { align-items: center; }
@@ -303,7 +304,7 @@
      같은 유도식의 반대 부호(−--tw/6)로 뒤집는다 — margin-inline·회전각은 기본 규칙 그대로 상속. */
   #sim-meld-opp1 .meld-tiles .tile.called { transform: translateY(calc(var(--tw, 25px) / -6)) rotate(90deg); }
   /* 후로 박스 소유자 라벨(#user 2026-07-17 「누구의 후로 박스인지」). */
-  .meld-owner { flex: none; align-self: center; color: var(--text-muted); font-size: 10px; letter-spacing: .03em; }
+  .meld-owner { flex: none; align-self: center; color: var(--text-body); font-size: 10px; letter-spacing: .03em; }
   .meld-empty { color: var(--text-muted); font-size: 12.5px; }
   .surface.empty::before, .meld-list.empty::before { content: attr(data-empty); color: var(--text-muted); font-size: 12.5px; }
   .meld-list { display: flex; flex-wrap: wrap; gap: 6px; min-height: 36px; }
@@ -362,7 +363,7 @@
   .seat-melds.hidden { display: none; }
   .seat-melds.active { outline: 1px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
   /* 빈 후로 존의 진입 고스트 칩(#user — 버림패처럼 작탁 표면에서 바로 추가). 클릭은 존 표면이 처리. */
-  .meld-zone-ghost { padding: 3px 10px; color: var(--text-muted); font-size: 11px; border: 1px dashed var(--border-strong); border-radius: 999px; cursor: pointer; }
+  .meld-zone-ghost { padding: 3px 10px; color: var(--text-body); font-size: 11px; border: 1px dashed var(--border-strong); border-radius: 999px; cursor: pointer; }
   .seat-melds:hover .meld-zone-ghost { color: var(--accent); border-color: var(--accent); }
   /* 폭은 강 6열(--seat-side-w)로 캡하되 중앙 상/하 좌석과 안 겹치게 「반폭 − 상/하 좌석 반폭 − 여백」으로도
      캡한다. 종전 상수 120px = 좌석 반폭 100(=200/2) + 여백 20이었는데, --seat-side-w가 폭 연동으로
@@ -487,6 +488,7 @@
   [data-lang="ja"] .ko, [data-lang="ja"] .en,
   [data-lang="en"] .ko, [data-lang="en"] .ja { display: none; }
   footer { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border-strong); font-size: 11.5px; color: var(--text-muted); }
+  footer a { color: var(--text-body); }
   @media (max-width: 800px) {
     body { font-size: 14px; }
     .grid { grid-template-columns: 1fr; }
@@ -576,13 +578,13 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-aqwRl80o.js"></script>
+  <script type="module" crossorigin src="/assets/simulator-BsMqVISG.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/assist-discard-w9mfCwTB.js">
-  <link rel="modulepreload" crossorigin href="/assets/en-B4EV62Dn.js">
-  <link rel="modulepreload" crossorigin href="/assets/tokens-BPYFnd5V.js">
+  <link rel="modulepreload" crossorigin href="/assets/src-BRmnmUcW.js">
+  <link rel="modulepreload" crossorigin href="/assets/tokens-l0Cj1mR2.js">
   <link rel="modulepreload" crossorigin href="/assets/number-field-CbKGqjkh.js">
   <link rel="modulepreload" crossorigin href="/assets/mpa-return-9o8tWLQV.js">
-  <link rel="stylesheet" crossorigin href="/assets/tokens-DP4JCglC.css">
+  <link rel="stylesheet" crossorigin href="/assets/tokens-BOALLjbJ.css">
 </head>
 <body>
 <div class="wrap">
