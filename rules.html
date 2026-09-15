@@ -139,6 +139,15 @@
   .limit-table .limit-tsm { color: var(--text-muted); font-size: 12px; }
   .fu-parts th:first-child, .fu-parts td:first-child { text-align: left; }
   .fu-parts td.num { font-weight: 700; }
+  /* 부수 표 둘은 **한 열에 나란히** 선다(2026-09-15 #user). 세로로 쌓으면 둘째 표(커쯔·깡쯔)가
+     화면 밖으로 밀려, 「기본 20에서 더한다」를 읽는 동안 더할 값을 같이 못 본다.
+     ⚠ `min-width: 0`이 «필수»다 — 안 주면 칸이 표의 내재 폭까지 늘어나 `.tblwrap`의
+       `overflow-x: auto`가 안 걸리고 문서 전체가 가로로 스크롤한다.
+     ⚠ 좁은 화면에서는 한 열로 돌아간다(#user 「모바일에서는 다른 열로 나와도 됨」) —
+       560px는 이 문서가 이미 쓰는 경계다. */
+  .fu-parts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; align-items: start; margin: 10px 0; }
+  .fu-parts-row > .tblwrap { min-width: 0; margin: 0; }
+  @media (max-width: 560px) { .fu-parts-row { grid-template-columns: minmax(0, 1fr); } }
   /* ── 역 만들기(계산기) ── */
   .calc-palette { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; max-width: 460px; }
   .pal { background: none; border: 1px solid transparent; border-radius: 6px; padding: 2px; cursor: pointer; }
@@ -265,13 +274,13 @@
   main a { color: var(--accent); }
   main a:visited { color: var(--accent); }
 </style>
-  <script type="module" crossorigin src="/assets/rules-3q9aMBRh.js"></script>
+  <script type="module" crossorigin src="/assets/rules-DJcBBDGg.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/assist-discard-w9mfCwTB.js">
-  <link rel="modulepreload" crossorigin href="/assets/src-BRmnmUcW.js">
-  <link rel="modulepreload" crossorigin href="/assets/tokens-l0Cj1mR2.js">
-  <link rel="modulepreload" crossorigin href="/assets/tile-face-DgII6Nzv.js">
-  <link rel="modulepreload" crossorigin href="/assets/glossary-Co1pqMpl.js">
-  <link rel="modulepreload" crossorigin href="/assets/mpa-return-9o8tWLQV.js">
+  <link rel="modulepreload" crossorigin href="/assets/src-CF2BvU6M.js">
+  <link rel="modulepreload" crossorigin href="/assets/tokens-HDzmyCkx.js">
+  <link rel="modulepreload" crossorigin href="/assets/tile-face-Dmku3cpL.js">
+  <link rel="modulepreload" crossorigin href="/assets/glossary-DQ_-4DjJ.js">
+  <link rel="modulepreload" crossorigin href="/assets/mpa-return-C3KhUZt6.js">
   <link rel="stylesheet" crossorigin href="/assets/tokens-BOALLjbJ.css">
 </head>
 <body>
@@ -314,13 +323,14 @@
   <span class="en"><strong>Ippatsu (一発)</strong> follows the <strong>common online riichi standard</strong>: 25,000 starting points, East-only or half-game, 136 tiles including 3 red fives.</span>
 </p>
 
-<!-- 되돌아가는 길 — 앱이 새 탭으로 열었으면 「탭 닫기」, 직접 들어왔으면 「메인 화면으로 돌아가기」.
-     판정·배선은 src/mpa-return.ts(rules-calc.ts가 부른다). 둘 중 하나만 보인다.
-     헤더가 아니라 소개 문단 아래에 두는 것과 그 라벨은 2026-09-13 #user 요구다. -->
+<!-- 되돌아가는 길 — **언제나 「메인 화면으로 돌아가기」 하나다.**
+     헤더가 아니라 소개 문단 아래에 두는 것과 그 라벨은 2026-09-13 #user 요구이고,
+     앱이 새 탭으로 열었을 때 서던 닫기 버튼은 2026-09-15 #user가 제거했다(nav-close가 없다).
+     배선은 src/mpa-return.ts(rules-calc.ts가 부른다) — 그쪽이 닫기 노드가 없는 페이지를 알고 있다.
+     분석기(simulator.html)는 그대로 둘을 들고 고른다. -->
 <p class="back-row">
   <a class="back" id="nav-site" href="https://single-mahjong.github.io/"><span class="ko">一発 공식 사이트</span><span class="ja">一発 公式サイト</span><span class="en">Ippatsu official site</span></a>
   <a class="back" id="nav-back" href="/">← <span class="ko">메인 화면으로 돌아가기</span><span class="ja">メイン画面に戻る</span><span class="en">Back to main screen</span></a>
-  <button type="button" class="back" id="nav-close" hidden>✕ <span class="ko">탭 닫기</span><span class="ja">タブを閉じる</span><span class="en">Close tab</span></button>
 </p>
 
 <details class="sec" open data-terms="후로,리치,샨텐,도라,뒷도라,쯔모,론,역,국">
@@ -540,6 +550,7 @@
   <span class="ja"><strong>基本20符</strong>に以下を加算し、最後に<strong>10符単位で切り上げ</strong>(例: 32符→40符)。</span>
   <span class="en">Start from a <strong>base of 20 fu</strong>, add the items below, then <strong>round up to the next 10</strong> (e.g. 32 → 40 fu).</span>
 </p>
+<div class="fu-parts-row">
 <div class="tblwrap"><table class="fu-parts">
   <tr><th><span class="ko">항목</span><span class="ja">項目</span><span class="en">Item</span></th><th><span class="ko">부</span><span class="ja">符</span><span class="en">Fu</span></th></tr>
   <tr><td><span class="ko">기본(부저)</span><span class="ja">副底</span><span class="en">Base</span></td><td class="num">20</td></tr>
@@ -558,6 +569,7 @@
   <tr><td><span class="ko">명깡과 가깡</span><span class="ja">明槓・加槓</span><span class="en">Open / added kan</span></td><td class="num">+8</td><td class="num">+16</td></tr>
   <tr><td><span class="ko">안깡</span><span class="ja">暗槓</span><span class="en">Closed kan</span></td><td class="num">+16</td><td class="num">+32</td></tr>
 </table></div>
+</div>
 <ul>
   <li><span class="ko"><strong>핑후</strong>는 부수를 세지 않습니다. 쯔모 20부, 론 30부로 고정(<a href="#pinfu">핑후 자세히</a>).</span><span class="ja"><strong>平和</strong>は符を数えない。ツモ20符・ロン30符で固定(<a href="#pinfu">平和の詳細</a>)。</span><span class="en"><strong>Pinfu</strong> skips fu counting. It is fixed at 20 fu (tsumo) / 30 fu (ron). <a href="#pinfu">Details below.</a></span></li>
   <li><span class="ko"><strong>치또이쯔</strong>는 25부 고정(올림 없음).</span><span class="ja"><strong>七対子</strong>は25符固定。</span><span class="en"><strong>Chiitoitsu</strong> is a fixed 25 fu (no rounding).</span></li>
