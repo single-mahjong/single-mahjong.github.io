@@ -264,12 +264,12 @@
   main a { color: var(--accent); }
   main a:visited { color: var(--accent); }
 </style>
-  <script type="module" crossorigin src="/assets/rules-BIHpdvdC.js"></script>
+  <script type="module" crossorigin src="/assets/rules-DH5RqbDA.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/assist-discard-w9mfCwTB.js">
-  <link rel="modulepreload" crossorigin href="/assets/en-PF0XZIGz.js">
-  <link rel="modulepreload" crossorigin href="/assets/tokens-BkmdMqds.js">
-  <link rel="modulepreload" crossorigin href="/assets/tile-face-m2heb7Gm.js">
-  <link rel="modulepreload" crossorigin href="/assets/glossary-CsCrrSBs.js">
+  <link rel="modulepreload" crossorigin href="/assets/en-SfEqSPhK.js">
+  <link rel="modulepreload" crossorigin href="/assets/tokens-CsNvWjFN.js">
+  <link rel="modulepreload" crossorigin href="/assets/tile-face-DWGVQ-WD.js">
+  <link rel="modulepreload" crossorigin href="/assets/glossary-CNGtsIZi.js">
   <link rel="modulepreload" crossorigin href="/assets/mpa-return-9o8tWLQV.js">
   <link rel="stylesheet" crossorigin href="/assets/tokens-DP4JCglC.css">
 </head>
@@ -322,13 +322,13 @@
   <button type="button" class="back" id="nav-close" hidden>✕ <span class="ko">탭 닫기</span><span class="ja">タブを閉じる</span><span class="en">Close tab</span></button>
 </p>
 
-<details class="sec" open data-terms="치,퐁,깡,후로,멘젠,리치,텐파이,샨텐,도라,뒷도라,쯔모,론,역,국">
+<details class="sec" open data-terms="후로,리치,샨텐,도라,뒷도라,쯔모,론,역,국">
 <summary class="sec-head"><span class="sec-mark" aria-hidden="true">▶</span><h2 id="try"><span class="ko">역 만들기</span><span class="ja">役を作ってみる</span><span class="en">Hand builder</span></h2></summary>
 <div class="sec-body">
 <p>
-  <span class="ko">패를 눌러 손패를 만들어 보세요. <strong>게임과 같은 엔진</strong>이 단계마다 알려줍니다. 조립 중엔 <strong>노려볼 만한 역</strong>, 13장이면 <strong>샨텐 수</strong>와 텐파이 시 <strong>대기패, 화료했을 때의 점수</strong>, 14장이 완성되면 <strong>성립한 역과 점수</strong>와 역마다 <strong>울어도(치나 퐁) 성립하는지</strong>까지. <strong>마지막에 넣은 패가 화료패</strong>(▲)이고, 손패의 패를 누르면 뺄 수 있습니다.</span>
-  <span class="ja">牌をタップして手を作りましょう。<strong>ゲームと同じエンジン</strong>が段階ごとに教えてくれます。組み立て中は<strong>狙えそうな役</strong>、13枚なら<strong>向聴数</strong>とテンパイ時の<strong>待ち牌・和了時の点数</strong>、14枚が完成すれば<strong>成立役・点数</strong>と役ごとに<strong>鳴いても(チー・ポン)成立するか</strong>まで。<strong>最後に入れた牌が和了牌</strong>(▲)、手牌の牌をタップで外せます。</span>
-  <span class="en">Tap tiles to build a hand. <strong>The same engine as the game</strong> guides every stage: likely <strong>yaku to aim for</strong> while building, <strong>shanten count</strong> at 13 tiles plus <strong>waits and their winning scores</strong> at tenpai, and for a complete 14-tile hand the <strong>yaku, score, and whether each yaku survives open calls</strong> (chi/pon). <strong>The last tile you add is the winning tile</strong> (▲); tap a hand tile to remove it.</span>
+  <span class="ko">패를 골라 역을 만들어 보세요. <strong>노려볼 만한 역</strong>, <strong>샨텐</strong> 및 <strong>대기패</strong>와 <strong>점수</strong>를 알 수 있습니다. 14번째로 고른 패는 <strong>화료패</strong>이며, (▲)으로 표기됩니다.</span>
+  <span class="ja">牌を選んで役を作ってみましょう。<strong>狙えそうな役</strong>、<strong>向聴数</strong>と<strong>待ち牌</strong>、<strong>点数</strong>が分かります。14枚目に選んだ牌が<strong>和了牌</strong>で、(▲)で表します。</span>
+  <span class="en">Pick tiles and build a yaku. You get the <strong>yaku to aim for</strong>, the <strong>shanten count</strong>, the <strong>waits</strong>, and the <strong>score</strong>. The 14th tile you pick is the <strong>winning tile</strong>, marked (▲).</span>
 </p>
 <div class="card">
   <div class="calc-palette" id="calc-palette"></div>
@@ -352,9 +352,9 @@
   <div class="calc-hand-area"><span class="hand" id="calc-hand"></span></div>
   <div class="calc-result" id="calc-result"></div>
   <p class="note" style="margin:10px 0 0">
-    <span class="ko">자풍은 친(동)/자(남), <strong>장풍</strong>은 선택, 뒷도라, 본장, 공탁 없음 기준. 적5는 도라 1로 계산됩니다. <strong>+ 후로</strong>로 치, 퐁, 깡(안깡 포함)을 등록하면 울은 손패의 점수를 정확히 계산하고(안깡만 있으면 멘젠 유지), <strong>+ 도라</strong>로 도라 표시패(최대 5장)를 넣으면 도라도 합산합니다. 후로가 없을 때는 완성 시 「울면서 만들었다면」 비교도 보여줍니다. 「노려볼 만한 역」은 모양 기준 힌트로, 확정이 아닙니다.</span>
-    <span class="ja">自風は親(東)/子(南)、<strong>場風</strong>は選択、裏ドラ・本場・供託なし。赤5はドラ1として計算。<strong>+ 副露</strong>でチー・ポン・カン(暗槓含む)を登録すると鳴いた手の点数を正確に計算し(暗槓のみなら門前維持)、<strong>+ ドラ</strong>でドラ表示牌(最大5枚)を入れるとドラも加算します。副露が無い場合は完成時に「鳴いて作った場合」の比較も表示します。「狙えそうな役」は形のヒントで、確定ではありません。</span>
-    <span class="en">Seat wind is dealer (East) / non-dealer (South); the <strong>round wind</strong> is selectable; no ura dora, honba, or deposits. Red fives count as 1 dora each. Use <strong>+ Call</strong> to register chi/pon/kan (incl. closed kan); the open hand is then scored exactly (a hand with only closed kans stays concealed). Use <strong>+ Dora</strong> to add dora indicators (up to 5), which are counted too. With no calls, complete hands also show an "if built open" comparison. "Yaku to aim for" are shape hints, not guarantees.</span>
+    <span class="ko">자풍: 친(동)/자(남)으로 고정됩니다. 뒷도라/본장/공탁은 계산하지 않습니다. 「노려볼 만한 역」은 힌트일뿐, 확정 역이 아닙니다.</span>
+    <span class="ja">自風は親(東)/子(南)に固定されます。裏ドラ・本場・供託は計算しません。「狙えそうな役」はヒントであって、確定した役ではありません。</span>
+    <span class="en">Seat wind is fixed to dealer (East) / non-dealer (South). Ura dora, honba, and deposits are not counted. "Yaku to aim for" are hints, not confirmed yaku.</span>
   </p>
   <p class="note" style="margin:10px 0 0">
     <a class="tool-link" href="/simulator.html"><span class="ko">국면 분석기 열기 →</span><span class="ja">局面アナライザーを開く →</span><span class="en">Open position analyzer →</span></a>
@@ -382,7 +382,7 @@
 </div>
 </details>
 
-<details class="sec" open data-terms="슌쯔,커쯔,화료,머리">
+<details class="sec" open data-terms="슌쯔,커쯔,화료,머리,텐파이">
 <summary class="sec-head"><span class="sec-mark" aria-hidden="true">▶</span><h2 id="goal"><span class="ko">이기는 모양: 몸통 4 + 머리 1 + 역</span><span class="ja">和了の条件: 4面子1雀頭+役</span><span class="en">Winning: 4 sets + 1 pair + a yaku</span></h2></summary>
 <div class="sec-body">
 <p>
@@ -426,7 +426,7 @@
 </div>
 </details>
 
-<details class="sec" open data-terms="영상패,상가,대기">
+<details class="sec" open data-terms="치,퐁,깡,멘젠,영상패,상가,대기">
 <summary class="sec-head"><span class="sec-mark" aria-hidden="true">▶</span><h2 id="calls"><span class="ko">남의 패 가져오기: 치, 퐁, 깡</span><span class="ja">他家の牌をもらう: チー・ポン・カン</span><span class="en">Taking a tile from someone: chi, pon, kan</span></h2></summary>
 <div class="sec-body">
 <div class="card">
