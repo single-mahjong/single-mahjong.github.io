@@ -303,6 +303,19 @@
      대면의 눕힌 패는 π 회전 시점상 우리 기준 행의 위 가장자리에 붙는다. 기본 규칙의 바닥 정렬을
      같은 유도식의 반대 부호(−--tw/6)로 뒤집는다 — margin-inline·회전각은 기본 규칙 그대로 상속. */
   #sim-meld-opp1 .meld-tiles .tile.called { transform: translateY(calc(var(--tw, 25px) / -6)) rotate(90deg); }
+  /* 가깡 — 네 번째 패는 부른 패 «위»에 얹힌다(#user 2026-09-16 「우측에 추가되는 문제」).
+     오른쪽에 붙이면 네 장짜리 밍깡과 구별이 안 된다.
+     ⚠ 회전 뒤 «페인트» 높이는 --tw뿐인데 레이아웃 박스는 --tw*4/3(aspect-ratio 3/4)이라,
+     그대로 세로로 쌓으면 두 장 사이가 --tw/3만큼 벌어진다. 위아래 각 --tw/6씩 음수 마진으로
+     그 초과분을 걷어 두 장이 실제로 맞닿게 한다 — 같은 유도식(박스 높이−너비)/2이고
+     기본 규칙의 translateY와 부호만 다른 형제다.
+     ⚠ 스택 «안»에서는 translateY를 쓰지 않는다(바닥 정렬은 한 장짜리 보정이고, 초과분을
+     대칭으로 걷어낸 여기서는 어긋남이 없다). 대면 규칙의 반대 부호도 같은 이유로 무력화한다. */
+  .meld-tiles .meld-stack { display: inline-flex; flex-direction: column-reverse; align-items: center; margin-inline: calc(var(--tw, 25px) / 6); }
+  .meld-tiles .meld-stack .tile.called,
+  #sim-meld-opp1 .meld-tiles .meld-stack .tile.called {
+    margin-inline: 0; margin-block: calc(var(--tw, 25px) / -6); transform: rotate(90deg);
+  }
   /* 후로 박스 소유자 라벨(#user 2026-07-17 「누구의 후로 박스인지」). */
   .meld-owner { flex: none; align-self: center; color: var(--text-body); font-size: 10px; letter-spacing: .03em; }
   .meld-empty { color: var(--text-muted); font-size: 12.5px; }
@@ -578,10 +591,10 @@
   .board-melds { margin-top: 8px; }
   .board-melds.empty { display: none; }
 </style>
-  <script type="module" crossorigin src="/assets/simulator-yotn9MVC.js"></script>
+  <script type="module" crossorigin src="/assets/simulator-Dcfw5wMJ.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/assist-discard-D64F4MPE.js">
-  <link rel="modulepreload" crossorigin href="/assets/src-CcO5fOJi.js">
-  <link rel="modulepreload" crossorigin href="/assets/tokens-DHf6I6SI.js">
+  <link rel="modulepreload" crossorigin href="/assets/src-D5qqfFaj.js">
+  <link rel="modulepreload" crossorigin href="/assets/tokens-DHRKQ-t5.js">
   <link rel="modulepreload" crossorigin href="/assets/number-field-CbKGqjkh.js">
   <link rel="modulepreload" crossorigin href="/assets/mpa-return-C3KhUZt6.js">
   <link rel="stylesheet" crossorigin href="/assets/tokens-BOALLjbJ.css">
@@ -606,7 +619,7 @@
   <a class="back" href="/rules.html"><span class="ko">룰북과 역 일람</span><span class="ja">ルールブック・役一覧</span><span class="en">Rulebook &amp; Yaku List</span></a>
   <!-- 되돌아가는 길 — 앱이 새 탭으로 열었으면 「탭 닫기」, 직접 들어왔으면 「게임 첫 화면」.
        판정·배선은 src/mpa-return.ts(simulator.ts가 부른다). 둘 중 하나만 보인다. -->
-  <a class="back" id="nav-back" href="/">← <span class="ko">게임 첫 화면</span><span class="ja">タイトル画面</span><span class="en">Start screen</span></a>
+  <a class="back" id="nav-back" href="/">← <span class="ko">첫 화면</span><span class="ja">タイトル画面</span><span class="en">Start screen</span></a>
   <button type="button" class="back" id="nav-close" hidden>✕ <span class="ko">탭 닫기</span><span class="ja">タブを閉じる</span><span class="en">Close tab</span></button>
 </header>
 <div class="grid">
@@ -736,9 +749,9 @@
           <div class="seat-meta">
             <span class="seat-name" id="seat-player-label"></span>
             <i class="wind-badge" id="seat-player-wind"></i>
-            <input type="number" step="100" class="seat-score-input" id="seat-player-score" data-score-seat="player" aria-label="플레이어 점수 / score">
-            <button type="button" class="seat-riichi-btn" data-riichi-seat="player" aria-pressed="false" aria-label="플레이어 리치 / riichi">立</button>
-            <button type="button" class="seat-meld-btn" data-meld-seat="player" aria-label="플레이어 후로 입력 / calls">副</button>
+            <input type="number" step="100" class="seat-score-input" id="seat-player-score" data-score-seat="player" aria-label="내 자리 점수 / score">
+            <button type="button" class="seat-riichi-btn" data-riichi-seat="player" aria-pressed="false" aria-label="내 자리 리치 / riichi">立</button>
+            <button type="button" class="seat-meld-btn" data-meld-seat="player" aria-label="내 자리 후로 입력 / calls">副</button>
             
           </div>
           <div class="seat-kita empty" id="seat-player-kita"></div>
