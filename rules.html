@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>리치 마작 룰북과 점수 계산기 | ルールブック・点数計算機 | Rulebook & Score Calculator | 一発</title>
+<title>리치 마작 룰북과 점수 계산기 | ルールブック・点数計算機 | Rulebook & Score Calculator | 작공방 雀攻房</title>
 <meta name="description" content="리치 마작의 규칙과 역 일람, 그리고 손패를 직접 조립해 판과 부, 점수를 계산해 보는 점수 계산기. リーチ麻雀のルールと役一覧、手牌を組んで翻・符・点数を計算できる点数計算機。 Riichi mahjong rules, full yaku list, and an interactive score calculator.">
 <link rel="canonical" href="https://single-mahjong.github.io/rules.html">
 <link rel="icon" href="/icon.svg">
@@ -274,12 +274,12 @@
   main a { color: var(--accent); }
   main a:visited { color: var(--accent); }
 </style>
-  <script type="module" crossorigin src="/assets/rules-CRYu6qbZ.js"></script>
+  <script type="module" crossorigin src="/assets/rules-DJHU-EOB.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/assist-discard-D64F4MPE.js">
-  <link rel="modulepreload" crossorigin href="/assets/src-y2I316qF.js">
-  <link rel="modulepreload" crossorigin href="/assets/tokens-CAUCd_Hq.js">
-  <link rel="modulepreload" crossorigin href="/assets/tile-face-BhQxPpib.js">
-  <link rel="modulepreload" crossorigin href="/assets/glossary-jgq_hLTI.js">
+  <link rel="modulepreload" crossorigin href="/assets/src-DDB0Jjyv.js">
+  <link rel="modulepreload" crossorigin href="/assets/tokens-C4zgYkgy.js">
+  <link rel="modulepreload" crossorigin href="/assets/tile-face-CAh4q46a.js">
+  <link rel="modulepreload" crossorigin href="/assets/glossary-DVayssk2.js">
   <link rel="modulepreload" crossorigin href="/assets/mpa-return-C3KhUZt6.js">
   <link rel="stylesheet" crossorigin href="/assets/tokens-BOALLjbJ.css">
 </head>
@@ -288,7 +288,7 @@
 <div class="wrap">
 
 <header class="top">
-  <div class="logo">一発 <em>Ippatsu</em> <span class="ko">룰북</span><span class="ja">ルールブック</span><span class="en">Rulebook</span></div>
+  <div class="logo">雀攻房 <em>Jankobo</em> <span class="ko">룰북</span><span class="ja">ルールブック</span><span class="en">Rulebook</span></div>
   <div class="langs">
     <button class="langbtn" data-l="ko">한국어</button>
     <button class="langbtn" data-l="ja">日本語</button>
@@ -318,9 +318,9 @@
 <main id="rulebook-sections">
 
 <p>
-  <span class="ko"><strong>一発</strong>은 <strong>일반적인 온라인 리치마작 표준</strong>을 따릅니다. 시작 25,000점, 동풍전/반장전, 적도라 3매 포함 136매.</span>
-  <span class="ja"><strong>一発</strong>のルールは<strong>一般的なオンラインリーチ麻雀の標準</strong>に準拠。配給原点25,000点、東風戦/半荘戦、赤ドラ3枚を含む136枚。</span>
-  <span class="en"><strong>Ippatsu (一発)</strong> follows the <strong>common online riichi standard</strong>: 25,000 starting points, East-only or half-game, 136 tiles including 3 red fives.</span>
+  <span class="ko"><strong>작공방</strong>은 <strong>일반적인 온라인 리치마작 표준</strong>을 따릅니다. 시작 25,000점, 동풍전/반장전, 적도라 3매 포함 136매.</span>
+  <span class="ja"><strong>雀攻房</strong>のルールは<strong>一般的なオンラインリーチ麻雀の標準</strong>に準拠。配給原点25,000点、東風戦/半荘戦、赤ドラ3枚を含む136枚。</span>
+  <span class="en"><strong>Jankobo</strong> follows the <strong>common online riichi standard</strong>: 25,000 starting points, East-only or half-game, 136 tiles including 3 red fives.</span>
 </p>
 
 <!-- 되돌아가는 길 — **언제나 「메인 화면으로 돌아가기」 하나다.**
@@ -329,7 +329,7 @@
      배선은 src/mpa-return.ts(rules-calc.ts가 부른다) — 그쪽이 닫기 노드가 없는 페이지를 알고 있다.
      분석기(simulator.html)는 그대로 둘을 들고 고른다. -->
 <p class="back-row">
-  <a class="back" id="nav-site" href="https://single-mahjong.github.io/"><span class="ko">一発 공식 사이트</span><span class="ja">一発 公式サイト</span><span class="en">Ippatsu official site</span></a>
+  <a class="back" id="nav-site" href="https://single-mahjong.github.io/"><span class="ko">작공방 공식 사이트</span><span class="ja">雀攻房 公式サイト</span><span class="en">Jankobo official site</span></a>
   <a class="back" id="nav-back" href="/">← <span class="ko">메인 화면으로 돌아가기</span><span class="ja">メイン画面に戻る</span><span class="en">Back to main screen</span></a>
 </p>
 
@@ -712,13 +712,13 @@
 </main>
 
 <footer>
-  <span class="ko">一発(Ippatsu). 브라우저에서 혼자 익히는 리치 마작. <a href="/" style="color:var(--accent)">시작하기</a></span>
-  <span class="ja">一発(Ippatsu)。ブラウザで学べる一人用リーチ麻雀。<a href="/" style="color:var(--accent)">はじめる</a></span>
-  <span class="en">Ippatsu (一発). Learn riichi mahjong on your own, in your browser. <a href="/" style="color:var(--accent)">Open now</a></span>
+  <span class="ko">작공방(雀攻房). 마작의 공격과 방어를 혼자서도 익히는 리치 마작 학습기. <a href="/" style="color:var(--accent)">시작하기</a></span>
+  <span class="ja">雀攻房(ジャンコウボウ)。麻雀の攻めと守りをひとりでも学べる立直麻雀学習ツール。<a href="/" style="color:var(--accent)">はじめる</a></span>
+  <span class="en">Jankobo. Study attack and defense in riichi mahjong, even on your own, in your browser. <a href="/" style="color:var(--accent)">Open now</a></span>
 <p class="more">
-  <span class="ko">더 알아보기: <a href="/ko/learn/">마작 혼자 배우기</a>, <a href="/ko/glossary/">마작 용어 사전</a></span>
-  <span class="ja">もっと詳しく: <a href="/ja/learn/">麻雀を一人で練習する</a></span>
-  <span class="en">More: <a href="/en/learn/">Learn riichi mahjong on your own</a></span>
+  <span class="ko">더 알아보기: <a href="/ko/learn/">마작 혼자서도 배우기</a>, <a href="/ko/glossary/">마작 용어 사전</a></span>
+  <span class="ja">もっと詳しく: <a href="/ja/learn/">麻雀をひとりでも練習する</a></span>
+  <span class="en">More: <a href="/en/learn/">Learn riichi mahjong, even on your own</a></span>
 </p>
 </footer>
 

@@ -1,6 +1,6 @@
 {
-  "name": "一発",
-  "short_name": "一発",
+  "name": "작공방 雀攻房",
+  "short_name": "작공방",
   "description": "혼자 배우는 리치 마작",
   "start_url": "/",
   "display": "standalone",
