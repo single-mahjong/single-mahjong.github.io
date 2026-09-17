@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://single-mahjong.github.io/sitemap.xml
+Sitemap: https://jankobo.github.io/sitemap.xml
